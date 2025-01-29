@@ -135,17 +135,18 @@ document.getElementById("processFile").addEventListener("click", () => {
                 ...TodayChartPlayerLevelTodayData(playerLevelToday),
             ];
             const todayData2 = todayData.sort((a, b) => {
-                // Pobierz godziny dla obu obiekt贸w
-                const timeA = a.timeStart; // Zak鲁adam, 驴e format to "hh:mm:ss"
+                // Pobierz godziny dla obu obiekt體
+                const timeA = a.timeStart; // Zak砤dam, 縠 format to "hh:mm:ss"
                 const timeB = b.timeStart;
 
-                // Zamiana czasu na liczby w sekundach dla 鲁atwego por贸wnania
+                // Zamiana czasu na liczby w sekundach dla 砤twego por體nania
                 const secondsA = timeToSeconds(timeA);
                 const secondsB = timeToSeconds(timeB);
 
-                // Por贸wnanie godzin
+                // Por體nanie godzin
                 return secondsA - secondsB;
             });
+
             //
             // Before any of charts
             //
@@ -154,7 +155,8 @@ document.getElementById("processFile").addEventListener("click", () => {
                 console.log("Not enought data");
                 return;
             }
-            
+
+
             TodayChartRender(todayData2);
 
             //
@@ -214,15 +216,15 @@ document.getElementById("processFile").addEventListener("click", () => {
 
             const debugTab = [...generatingLevelsToday, ...whisperFromToday, ...whisperToToday, ...gamingSessionsToday];
             const debugTab2 = debugTab.sort((a, b) => {
-                // Pobierz godziny dla obu obiekt贸w
-                const timeA = a.content.time; // Zak鲁adam, 驴e format to "hh:mm:ss"
+                // Pobierz godziny dla obu obiekt體
+                const timeA = a.content.time; // Zak砤dam, 縠 format to "hh:mm:ss"
                 const timeB = b.content.time;
 
-                // Zamiana czasu na liczby w sekundach dla 鲁atwego por贸wnania
+                // Zamiana czasu na liczby w sekundach dla 砤twego por體nania
                 const secondsA = timeToSeconds(timeA);
                 const secondsB = timeToSeconds(timeB);
 
-                // Por贸wnanie godzin
+                // Por體nanie godzin
                 return secondsA - secondsB;
             });
             debugTab2.reverse();
