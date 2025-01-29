@@ -22,24 +22,24 @@ let todayChartConfig = {
     data: todayChartData,
     options: {
         responsive: true,
-        indexAxis: 'x', // Oœ X to aktywnoœci
+        indexAxis: 'x', // OÅ“ X to aktywnoÅ“ci
         plugins: {
             legend: { display: false },
             tooltip: { enabled: false },
             zoom: {
                 pan: {
-                    enabled: true, // W³¹czenie przewijania
+                    enabled: true, // WÂ³Â¹czenie przewijania
                     mode: 'y', // Przewijanie w poziomie
                 },
                 zoom: {
                     wheel: {
                         modifierKey: 'shift',
-                        enabled: true // Zoom za pomoc¹ kó³ka myszy
+                        enabled: true // Zoom za pomocÂ¹ kÃ³Â³ka myszy
                     },
                     pinch: {
                         enabled: true // Zoom dotykowy
                     },
-                    mode: 'y', // Przybli¿anie w poziomie
+                    mode: 'y', // PrzybliÂ¿anie w poziomie
                 },
                 limits: {
                     y: { min: 0, max: 24 }
@@ -84,7 +84,7 @@ let todayChartConfig = {
 
                 // Generowanie danych activities na podstawie dataset.data
                 const activities = dataset.data.map((dataPoint, index) => {
-                    //const [start, end] = dataPoint.y; // Pobierz pocz¹tek i koniec zakresu czasowego
+                    //const [start, end] = dataPoint.y; // Pobierz poczÂ¹tek i koniec zakresu czasowego
                     return {
                         description: dataPoint.description || `Activity ${index + 1}`,
                         timeStart: dataPoint.timeStart,
@@ -230,6 +230,11 @@ function TodayChartRender(data) {
 }
 
 function TodayChartGeneratingLevelsData(filteredResults, sessions) {
+    if (filteredResults.length < 2) {
+        console.log("TodayChartGeneratingLevelsData() no data")
+        return;
+    }
+    
     sessionsDecimal = [];
     for (let i = 0; i < sessions.length; i += 2) {
         let start = 0, end = 0;
@@ -255,7 +260,7 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
         const current = filteredResults[i];
         const next = filteredResults[i + 1];
 
-        let start = timeToDecimal(current.content.time); // Bie¿¹cy czas
+        let start = timeToDecimal(current.content.time); // BieÂ¿Â¹cy czas
         // decimal
         let end = next ? timeToDecimal(next.content.time) : start;
         // hh:mm:ss
@@ -320,16 +325,16 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
 function adjustStartEnd(sessionsDecimal, start, end) {
     for (let i = 0; i < sessionsDecimal.length; i++) {
         const session = sessionsDecimal[i];
-        // SprawdŸ, czy start mieœci siê w zakresie
+        // SprawdÅ¸, czy start mieÅ“ci siÃª w zakresie
         if (start >= session.start && start <= session.end) {
-            // Jeœli end wychodzi poza zakres sesji
+            // JeÅ“li end wychodzi poza zakres sesji
             if (end > session.end || end == 0) {
-                end = session.end; // Ogranicz end do wartoœci session.end
+                end = session.end; // Ogranicz end do wartoÅ“ci session.end
             }
-            return { start, end }; // Zwróæ zmienione wartoœci
+            return { start, end }; // ZwrÃ³Ã¦ zmienione wartoÅ“ci
         }
     }
-    // Jeœli nie znaleziono pasuj¹cego zakresu, zwróæ oryginalne wartoœci
+    // JeÅ“li nie znaleziono pasujÂ¹cego zakresu, zwrÃ³Ã¦ oryginalne wartoÅ“ci
     return { start, end };
 }
 
