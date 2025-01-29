@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Event Counter</title>
+	<script src="js/hammer.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-histogram"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+	<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="box-shadow"><h1 style="text-align: center; margin: 0px">What do I have in the PoE logs?</h1></div>
+	
+	<div class="topButtons box-shadow">
+		<input type="file" id="ClientFileInput" accept=".txt">
+		<label for="ClientFileInput" class="topButtonsChild custom-file-label button">Select Client.txt file</label>
+		<button class="topButtonsChild" id="processFile">Process File</button>
+		<div class="topButtonsChild">
+			<div class="topButtons">
+				<input style="width: 50%; text-align: center" type="text" id="ClientFileInputMaxLines" placeholder="500,000" value="1,000,000">
+				<p style="width: 50%; text-align: left; margin-left: 5px">lines to read</p>
+			</div>
+			<p style="width: 100%; text-align: center" id="ClientFileProgress"></p>
+		</div>
+	</div>
+	<div class="box-shadow">
+		<div style="display: flex; justify-content: space-between;">
+			<h2>Today</h2>
+			<div style="display: flex;">
+				<p>Shift + Mouse Wheel for zoom</p>
+				<button onclick="todayChartInstance.resetZoom()">Reset Zoom</button>
+			</div>
+		</div>
+		<div>
+			<canvas id="todayChart" width="600" height="400"></canvas>	
+		</div>
+		<div>
+			<button id="toggleRawData">Toggle raw data</button>
+			<div class="div-zero" id="outputForTodayData" style="display: none;"></div>
+		</div>
+	</div>
+	<div class="box-shadow">
+		<h2>In game time:</h2>
+		<div>
+			<h3>Your gaming schedule (max -31 days from today):</h3>
+			<canvas id="scheduleChart" width="800" height="400"></canvas>
+		</div>
+		<div>
+			<h3>Daily in game time</h3>
+			<canvas id="dailyInGameTimeChart" width="800" height="400"></canvas>
+		</div>
+		<div>
+			<h3>Sum</h3>
+			<canvas id="sumDailyInGameTimeChart" width="800" height="400"></canvas>
+		</div>
+		<div style="display: none">
+			<h3>In instances (last 14 days)</h3>
+			<canvas id="" width="800" height="400"></canvas>
+		</div>
+		<div style="display: none">
+			<h3>In instances (all time)</h3>
+			<canvas id="" width="800" height="400"></canvas>
+		</div>
+	</div>
+	<div class="box-shadow">
+		<h2>Generated Instances:</h2>
+		<div style="display: none">
+			<h3>Last 14 days:</h3>
+			<canvas id="" width="800" height="400"></canvas>
+		</div>
+		<div>
+			<!-- <h3>All time:</h3>-->
+			<canvas id="generatedInstancesAllTimeChart" width="800" height="400"></canvas>
+		</div>
+		<div>
+			<!--<h3>All time sum:</h3>-->
+			<canvas id="generatedInstancesAllTimeSumChart" width="800" height="400"></canvas>
+		</div>
+	</div>
+	<div class="box-shadow">
+		<div>
+			<h2>Messages:</h2>
+			<canvas id="whispersChart" width="800" height="400"></canvas>
+		</div>
+		<div>
+			<h3 id="whispersFromAllCounter">All @From</h3>
+			<p id="whispersFromAllTop">1. asd x333</p>
+			<p style="text-align: center">Last 10 '@From' whispers:</p>
+			<p id="whispersLastFromList">@From sad sadasd</p>
+			<h3 id="whispersToAllCounter">All @To</h3>
+			<p id="whispersToAllTop">1. asd x333</p>
+			<p style="text-align: center">Last 10 '@To' whispers:</p>
+			<p id="whispersLastToList">@To sad sadasd</p>
+			<!--<h3>Last whispers:</h3>-->
+		</div>
+	</div>
+	<div class="box-shadow">
+		<h2>Currency in trade whispers:</h2>
+		<div>
+			<h3>Amount in whispers '@From':</h3>
+			<canvas id="currencyInWhispersFromChart" width="800" height="400" style="max-height: 400px"></canvas>
+		</div>
+		<div>
+			<h3>Amount in whispers '@To':</h3>
+			<canvas id="currencyInWhispersToChart" width="800" height="400" style="max-height: 400px"></canvas>
+		</div>
+		<div>
+			<h3>Trades status:</h3>
+			<canvas id="tradeStatusChart" width="800" height="400" style="max-height: 400px"></canvas>
+		</div>
+	</div>	
+	<div class="box-shadow">
+		<h2>Players events:</h2>
+		<div>
+			<canvas id="playerEventChart" width="800" height="400"></canvas>
+		</div>
+	</div>
+	<div style="display: none">
+		<h2>NPC voice lines:</h2>
+		<div>
+			<canvas id="" width="800" height="400"></canvas>
+		</div>
+	</div>
+
+
+
+	<script src="js/const.js"></script>
+	<script src="js/parsers.js"></script>
+	<script src="js/charts/todayChart.js"></script>
+	<script src="js/charts/scheduleChart.js"></script>
+	<script src="js/charts/dailyInGameTimeChart.js"></script>
+	<script src="js/charts/sumDailyInGameTimeChart.js"></script>
+	<script src="js/charts/generatedInstancesAllTimeChart.js"></script>
+	<script src="js/charts/whispersChart.js"></script>
+	<script src="js/charts/currencyInWhispersChart.js"></script>
+	<script src="js/charts/tradeStatusChart.js"></script>
+	<script src="js/charts/playerEventChart.js"></script>
+	<script src="js/app.js"></script>
+</body>
+</html>
