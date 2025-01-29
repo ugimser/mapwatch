@@ -1,5 +1,4 @@
 let maxLinesToRead = 1000000; 
-
 document.getElementById("ClientFileInput").addEventListener("change", function () {
     let fileLabel = document.querySelector("label[for='ClientFileInput']");
     if (this.files.length > 0 && this.files[0].name === 'Client.txt') {
@@ -124,8 +123,18 @@ document.getElementById("processFile").addEventListener("click", () => {
             }
             playerLevelToday.reverse();
             
+            //
+            // Before any of charts
+            //
+            if (generatingLevels.length < 3 || gamingSessions.length < 2) {
+                alert("Not enought data");
+                console.log("Not enought data");
+                return;
+            }
 
-
+            //
+            // TodayChartRender
+            //
             const todayData = [
                 ...TodayChartGeneratingLevelsData(generatingLevelsToday, gamingSessionsToday),
                 ...TodayChartWhispersFromData(whisperFromToday),
@@ -146,17 +155,6 @@ document.getElementById("processFile").addEventListener("click", () => {
                 // Porównanie godzin
                 return secondsA - secondsB;
             });
-
-            //
-            // Before any of charts
-            //
-            if (generatingLevels.length < 3 || gamingSessions.length < 2) {
-                alert("Not enought data");
-                console.log("Not enought data");
-                return;
-            }
-
-
             TodayChartRender(todayData2);
 
             //
