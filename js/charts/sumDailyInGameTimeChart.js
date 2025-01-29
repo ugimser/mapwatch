@@ -1,6 +1,6 @@
 let sumDailyInGameTimeChartInstance = null;
 
-function SumDailyInGameTimeChartRender() {
+function SumDailyInGameTimeChartRender(dataFromDailyTimeChart) {
     const ctx = document.getElementById('sumDailyInGameTimeChart').getContext('2d');
 
     if (sumDailyInGameTimeChartInstance) {
@@ -11,7 +11,7 @@ function SumDailyInGameTimeChartRender() {
     const data = [];
     let sumY = 0;
     //console.log(dailyInGameTimeChartData.datasets[0].data);
-    dailyInGameTimeChartData.datasets[0].data.forEach((record) => {
+    dataFromDailyTimeChart.datasets[0].data.forEach((record) => {
         sumY += record.y;
         data.push({ x: record.x, y: sumY });
     });

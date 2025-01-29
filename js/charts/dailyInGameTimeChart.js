@@ -61,6 +61,7 @@ function DailyInGameTimeChartRender() {
     dailyInGameTimeChartInstance = new Chart(ctx, dailyInGameTimeChartConfig);
 
     //console.log("End DailyInGameTimeChartRender()");
+    SumDailyInGameTimeChartRender(privateData)
 }
 
 const dailyInGameTimeChartData = {

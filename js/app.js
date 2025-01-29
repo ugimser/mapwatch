@@ -184,9 +184,9 @@ document.getElementById("processFile").addEventListener("click", () => {
             DailyInGameTimeChartRender();
 
             //
-            // SumDailyInGameTimeChartRender 
+            // SumDailyInGameTimeChartRender - evoke in DailyInGameTimeChartRender()
             //
-            SumDailyInGameTimeChartRender();
+            //SumDailyInGameTimeChartRender();
 
             //
             // GeneratedInstancesAllTimeChartRender
