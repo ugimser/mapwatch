@@ -6385,7 +6385,7 @@ const myWorldAreas = new Map([
     ],
     [
         "HideoutDarkwood",
-        "Glimmerwood Hideout"
+        "Darkwood Hideout"
     ],
     [
         "HideoutArenaElder",
@@ -7510,5 +7510,1305 @@ const myWorldAreas = new Map([
     [
         "TrailerSettlersBeach",
         "[DNT] Trailer Settlers Beach"
+    ],
+    [
+        "HideoutCanopy",
+        "Aloft Hideout"
+    ],
+    [
+        "HideoutFelled",
+        "Felled Hideout"
+    ],
+    [
+        "HideoutShrine",
+        "Shrine Hideout"
+    ],
+    [
+        "HideoutLimestone",
+        "Limestone Hideout"
+    ],
+    [
+        "HideoutCanal",
+        "Canal Hideout"
+    ],
+    [
+        "TerrainInstanceTest1",
+        "Terrain Instance Test"
+    ],
+    [
+        "TerrainInstanceTest2",
+        "Terrain Instance Test Alternate"
+    ],
+    [
+        "MaterialsTest",
+        "Materials Test Area"
+    ],
+    [
+        "AssetShowcase",
+        "Asset Showcase"
+    ],
+    [
+        "Design",
+        "Gone Fishing"
+    ],
+    [
+        "Design_Lite",
+        "Design (Lite)"
+    ],
+    [
+        "DoodadTest",
+        "Doodad Test"
+    ],
+    [
+        "KaruiShowcase",
+        "[DNT] Blood Fever Pa"
+    ],
+    [
+        "BlacksmithShowcase",
+        "[DNT] Blacksmith Cinematic"
+    ],
+    [
+        "G2_1_cinematic",
+        "Vastiri Outskirts"
+    ],
+    [
+        "G2_7_arena_cinematic",
+        "The Titan Grotto"
+    ],
+    [
+        "G3_16_Trailer",
+        "Aggorat (Atziri Trailer)"
+    ],
+    [
+        "PrototypeProcession",
+        "The Procession Halls"
+    ],
+    [
+        "G_login",
+        "Login Scene"
+    ],
+    [
+        "G1_WorldMap",
+        "Act 1"
+    ],
+    [
+        "G2_WorldMap",
+        "Act 2"
+    ],
+    [
+        "G3_WorldMap",
+        "Act 3"
+    ],
+    [
+        "TN_WorldMap",
+        "[DNT] Terra Nova"
+    ],
+    [
+        "G1_town",
+        "Clearfell Encampment"
+    ],
+    [
+        "G1_1",
+        "The Riverbank"
+    ],
+    [
+        "G1_2",
+        "Clearfell"
+    ],
+    [
+        "G1_3",
+        "Mud Burrow"
+    ],
+    [
+        "G1_4",
+        "The Grelwood"
+    ],
+    [
+        "G1_5",
+        "The Red Vale"
+    ],
+    [
+        "G1_6",
+        "The Grim Tangle"
+    ],
+    [
+        "G1_7",
+        "Cemetery of the Eternals"
+    ],
+    [
+        "G1_8",
+        "Mausoleum of the Praetor"
+    ],
+    [
+        "G1_9",
+        "Tomb of the Consort"
+    ],
+    [
+        "G1_10",
+        "Root Hollow"
+    ],
+    [
+        "G1_11",
+        "Hunting Grounds"
+    ],
+    [
+        "G1_12",
+        "Freythorn"
+    ],
+    [
+        "G1_13_1",
+        "Ogham Farmlands"
+    ],
+    [
+        "G1_13_2",
+        "Ogham Village"
+    ],
+    [
+        "G1_14",
+        "The Manor Ramparts"
+    ],
+    [
+        "G1_15",
+        "Ogham Manor"
+    ],
+    [
+        "G2_town",
+        "The Ardura Caravan"
+    ],
+    [
+        "G2_1",
+        "Vastiri Outskirts"
+    ],
+    [
+        "G2_2",
+        "Traitor's Passage"
+    ],
+    [
+        "G2_3",
+        "The Halani Gates"
+    ],
+    [
+        "G2_3a",
+        "The Halani Gates"
+    ],
+    [
+        "G2_3s",
+        "The Halani Gates"
+    ],
+    [
+        "G2_4_1",
+        "Keth"
+    ],
+    [
+        "G2_4_2",
+        "The Lost City"
+    ],
+    [
+        "G2_4_3",
+        "Buried Shrines"
+    ],
+    [
+        "G2_5_1",
+        "Mastodon Badlands"
+    ],
+    [
+        "G2_5_2",
+        "The Bone Pits"
+    ],
+    [
+        "G2_6",
+        "Valley of the Titans"
+    ],
+    [
+        "G2_7",
+        "The Titan Grotto"
+    ],
+    [
+        "G2_8",
+        "Deshar"
+    ],
+    [
+        "G2_8a",
+        "Deshar"
+    ],
+    [
+        "G2_9_1",
+        "Path of Mourning"
+    ],
+    [
+        "G2_9_2",
+        "The Spires of Deshar"
+    ],
+    [
+        "G2_10_1",
+        "Mawdun Quarry"
+    ],
+    [
+        "G2_10_2",
+        "Mawdun Mine"
+    ],
+    [
+        "G2_11",
+        "The Dreadnought's Wake"
+    ],
+    [
+        "G2_12_1",
+        "The Dreadnought"
+    ],
+    [
+        "G2_12_2",
+        "Dreadnought Vanguard"
+    ],
+    [
+        "G2_13",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_1",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_1_Foyer_1",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_1_Foyer_2",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_1_Foyer_3",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_2",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_2_Foyer_1",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_2_Foyer_2",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_2_Foyer_3",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_3",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_3_Foyer_1",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_3_Foyer_2",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_3_Foyer_3",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_4",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_4_Foyer_1",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_4_Foyer_2",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "Sanctum_4_Foyer_3",
+        "Trial of the Sekhemas"
+    ],
+    [
+        "G3_town",
+        "Ziggurat Encampment"
+    ],
+    [
+        "G3_1",
+        "Sandswept Marsh"
+    ],
+    [
+        "G3_2_1",
+        "Infested Barrens"
+    ],
+    [
+        "G3_2_2",
+        "The Matlan Waterways"
+    ],
+    [
+        "G3_3",
+        "Jungle Ruins"
+    ],
+    [
+        "G3_4",
+        "The Venom Crypts"
+    ],
+    [
+        "G3_5",
+        "Chimeral Wetlands"
+    ],
+    [
+        "G3_6_1",
+        "Jiquani's Machinarium"
+    ],
+    [
+        "G3_6_2",
+        "Jiquani's Sanctum"
+    ],
+    [
+        "G3_7",
+        "The Azak Bog"
+    ],
+    [
+        "G3_8",
+        "The Drowned City"
+    ],
+    [
+        "G3_9",
+        "The Molten Vault"
+    ],
+    [
+        "G3_10",
+        "The Trial of Chaos"
+    ],
+    [
+        "G3_10_Airlock",
+        "The Temple of Chaos"
+    ],
+    [
+        "G3_11",
+        "Apex of Filth"
+    ],
+    [
+        "G3_12",
+        "Temple of Kopec"
+    ],
+    [
+        "G_Endgame_Town",
+        "The Ziggurat Refuge"
+    ],
+    [
+        "G3_14",
+        "Utzaal"
+    ],
+    [
+        "G3_15",
+        "Library of Kamasa"
+    ],
+    [
+        "G3_16",
+        "Aggorat"
+    ],
+    [
+        "G3_17",
+        "The Black Chambers"
+    ],
+    [
+        "C_G1_town",
+        "Clearfell Encampment"
+    ],
+    [
+        "C_G1_1",
+        "The Riverbank"
+    ],
+    [
+        "C_G1_2",
+        "Clearfell"
+    ],
+    [
+        "C_G1_3",
+        "Mud Burrow"
+    ],
+    [
+        "C_G1_4",
+        "The Grelwood"
+    ],
+    [
+        "C_G1_5",
+        "The Red Vale"
+    ],
+    [
+        "C_G1_6",
+        "The Grim Tangle"
+    ],
+    [
+        "C_G1_7",
+        "Cemetery of the Eternals"
+    ],
+    [
+        "C_G1_8",
+        "Mausoleum of the Praetor"
+    ],
+    [
+        "C_G1_9",
+        "Tomb of the Consort"
+    ],
+    [
+        "C_G1_10",
+        "Root Hollow"
+    ],
+    [
+        "C_G1_11",
+        "Hunting Grounds"
+    ],
+    [
+        "C_G1_12",
+        "Freythorn"
+    ],
+    [
+        "C_G1_13_1",
+        "Ogham Farmlands"
+    ],
+    [
+        "C_G1_13_2",
+        "Ogham Village"
+    ],
+    [
+        "C_G1_14",
+        "The Manor Ramparts"
+    ],
+    [
+        "C_G1_15",
+        "Ogham Manor"
+    ],
+    [
+        "C_G2_town",
+        "The Ardura Caravan"
+    ],
+    [
+        "C_G2_1",
+        "Vastiri Outskirts"
+    ],
+    [
+        "C_G2_2",
+        "Traitor's Passage"
+    ],
+    [
+        "C_G2_3",
+        "The Halani Gates"
+    ],
+    [
+        "C_G2_3a",
+        "The Halani Gates"
+    ],
+    [
+        "C_G2_3s",
+        "The Halani Gates"
+    ],
+    [
+        "C_G2_4_1",
+        "Keth"
+    ],
+    [
+        "C_G2_4_2",
+        "The Lost City"
+    ],
+    [
+        "C_G2_4_3",
+        "Buried Shrines"
+    ],
+    [
+        "C_G2_5_1",
+        "Mastodon Badlands"
+    ],
+    [
+        "C_G2_5_2",
+        "The Bone Pits"
+    ],
+    [
+        "C_G2_6",
+        "Valley of the Titans"
+    ],
+    [
+        "C_G2_7",
+        "The Titan Grotto"
+    ],
+    [
+        "C_G2_8",
+        "Deshar"
+    ],
+    [
+        "C_G2_9_1",
+        "Path of Mourning"
+    ],
+    [
+        "C_G2_9_2_",
+        "The Spires of Deshar"
+    ],
+    [
+        "C_G2_10_1",
+        "Mawdun Quarry"
+    ],
+    [
+        "C_G2_10_2",
+        "Mawdun Mine"
+    ],
+    [
+        "C_G2_11",
+        "The Dreadnought's Wake"
+    ],
+    [
+        "C_G2_12_1",
+        "The Dreadnought"
+    ],
+    [
+        "C_G2_12_2",
+        "Dreadnought Vanguard"
+    ],
+    [
+        "C_G3_town",
+        "Ziggurat Encampment"
+    ],
+    [
+        "C_G3_1",
+        "Sandswept Marsh"
+    ],
+    [
+        "C_G3_2_1",
+        "Infested Barrens"
+    ],
+    [
+        "C_G3_2_2",
+        "The Matlan Waterways"
+    ],
+    [
+        "C_G3_3",
+        "Jungle Ruins"
+    ],
+    [
+        "C_G3_4",
+        "The Venom Crypts"
+    ],
+    [
+        "C_G3_5",
+        "Chimeral Wetlands"
+    ],
+    [
+        "C_G3_6_1",
+        "Jiquani's Machinarium"
+    ],
+    [
+        "C_G3_6_2",
+        "Jiquani's Sanctum"
+    ],
+    [
+        "C_G3_7",
+        "The Azak Bog"
+    ],
+    [
+        "C_G3_8",
+        "The Drowned City"
+    ],
+    [
+        "C_G3_9",
+        "The Molten Vault"
+    ],
+    [
+        "C_G3_10_Airlock",
+        "The Temple of Chaos"
+    ],
+    [
+        "C_G3_11",
+        "Apex of Filth"
+    ],
+    [
+        "C_G3_12",
+        "Temple of Kopec"
+    ],
+    [
+        "C_G3_14",
+        "Utzaal"
+    ],
+    [
+        "C_G3_15",
+        "Library of Kamasa"
+    ],
+    [
+        "C_G3_16_",
+        "Aggorat"
+    ],
+    [
+        "C_G3_17",
+        "The Black Chambers"
+    ],
+    [
+        "MapLeaguePortal",
+        "The Realmgate"
+    ],
+    [
+        "MapVoidReliquary",
+        "The Reliquary Vault"
+    ],
+    [
+        "MapSpiderJungle",
+        "Spider Jungle"
+    ],
+    [
+        "MapRustbowl",
+        "Rustbowl"
+    ],
+    [
+        "MapRustbowl_NoBoss",
+        "Rustbowl"
+    ],
+    [
+        "MapBackwash",
+        "Backwash"
+    ],
+    [
+        "MapBackwash_NoBoss",
+        "Backwash"
+    ],
+    [
+        "MapBurialBog",
+        "Burial Bog"
+    ],
+    [
+        "MapBurialBog_NoBoss",
+        "Burial Bog"
+    ],
+    [
+        "MapInferno",
+        "Inferno"
+    ],
+    [
+        "MapInferno_NoBoss",
+        "Inferno"
+    ],
+    [
+        "MapWetlands",
+        "Wetlands"
+    ],
+    [
+        "MapWetlands_NoBoss",
+        "Wetlands"
+    ],
+    [
+        "MapBloomingField",
+        "Blooming Field"
+    ],
+    [
+        "MapBloomingField_NoBoss",
+        "Blooming Field"
+    ],
+    [
+        "MapKingdomsEdge",
+        "Kingdom's Edge"
+    ],
+    [
+        "MapCrimsonShores",
+        "Crimson Shores"
+    ],
+    [
+        "MapCrimsonShores_NoBoss",
+        "Crimson Shores"
+    ],
+    [
+        "MapCenotes",
+        "Cenotes"
+    ],
+    [
+        "MapCenotes_NoBoss",
+        "Cenotes"
+    ],
+    [
+        "MapSavanna",
+        "Savannah"
+    ],
+    [
+        "MapSavanna_NoBoss",
+        "Savannah"
+    ],
+    [
+        "MapFortress",
+        "Fortress"
+    ],
+    [
+        "MapFortress_NoBoss",
+        "Fortress"
+    ],
+    [
+        "MapDepths",
+        "Forsaken Tides"
+    ],
+    [
+        "MapPenitentiary",
+        "Penitentiary"
+    ],
+    [
+        "MapPenitentiary_NoBoss",
+        "Penitentiary"
+    ],
+    [
+        "MapLostTowers",
+        "Lost Towers"
+    ],
+    [
+        "MapBloodwood",
+        "Bloodwood"
+    ],
+    [
+        "MapBloodwood_NoBoss",
+        "Bloodwood"
+    ],
+    [
+        "MapSandspit",
+        "Sandspit"
+    ],
+    [
+        "MapSandspit_NoBoss",
+        "Sandspit"
+    ],
+    [
+        "MapForge",
+        "Forge"
+    ],
+    [
+        "MapForge_NoBoss",
+        "Forge"
+    ],
+    [
+        "MapSulphuricCaverns",
+        "Sulphuric Caverns"
+    ],
+    [
+        "MapSulphuricCaverns_NoBoss",
+        "Sulphuric Caverns"
+    ],
+    [
+        "MapGlacialRoad",
+        "Glacial Road"
+    ],
+    [
+        "MapMire",
+        "Mire"
+    ],
+    [
+        "MapMire_NoBoss",
+        "Mire"
+    ],
+    [
+        "MapAugury",
+        "Augury"
+    ],
+    [
+        "MapAugury_NoBoss",
+        "Augury"
+    ],
+    [
+        "MapExpanse",
+        "Expanse"
+    ],
+    [
+        "MapWoodland",
+        "Woodland"
+    ],
+    [
+        "MapWoodland_NoBoss",
+        "Woodland"
+    ],
+    [
+        "MapSump",
+        "Sump"
+    ],
+    [
+        "MapSump_NoBoss",
+        "Sump"
+    ],
+    [
+        "MapWillow",
+        "Willow"
+    ],
+    [
+        "MapWillow_NoBoss",
+        "Willow"
+    ],
+    [
+        "MapHive",
+        "Hive"
+    ],
+    [
+        "MapHive_NoBoss",
+        "Hive"
+    ],
+    [
+        "MapHeadland",
+        "Headland"
+    ],
+    [
+        "MapHeadland_NoBoss",
+        "Headland"
+    ],
+    [
+        "MapLoftySummit",
+        "Lofty Summit"
+    ],
+    [
+        "MapLoftySummit_NoBoss",
+        "Lofty Summit"
+    ],
+    [
+        "MapSlaughter",
+        "Slaughter"
+    ],
+    [
+        "MapNecropolis",
+        "Necropolis"
+    ],
+    [
+        "MapNecropolis_NoBoss",
+        "Necropolis"
+    ],
+    [
+        "MapCrypt",
+        "Crypt"
+    ],
+    [
+        "MapCrypt_NoBoss",
+        "Crypt"
+    ],
+    [
+        "MapHiddenGrotto",
+        "Hidden Grotto"
+    ],
+    [
+        "MapHiddenGrotto_NoBoss",
+        "Hidden Grotto"
+    ],
+    [
+        "MapSteamingSprings",
+        "Steaming Springs"
+    ],
+    [
+        "MapSteamingSprings_NoBoss",
+        "Steaming Springs"
+    ],
+    [
+        "MapSeepage",
+        "Seepage"
+    ],
+    [
+        "MapSeepage_NoBoss",
+        "Seepage"
+    ],
+    [
+        "MapRiverside",
+        "Riverside"
+    ],
+    [
+        "MapRiverside_NoBoss",
+        "Riverside"
+    ],
+    [
+        "MapHowlingHalls",
+        "Howling Halls"
+    ],
+    [
+        "MapCascade",
+        "Cascade"
+    ],
+    [
+        "MapPromenade",
+        "Overgrown Promenade"
+    ],
+    [
+        "MapRavine",
+        "Ravine"
+    ],
+    [
+        "MapRavine_NoBoss",
+        "Ravine"
+    ],
+    [
+        "MapFrigidDepths",
+        "Frigid Depths"
+    ],
+    [
+        "MapSpiderWoods",
+        "Spider Woods"
+    ],
+    [
+        "MapSpiderWoods_NoBoss",
+        "Spider Woods"
+    ],
+    [
+        "MapAbyss",
+        "Abyss"
+    ],
+    [
+        "MapAbyss_NoBoss",
+        "Abyss"
+    ],
+    [
+        "MapDesertTower",
+        "Desert Tower"
+    ],
+    [
+        "MapGrimhaven",
+        "Grimhaven"
+    ],
+    [
+        "MapGrimhaven_NoBoss",
+        "Grimhaven"
+    ],
+    [
+        "MapVaalVillage",
+        "Vaal Village"
+    ],
+    [
+        "MapVaalOutskirts",
+        "Vaal Outskirts"
+    ],
+    [
+        "MapSlick",
+        "Slick"
+    ],
+    [
+        "MapSlick_NoBoss",
+        "Slick"
+    ],
+    [
+        "MapVaalCity",
+        "Vaal City"
+    ],
+    [
+        "MapVaalCity_NoBoss",
+        "Vaal City"
+    ],
+    [
+        "MapSteppe",
+        "Steppe"
+    ],
+    [
+        "MapSteppe_NoBoss",
+        "Steppe"
+    ],
+    [
+        "MapOpulence",
+        "Opulence"
+    ],
+    [
+        "MapSwampTower",
+        "Sinking Spire"
+    ],
+    [
+        "MapRockpools",
+        "Rockpools"
+    ],
+    [
+        "MapRockpools_NoBoss",
+        "Rockpools"
+    ],
+    [
+        "MapCreek",
+        "Creek"
+    ],
+    [
+        "MapCreek_NoBoss",
+        "Creek"
+    ],
+    [
+        "MapLushBurrow",
+        "Lush Burrow"
+    ],
+    [
+        "MapUmbra",
+        "Umbra"
+    ],
+    [
+        "MapInfestation",
+        "Infestation"
+    ],
+    [
+        "MapDerelictMansion_NoBoss",
+        "Derelict Mansion"
+    ],
+    [
+        "MapOutlands",
+        "Outlands"
+    ],
+    [
+        "MapOutlands_NoBoss",
+        "Outlands"
+    ],
+    [
+        "MapBastille",
+        "Bastille"
+    ],
+    [
+        "MapBastille_NoBoss",
+        "Bastille"
+    ],
+    [
+        "MapDecay",
+        "Decay"
+    ],
+    [
+        "MapDecay_NoBoss",
+        "Decay"
+    ],
+    [
+        "MapMineshaft",
+        "Mineshaft"
+    ],
+    [
+        "MapMineshaft_NoBoss",
+        "Mineshaft"
+    ],
+    [
+        "MapDeserted",
+        "Deserted"
+    ],
+    [
+        "MapDeserted_NoBoss",
+        "Deserted"
+    ],
+    [
+        "MapOasis",
+        "Oasis"
+    ],
+    [
+        "MapOasis_NoBoss",
+        "Oasis"
+    ],
+    [
+        "MapFreight",
+        "Freight"
+    ],
+    [
+        "MapFreight_NoBoss",
+        "Freight"
+    ],
+    [
+        "MapBastion",
+        "Bastion"
+    ],
+    [
+        "MapBastion_NoBoss",
+        "Bastion"
+    ],
+    [
+        "MapRefuge",
+        "Refuge"
+    ],
+    [
+        "MapRefuge_NoBoss",
+        "Refuge"
+    ],
+    [
+        "MapDieback",
+        "Dieback"
+    ],
+    [
+        "MapAlpineRidge",
+        "Alpine Ridge"
+    ],
+    [
+        "MapSunTemple",
+        "Sun Temple"
+    ],
+    [
+        "MapSunTemple_NoBoss",
+        "Sun Temple"
+    ],
+    [
+        "MapChannel",
+        "Channel"
+    ],
+    [
+        "MapChannel_NoBoss",
+        "Channel"
+    ],
+    [
+        "MapVaalFoundry",
+        "Vaal Foundry"
+    ],
+    [
+        "MapVaalFoundry_NoBoss",
+        "Vaal Foundry"
+    ],
+    [
+        "MapVaalFactory",
+        "Vaal Factory"
+    ],
+    [
+        "MapVaalFactory_NoBoss",
+        "Vaal Factory"
+    ],
+    [
+        "MapMesa",
+        "Mesa"
+    ],
+    [
+        "MapBluff",
+        "Bluff"
+    ],
+    [
+        "MapUniqueUntaintedParadise",
+        "Untainted Paradise"
+    ],
+    [
+        "MapUniqueVault",
+        "Vaults of Kamasa"
+    ],
+    [
+        "MapUniqueCastaway",
+        "Castaway"
+    ],
+    [
+        "MapUniqueMegalith",
+        "Megalith"
+    ],
+    [
+        "MapUniqueMerchant01_Chimeral",
+        "Merchant's Campsite"
+    ],
+    [
+        "MapUniqueMerchant01_Oasis",
+        "Merchant's Campsite"
+    ],
+    [
+        "MapUniqueMerchant01_Sandswept",
+        "Merchant's Campsite"
+    ],
+    [
+        "MapUniqueMerchant02_Crimson",
+        "Merchant's Campsite"
+    ],
+    [
+        "MapUniqueMerchant02_Farmland",
+        "Merchant's Campsite"
+    ],
+    [
+        "MapUniqueMerchant02_Riverbank",
+        "Merchant's Campsite"
+    ],
+    [
+        "MapUniqueMerchant03_Beach",
+        "Moment of Zen"
+    ],
+    [
+        "MapUniqueMerchant03_Tropical",
+        "Moment of Zen"
+    ],
+    [
+        "MapUniqueMerchant03_Raft",
+        "Moment of Zen"
+    ],
+    [
+        "MapUniqueMerchant04_PirateShip",
+        "The Voyage"
+    ],
+    [
+        "MapUberBoss_IronCitadel",
+        "The Iron Citadel"
+    ],
+    [
+        "MapUberBoss_CopperCitadel",
+        "The Copper Citadel"
+    ],
+    [
+        "MapUberBoss_StoneCitadel",
+        "The Stone Citadel"
+    ],
+    [
+        "MapUberBoss_Monolith",
+        "The Burning Monolith"
+    ],
+    [
+        "ExpeditionLogBook_Peninsula",
+        "Craggy Peninsula"
+    ],
+    [
+        "ExpeditionLogBook_Tropical",
+        "Lush Isle"
+    ],
+    [
+        "ExpeditionLogBook_Tundra",
+        "Frigid Bluffs"
+    ],
+    [
+        "ExpeditionLogBook_Atoll",
+        "Barren Atoll"
+    ],
+    [
+        "ExpeditionLogBook_Digsite",
+        "Abandonded Excavation"
+    ],
+    [
+        "ExpeditionSubArea_Cavern",
+        "Smuggler's Den"
+    ],
+    [
+        "ExpeditionSubArea_Kalguur",
+        "Kalguuran Tomb"
+    ],
+    [
+        "ExpeditionSubArea_OlrothBoss",
+        "Kalguuran Tomb"
+    ],
+    [
+        "ExpeditionSubArea_Precursor",
+        "[DNT] Expedition SubArea - Precursor"
+    ],
+    [
+        "ExpeditionSubArea_Shrike",
+        "Rancid Nest"
+    ],
+    [
+        "ExpeditionSubArea_Siren",
+        "Hidden Aquifer"
+    ],
+    [
+        "ExpeditionSubArea_Volcano",
+        "Sulphur Mines"
+    ],
+    [
+        "Delirium_Act1Town",
+        "Clearfell Lumbermill"
+    ],
+    [
+        "Delirium_Act2Reveal",
+        "Garukhan's Tomb"
+    ],
+    [
+        "Delirium_Act3Town",
+        "Sunken Pyramid"
+    ],
+    [
+        "Delirium_VastiriOutskirts",
+        "[DNT] Vastiri Outpost"
+    ],
+    [
+        "BreachDomain_01",
+        "Twisted Domain"
+    ],
+    [
+        "RitualLeagueBoss",
+        "Crux of Nothingness"
+    ],
+    [
+        "MapHideoutFelled_Claimable",
+        "Felled Hideout"
+    ],
+    [
+        "MapHideoutLimestone_Claimable",
+        "Limestone Hideout"
+    ],
+    [
+        "MapHideoutShrine_Claimable",
+        "Shrine Hideout"
+    ],
+    [
+        "MapHideoutCanal_Claimable",
+        "Canal Hideout"
     ]
-])
+]);
