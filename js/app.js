@@ -7,7 +7,7 @@ document.getElementById("ClientFileInput").addEventListener("change", function (
         fileLabel.classList.remove('element-look-at-me');
         document.getElementById("processFile").classList.add('element-look-at-me');
     } else {
-        fileLabel.textContent = "Select Client.txt file"; 
+        fileLabel.innerText = 'Select Client.txt\nC:\\Program Files(x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt'; 
     }
 });
 
@@ -24,13 +24,19 @@ document.getElementById("ClientFileInputMaxLines").addEventListener("change", fu
 });
 
 document.getElementById("processFile").addEventListener("click", () => {
-    document.getElementById("ClientFileProgress").innerText = `Thinking, give me at least ${maxLinesToRead / 500000 + 2}s`;
-
-    document.getElementById("processFile").classList.remove('element-look-at-me');
-    document.getElementById("ClientFileProgress").classList.add('element-look-at-me');
-
     const input = document.getElementById("ClientFileInput");
     if (input.files.length > 0) {
+        const fileName = input.files[0].name.split('.');
+        if (fileName[fileName.length - 1] !== 'txt') {
+            WrongFileAlert();
+            return;
+        }
+        document.getElementById("processFile").classList.remove('element-look-at-me');
+        document.querySelector("label[for='ClientFileInput']").classList.remove('element-look-at-me');
+
+        document.getElementById("ClientFileProgress").innerText = `Thinking, give me at least ${maxLinesToRead / 500000 + 2}s`;
+        document.getElementById("ClientFileProgress").classList.add('element-look-at-me');
+
         const reader = new FileReader();
         reader.onload = function () {
             // clear variables
@@ -133,8 +139,8 @@ document.getElementById("processFile").addEventListener("click", () => {
             // Before any of charts
             //
             if (generatingLevels.length < 3 || gamingSessions.length < 2) {
-                alert("Not enought data");
-                console.log("Not enought data");
+                alert("Not enought data or wrong Client.txt file\nThis file is in your game instalation folder: logs\\Client.txt");
+                console.log("Not enought data or wrong Client.txt file");
                 return;
             }
 
@@ -240,7 +246,7 @@ document.getElementById("processFile").addEventListener("click", () => {
         };
         reader.readAsText(input.files[0]);
     } else {
-        alert("Please select the Client.txt file. Probably: C:\\Program Files (x86)\\Grinding Gear Games\\Path of Exile\\logs");
+        WrongFileAlert();
     }
 });
 
@@ -255,7 +261,9 @@ document.getElementById("toggleRawData").addEventListener("click", () => {
     }
 });
 
-
+function WrongFileAlert() {
+    alert("Please select the Client.txt file. Probably: C:\\Program Files (x86)\\Grinding Gear Games\\Path of Exile\\logs");
+}
 
 
 
@@ -344,8 +352,10 @@ function parseLogEvents(lines) {
     //let lastTime;
     //let line = lines[indexMax - 2].trim();
     //console.log(lines[indexMax - 2]);
-    const line = parserDateTimeOnly(lines[indexMax - 2].trim(), false);
-    gamingSessions[gamingSessions.length - 1].content.timeEnd = line.time;
+    if (gamingSessions.length > 2) {
+        const line = parserDateTimeOnly(lines[indexMax - 2].trim(), false);
+        gamingSessions[gamingSessions.length - 1].content.timeEnd = line.time;
+    }
 }
 
 
