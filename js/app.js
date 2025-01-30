@@ -428,3 +428,9 @@ function renderTable(tab) {
 
 
 
+
+/**
+ * Only for me, should be always comented
+ *
+ */
+//makeWorldAreasUsable();

@@ -22,7 +22,8 @@ function parserGeneratingLevel(line) {
         clientId: match[3],     
         pattern: match[4],      
         level: parseInt(match[5]),
-        areaName: match[6],       
+        //areaName: match[6],
+        areaName: AreaNameParser(match[6]),       
         seed: parseInt(match[7]), 
     };
 }
@@ -132,6 +133,8 @@ function parserPlayerLevel(line) {
         level: match[6],
     };
 }
+
+
 
 
 
