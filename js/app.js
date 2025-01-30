@@ -144,15 +144,15 @@ document.getElementById("processFile").addEventListener("click", () => {
                 ...TodayChartPlayerLevelTodayData(playerLevelToday),
             ];
             const todayData2 = todayData.sort((a, b) => {
-                // Pobierz godziny dla obu obiekt體
-                const timeA = a.timeStart; // Zak砤dam, 縠 format to "hh:mm:ss"
+                // Pobierz godziny dla obu obiekt贸w
+                const timeA = a.timeStart; // Zak鲁adam, 驴e format to "hh:mm:ss"
                 const timeB = b.timeStart;
 
-                // Zamiana czasu na liczby w sekundach dla 砤twego por體nania
+                // Zamiana czasu na liczby w sekundach dla 鲁atwego por贸wnania
                 const secondsA = timeToSeconds(timeA);
                 const secondsB = timeToSeconds(timeB);
 
-                // Por體nanie godzin
+                // Por贸wnanie godzin
                 return secondsA - secondsB;
             });
             TodayChartRender(todayData2);
@@ -165,6 +165,9 @@ document.getElementById("processFile").addEventListener("click", () => {
             rangeBackDays.setDate(today.getDate() - 31);
             const filteredSessions = [];
             for (let i = gamingSessions.length - 1; i >= 0; i--) {
+                if (!gamingSessions[i] || !gamingSessions[i].content) {
+                    continue;
+                }
                 const session = gamingSessions[i];
                 const sessionDate = new Date(session.content.date.replace(/\//g, "-")); 
 
@@ -214,15 +217,15 @@ document.getElementById("processFile").addEventListener("click", () => {
 
             const debugTab = [...generatingLevelsToday, ...whisperFromToday, ...whisperToToday, ...gamingSessionsToday];
             const debugTab2 = debugTab.sort((a, b) => {
-                // Pobierz godziny dla obu obiekt體
-                const timeA = a.content.time; // Zak砤dam, 縠 format to "hh:mm:ss"
+                // Pobierz godziny dla obu obiekt贸w
+                const timeA = a.content.time; // Zak鲁adam, 驴e format to "hh:mm:ss"
                 const timeB = b.content.time;
 
-                // Zamiana czasu na liczby w sekundach dla 砤twego por體nania
+                // Zamiana czasu na liczby w sekundach dla 鲁atwego por贸wnania
                 const secondsA = timeToSeconds(timeA);
                 const secondsB = timeToSeconds(timeB);
 
-                // Por體nanie godzin
+                // Por贸wnanie godzin
                 return secondsA - secondsB;
             });
             debugTab2.reverse();
