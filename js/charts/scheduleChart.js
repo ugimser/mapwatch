@@ -24,7 +24,8 @@ function ScheduleChartRender(filteredResults) {
         const next = filteredResults[i + 1];
 
         if (current.content.pattern === "Game started") { //} && next && next.content.pattern === "Game closed") {
-            if (typeof next === "undefined") { // last record, game opened but not closed
+         /*   if (typeof next === "undefined") { // last record, game opened but not closed
+                console.log("last record, game opened but not closed", next);
                 const startDate = current.content.date;
                 const startDecimal = timeToDecimal(current.content.time);
                 const endDecimal = timeToDecimal(current.content.timeEnd);
@@ -33,7 +34,8 @@ function ScheduleChartRender(filteredResults) {
                     y: [startDecimal, endDecimal]
                 });
                 break;
-            }
+            } 
+            */
             const startDate = current.content.date;//getDayOfWeek(current.content.date);
             const startDecimal = timeToDecimal(current.content.time);
             const endDecimal = timeToDecimal(next.content.time);
@@ -58,6 +60,21 @@ function ScheduleChartRender(filteredResults) {
             //console.log({ x: startDate, y: [startDecimal, endDecimal] });
         }
     }
+    // last day if, gameclose exist
+    const maxIndex = filteredResults.length - 1;
+    const lastRecord = filteredResults[maxIndex];
+    //console.log(lastRecord);
+    if (maxIndex > 0 && typeof lastRecord !== "undefined") {
+        if (lastRecord.content || !lastRecord.content.timeEnd) {
+            const startDecimal = timeToDecimal(lastRecord.content.time);
+            const endDecimal = timeToDecimal(lastRecord.content.timeEnd);
+            newsScheduleChartData.datasets[0].data.push({
+                x: lastRecord.content.date,
+                y: [startDecimal, endDecimal]
+            }); 
+        }
+    }
+
    //console.log(newsScheduleChartData.datasets[0].data);
     //const filledData = fillMissingDates(newsScheduleChartData.datasets[0].data, allDates);
     //console.log(filledData);

@@ -2,7 +2,10 @@ let maxLinesToRead = 1000000;
 document.getElementById("ClientFileInput").addEventListener("change", function () {
     let fileLabel = document.querySelector("label[for='ClientFileInput']");
     if (this.files.length > 0 && this.files[0].name === 'Client.txt') {
-        fileLabel.innerHTML = "You can start calculation &#8594;";        
+        fileLabel.innerHTML = "You can start calculation &#8594;";      
+
+        fileLabel.classList.remove('element-look-at-me');
+        document.getElementById("processFile").classList.add('element-look-at-me');
     } else {
         fileLabel.textContent = "Select Client.txt file"; 
     }
@@ -22,6 +25,9 @@ document.getElementById("ClientFileInputMaxLines").addEventListener("change", fu
 
 document.getElementById("processFile").addEventListener("click", () => {
     document.getElementById("ClientFileProgress").innerText = `Thinking, give me at least ${maxLinesToRead / 500000 + 2}s`;
+
+    document.getElementById("processFile").classList.remove('element-look-at-me');
+    document.getElementById("ClientFileProgress").classList.add('element-look-at-me');
 
     const input = document.getElementById("ClientFileInput");
     if (input.files.length > 0) {
@@ -144,15 +150,15 @@ document.getElementById("processFile").addEventListener("click", () => {
                 ...TodayChartPlayerLevelTodayData(playerLevelToday),
             ];
             const todayData2 = todayData.sort((a, b) => {
-                // Pobierz godziny dla obu obiekt贸w
-                const timeA = a.timeStart; // Zak鲁adam, 驴e format to "hh:mm:ss"
+                // Pobierz godziny dla obu obiekt體
+                const timeA = a.timeStart; // Zak砤dam, 縠 format to "hh:mm:ss"
                 const timeB = b.timeStart;
 
-                // Zamiana czasu na liczby w sekundach dla 鲁atwego por贸wnania
+                // Zamiana czasu na liczby w sekundach dla 砤twego por體nania
                 const secondsA = timeToSeconds(timeA);
                 const secondsB = timeToSeconds(timeB);
 
-                // Por贸wnanie godzin
+                // Por體nanie godzin
                 return secondsA - secondsB;
             });
             TodayChartRender(todayData2);
@@ -164,9 +170,9 @@ document.getElementById("processFile").addEventListener("click", () => {
             const rangeBackDays = new Date();
             rangeBackDays.setDate(today.getDate() - 31);
             const filteredSessions = [];
-            for (let i = gamingSessions.length - 1; i >= 0; i--) {
+            for (let i = gamingSessions.length; i >= 0; i--) {
                 if (!gamingSessions[i] || !gamingSessions[i].content) {
-                    continue;
+                   continue;
                 }
                 const session = gamingSessions[i];
                 const sessionDate = new Date(session.content.date.replace(/\//g, "-")); 
@@ -217,15 +223,15 @@ document.getElementById("processFile").addEventListener("click", () => {
 
             const debugTab = [...generatingLevelsToday, ...whisperFromToday, ...whisperToToday, ...gamingSessionsToday];
             const debugTab2 = debugTab.sort((a, b) => {
-                // Pobierz godziny dla obu obiekt贸w
-                const timeA = a.content.time; // Zak鲁adam, 驴e format to "hh:mm:ss"
+                // Pobierz godziny dla obu obiekt體
+                const timeA = a.content.time; // Zak砤dam, 縠 format to "hh:mm:ss"
                 const timeB = b.content.time;
 
-                // Zamiana czasu na liczby w sekundach dla 鲁atwego por贸wnania
+                // Zamiana czasu na liczby w sekundach dla 砤twego por體nania
                 const secondsA = timeToSeconds(timeA);
                 const secondsB = timeToSeconds(timeB);
 
-                // Por贸wnanie godzin
+                // Por體nanie godzin
                 return secondsA - secondsB;
             });
             debugTab2.reverse();
@@ -257,11 +263,12 @@ document.getElementById("toggleRawData").addEventListener("click", () => {
 function parseLogEvents(lines) {
     const progressText = document.getElementById("ClientFileProgress");
 
-    //const lines = content.split("\n");
     const indexMax = lines.length;
 
     lines.forEach((line, index) => {
         if (/Generating level/.test(line)) {
+            const content = parserGeneratingLevel(line.trim());
+            if (content)
             generatingLevels.push({
                 lineNumber: index + 1,
                 content: parserGeneratingLevel(line.trim()),
@@ -269,6 +276,8 @@ function parseLogEvents(lines) {
         }
 
         else if (/ @From /.test(line)) {
+            const content = parserWhipserFrom(line.trim());
+            if (content)
             whisperFrom.push({
                 lineNumber: index + 1,
                 content: parserWhipserFrom(line.trim()),
@@ -276,6 +285,8 @@ function parseLogEvents(lines) {
         }
 
         else if (/ @To /.test(line)) {
+            const content = parserWhipserTo(line.trim());
+            if (content)
             whisperTo.push({
                 lineNumber: index + 1,
                 content: parserWhipserTo(line.trim()),
@@ -284,11 +295,15 @@ function parseLogEvents(lines) {
 
         else if (/\*\*\*\*\* LOG FILE OPENING \*\*\*\*\*/.test(line)) {
             if (index > 1) { // last record before close?
+                const content = parserGamingSessions(line.trim());
+                if (content)
                 gamingSessions.push({
                     lineNumber: index,
                     content: parserGamingSessions(lines[index - 1].trim(), false),
                 });
             }
+            const content = parserGamingSessions(line.trim());
+            if (content)
             gamingSessions.push({
                 lineNumber: index + 1,
                 content: parserGamingSessions(line.trim(), true),
@@ -304,6 +319,8 @@ function parseLogEvents(lines) {
         }
 
         else if (/ has been slain./.test(line)) {
+            const content = parserPlayerHasBeenSlain(line.trim());
+            if (content)
             playerHasBeenSlain.push({
                 lineNumber: index + 1,
                 content: parserPlayerHasBeenSlain(line.trim()),
@@ -311,6 +328,8 @@ function parseLogEvents(lines) {
         }
 
         else if (/ is now level/.test(line)) {
+            const content = parserPlayerLevel(line.trim());
+            if (content)
             playerLevel.push({
                 lineNumber: index + 1,
                 content: parserPlayerLevel(line.trim()),
@@ -320,6 +339,7 @@ function parseLogEvents(lines) {
     });
 
     progressText.innerText = `Done. Data from ${indexMax.toLocaleString()} lines`;
+    progressText.classList.remove('element-look-at-me');
     // add last activity for today's sessions
     //let lastTime;
     //let line = lines[indexMax - 2].trim();
@@ -354,6 +374,7 @@ function renderTable(tab) {
     outputDiv.innerHTML = ""; 
 
     if (tab.length < 1) {
+        outputDiv.innerHTML = "No data from today"; 
         console.warn("No data from today");
         return;
     }

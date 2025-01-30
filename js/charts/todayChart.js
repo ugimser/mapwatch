@@ -132,6 +132,7 @@ let todayChartConfig = {
                         if (70 < activity.description.length) {
                             result.push(activity.description.slice(70));
                         }
+                        //result.push(`${activity.timeStart}-${activity.timeEnd}`);
                        
 
                         if (index % 2) {
@@ -254,9 +255,9 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
             end: end
         });
     }
-
+    //console.log("sessionsDecimal", sessionsDecimal);
     for (let i = 0; i < filteredResults.length; i++) {
-        if (!filteredResults[i] || !filteredResults[i - 1] || !filteredResults[i].console) {
+        if (!filteredResults[i] || !filteredResults[i - 1] || !filteredResults[i].content) {
             continue;
         }
         const current = filteredResults[i];
@@ -317,7 +318,7 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
 
         data.push(event); 
     }
-
+    //console.log("TodayChartGeneratingLevelsData", data);
     if (data.length > 2) {
         todayChartMaxY = timeToDecimal(data[data.length - 1].timeStart);
     }

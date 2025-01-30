@@ -90,6 +90,25 @@ button {
         background: #0056b3;
     }
 
+.element-look-at-me {
+    border: 4px dashed orangered;
+    animation: pulseBorder 1.5s infinite;
+}
+
+@keyframes pulseBorder {
+    0% {
+        border-color: orangered;
+    }
+
+    50% {
+        border-color: blue;
+    }
+
+    100% {
+        border-color: orangered;
+    }
+}
+
 /* Ukrycie domyœlnego przycisku */
 #ClientFileInput {
     display: none;
