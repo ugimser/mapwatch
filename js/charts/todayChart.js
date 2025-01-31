@@ -300,7 +300,7 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
 
         const adjusted = adjustStartEnd(sessionsDecimal, start, end);
         if (adjusted.end != end) {
-            end = adjusted.start;
+            end = adjusted.end;
             timeEnd = decimalToTime(end + 0.0005);
         }
         if (filteredResults.length - 1 == i) {
@@ -317,7 +317,7 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
                     data[j] = {
                         description: data[j].description,
                         timeStart: data[j].timeStart,
-                        timeEnd: next ? next.content.time : 0,
+                        timeEnd: timeEnd,//next ? next.content.time : 0,
                         duration: calculateDuration(data[j].timeStart, timeEnd),
                         portals: data[j].portals + 1,
                         seed: data[j].seed,
@@ -337,7 +337,7 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
         const event = {
             description: `${current.content.areaName}`,
             timeStart: current.content.time,
-            timeEnd: next ? next.content.time : 0,
+            timeEnd: timeEnd,//next ? next.content.time : 0,
             duration: calculateDuration(current.content.time, timeEnd),
             portals: 1,
             seed: current.content.seed,
@@ -347,6 +347,8 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
 
         data.push(event); 
     }
+    //console.log(data);
+    //console.log(data[data.length-1]);
     //console.log("TodayChartGeneratingLevelsData", data);
     if (data.length > 2) {
         todayChartMaxY = timeToDecimal(data[data.length - 1].timeStart);
