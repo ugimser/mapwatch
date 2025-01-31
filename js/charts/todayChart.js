@@ -75,6 +75,27 @@ let todayChartConfig = {
     },
     plugins: [
         {
+            id: "noDataText",
+            beforeDraw: (chart) => {
+                if (chart.data.datasets.length === 0 || chart.data.datasets.every(ds => ds.data.length === 0)) {
+                    const ctx = chart.ctx;
+                    const { width, height } = chart;
+                    ctx.save();
+
+                    ctx.fillStyle = 'rgba(55, 55, 55, 1)';
+                    ctx.fillRect(0, height / 3, width, height / 3);
+
+                    ctx.fillStyle = "white";
+                    ctx.font = "36px Arial";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText("No data from today, but you can check the other charts", width / 2, height / 2);
+
+                    ctx.restore();
+                }
+            }
+        },
+        {
             id: 'customLabels',
             afterDatasetsDraw(chart) {
                 const { ctx } = chart;
@@ -127,11 +148,19 @@ let todayChartConfig = {
                         last = barY;
 
                         const result = [];
-                        result.push(activity.description.slice(0, 70));
+                        const maxLength = 70;
+                        let text = activity.description;
 
-                        if (70 < activity.description.length) {
-                            result.push(activity.description.slice(70));
+                        while (text.length > maxLength) {
+                            let cutIndex = text.lastIndexOf(" ", maxLength); // ZnajdŸ ostatni¹ spacjê przed 70. znakiem
+
+                            if (cutIndex === -1) cutIndex = maxLength; // Jeœli brak spacji, tnij w maxLength
+
+                            result.push(text.slice(0, cutIndex));
+                            text = text.slice(cutIndex + 1); // Usuñ podzielon¹ czêœæ + spacjê
                         }
+
+                        if (text.length) result.push(text); // Dodaj ostatni fragment
                         //result.push(`${activity.timeStart}-${activity.timeEnd}`);
                        
 
@@ -232,8 +261,8 @@ function TodayChartRender(data) {
 
 function TodayChartGeneratingLevelsData(filteredResults, sessions) {
     const data = [];
-    if (filteredResults.length < 2) {
-        console.log("TodayChartGeneratingLevelsData() no data")
+    if (filteredResults.length < 2 || sessions.length < 1) {
+        //console.log("TodayChartGeneratingLevelsData() no data")
         return data;
     }
     sessionsDecimal = [];
@@ -427,6 +456,26 @@ function TodayChartPlayerLevelTodayData(filteredResults) {
     return data;
 }
 
+function TodayChartWhisperWithoutDirectionTodayData(filteredResults) {
+    const data = [];
+    for (let i = 0; i < filteredResults.length; i++) {
+        const current = filteredResults[i];
+        const timeDecimal = timeToDecimal(current.content.time);
+
+        const event = {
+            description: `${current.content.playerName}: ${current.content.message}`,
+            timeStart: current.content.time,
+            timeEnd: current.content.time,
+            seed: -1,
+            x: 0,
+            y: [timeDecimal, timeDecimal]
+        };
+
+        data.push(event);
+    }
+
+    return data;
+}
 
 
 

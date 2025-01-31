@@ -1,6 +1,7 @@
 let generatingLevels = [];
 let whisperFrom = [];
 let whisperTo = [];
+let whisperWithoutDirection = [];
 let gamingSessions = [];
 let playerHasBeenSlain = [];
 let playerLevel = [];
@@ -134,7 +135,24 @@ function parserPlayerLevel(line) {
     };
 }
 
+function parserMessagesWithoutDirection(line) {
+    // 2025/01/20 19:56:53 
+    const regex = /^(\d{4}\/\d{2}\/\d{2}) (\d{2}:\d{2}:\d{2}) \d+ \w+ \[INFO Client (\d+)\] (\w+): (.+)$/;
+    const match = line.match(regex);
 
+    if (!match) {
+        return null;
+    }
+
+    return {
+        date: match[1],
+        time: match[2],
+        playerName: match[4],
+        message: match[5],
+        //pattern: 'no direction',
+        seed: -1,
+    };
+}
 
 
 

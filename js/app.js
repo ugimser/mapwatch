@@ -34,7 +34,7 @@ document.getElementById("processFile").addEventListener("click", () => {
         document.getElementById("processFile").classList.remove('element-look-at-me');
         document.querySelector("label[for='ClientFileInput']").classList.remove('element-look-at-me');
 
-        document.getElementById("ClientFileProgress").innerText = `Thinking, give me at least ${maxLinesToRead / 500000 + 2}s`;
+        document.getElementById("ClientFileProgress").innerText = `Thinking, give me at least ${Math.round(maxLinesToRead / 250000, 1) + 2}s`;
         document.getElementById("ClientFileProgress").classList.add('element-look-at-me');
 
         const reader = new FileReader();
@@ -45,6 +45,7 @@ document.getElementById("processFile").addEventListener("click", () => {
             generatingLevels = [];
             whisperFrom = [];
             whisperTo = [];
+            whisperWithoutDirection = [];
             gamingSessions = [];
             playerHasBeenSlain = [];
             playerLevel = [];
@@ -67,6 +68,7 @@ document.getElementById("processFile").addEventListener("click", () => {
             //console.log("Whispers From:", whisperFrom);
             //console.log("Whispers To:", whisperTo);
             //console.log("gamingSessions: ", gamingSessions);
+            //console.log("whisperWithoutDirection", whisperWithoutDirection);
 
             const todayReverse = GetReverseTodayDate();
             const generatingLevelsToday = [];
@@ -134,6 +136,17 @@ document.getElementById("processFile").addEventListener("click", () => {
                 }
             }
             playerLevelToday.reverse();
+
+            const whisperWithoutDirectionToday = [];
+            for (let i = whisperWithoutDirection.length - 1; i > 0; i--) {
+                if (new Date(whisperWithoutDirection[i].content.date.replace(/\//g, "-")) >= todayReverse) {
+                    whisperWithoutDirectionToday.push(whisperWithoutDirection[i]);
+                }
+                else {
+                    break;
+                }
+            }
+            whisperWithoutDirectionToday.reverse();
             
             //
             // Before any of charts
@@ -154,6 +167,7 @@ document.getElementById("processFile").addEventListener("click", () => {
                 ...TodayChartGamingSessionsData(gamingSessionsToday),
                 ...TodayChartPlayerHasBeenSlainData(playerHasBeenSlainToday),
                 ...TodayChartPlayerLevelTodayData(playerLevelToday),
+                ...TodayChartWhisperWithoutDirectionTodayData(whisperWithoutDirectionToday),
             ];
             const todayData2 = todayData.sort((a, b) => {
                 // Pobierz godziny dla obu obiektów
@@ -227,7 +241,7 @@ document.getElementById("processFile").addEventListener("click", () => {
             PlayerEventChartRender();
 
 
-            const debugTab = [...generatingLevelsToday, ...whisperFromToday, ...whisperToToday, ...gamingSessionsToday];
+            const debugTab = [...generatingLevelsToday, ...whisperFromToday, ...whisperToToday, ...gamingSessionsToday, ...whisperWithoutDirectionToday];
             const debugTab2 = debugTab.sort((a, b) => {
                 // Pobierz godziny dla obu obiektów
                 const timeA = a.content.time; // Zak³adam, ¿e format to "hh:mm:ss"
@@ -279,7 +293,7 @@ function parseLogEvents(lines) {
             if (content)
             generatingLevels.push({
                 lineNumber: index + 1,
-                content: parserGeneratingLevel(line.trim()),
+                content: content,
             });
         }
 
@@ -288,7 +302,7 @@ function parseLogEvents(lines) {
             if (content)
             whisperFrom.push({
                 lineNumber: index + 1,
-                content: parserWhipserFrom(line.trim()),
+                content: content,
             });
         }
 
@@ -297,7 +311,7 @@ function parseLogEvents(lines) {
             if (content)
             whisperTo.push({
                 lineNumber: index + 1,
-                content: parserWhipserTo(line.trim()),
+                content: content,
             });
         }
 
@@ -305,17 +319,17 @@ function parseLogEvents(lines) {
             if (index > 1) { // last record before close?
                 const content = parserGamingSessions(line.trim());
                 if (content)
-                gamingSessions.push({
-                    lineNumber: index,
-                    content: parserGamingSessions(lines[index - 1].trim(), false),
-                });
-            }
-            const content = parserGamingSessions(line.trim());
+                    gamingSessions.push({
+                        lineNumber: index,
+                        content: parserGamingSessions(lines[index - 1].trim(), false), 
+                    });
+            } 
+            const content = parserGamingSessions(line.trim(), true);
             if (content)
-            gamingSessions.push({
-                lineNumber: index + 1,
-                content: parserGamingSessions(line.trim(), true),
-            });
+                gamingSessions.push({
+                    lineNumber: index + 1,
+                    content: content,
+                });
         }
 
         else if (/ : Trade accepted/.test(line)) {
@@ -327,11 +341,11 @@ function parseLogEvents(lines) {
         }
 
         else if (/ has been slain./.test(line)) {
-            const content = parserPlayerHasBeenSlain(line.trim());
+            const content = parserPlayerHasBeenSlain(line.trim());;
             if (content)
             playerHasBeenSlain.push({
                 lineNumber: index + 1,
-                content: parserPlayerHasBeenSlain(line.trim()),
+                content: content,
             });
         }
 
@@ -340,10 +354,19 @@ function parseLogEvents(lines) {
             if (content)
             playerLevel.push({
                 lineNumber: index + 1,
-                content: parserPlayerLevel(line.trim()),
+                content: content,
             });
         }
-
+        
+        else if (/\[INFO Client/.test(line)) {
+            const content = parserMessagesWithoutDirection(line.trim());
+            if (content)
+                whisperWithoutDirection.push({
+                    lineNumber: index + 1,
+                    content: content,
+                });
+        }
+        
     });
 
     progressText.innerText = `Done. Data from ${indexMax.toLocaleString()} lines`;
@@ -385,7 +408,6 @@ function renderTable(tab) {
 
     if (tab.length < 1) {
         outputDiv.innerHTML = "No data from today"; 
-        console.warn("No data from today");
         return;
     }
 
@@ -430,6 +452,7 @@ function renderTable(tab) {
 
 
 /**
+ * 
  * Only for me, should be always comented
  *
  */

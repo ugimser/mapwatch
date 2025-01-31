@@ -2,7 +2,6 @@ let whispersChartInstance = null;
 
 function WhispersChartRender() {
     const ctx = document.getElementById('whispersChart').getContext('2d');
-    let nullCounter = 0;
     if (whispersChartInstance) {
         whispersChartInstance.destroy();
     }
@@ -12,7 +11,6 @@ function WhispersChartRender() {
 
     whisperFrom.forEach((record, index) => {
         if (!record.content) {
-            nullCounter++;
             return;
         }
         let date = "";
@@ -48,7 +46,6 @@ function WhispersChartRender() {
 
     whisperTo.forEach((record) => {
         if (!record.content) {
-            nullCounter++;
             return;
         }
         const date = record.content.date;
@@ -88,7 +85,7 @@ function WhispersChartRender() {
 
     WhisperStats();
     //console.log(`End GeneratedInstancesAllTimeChartRender()`);
-    console.log(`${nullCounter}x Null messages`);
+    //console.log(`${nullCounter}x Null messages`);
 }
 
 function WhisperStats() {
