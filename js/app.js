@@ -112,11 +112,16 @@ document.getElementById("processFile").addEventListener("click", () => {
 
             let todayReverse = GetReverseTodayDate();
             if (contentLastDate) {
-                if (new Date(contentLastDate.date).getTime() < todayReverse.getTime()) {
+                //console.log(new Date(contentLastDate.date).getTime());
+                //console.log(todayReverse.getTime());
+                //console.log(todayReverse.getTime() + 86400000);
+                if (new Date(contentLastDate.date).getTime() < (todayReverse.getTime() - 86400000)) {
                     todayReverse = new Date(contentLastDate.date);
                     document.getElementById("todayChartTitle").innerText = `Last day of activity: ${contentLastDate.date}`;
+                    document.getElementById("id-last-day-summary-today").innerText = `Summary of ${contentLastDate.date}`;
                 } else {
                     document.getElementById("todayChartTitle").innerText = `Today`;
+                    document.getElementById("id-last-day-summary-today").innerText = `Summary of Today - ${contentLastDate.date}`;
                 }
             } 
 
