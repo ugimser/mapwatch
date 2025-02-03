@@ -1,4 +1,4 @@
-let decimalLastDayTime = 0;
+let decimalLastDayTime = 1;
 let tradeAcceptedToday = 0;
 
 
@@ -56,15 +56,17 @@ function SetMostVisitedAreaToday(generatingLevelsToday) {
             tab.push({ name: record.label, i: record.data.length });
         }
     }
-    //console.log(tab);
-    document.getElementById("id-most-visited-today").innerText = `${tab[0].name} x${tab[0].i} (${(tab[0].i / instancesCounter * 100).toFixed(0)}%)`;
 
-    SetAverageTimeNoHideout(tab[0].name, tab[0].i);
+    if (tab.length > 1) {
+        document.getElementById("id-most-visited-today").innerText = `${tab[0].name} x${tab[0].i} (${(tab[0].i / instancesCounter * 100).toFixed(0)}%)`;
+
+        SetAverageTimeNoHideout(tab[0].name, tab[0].i);
+    }
 }
 
 function SetAverageTimeNoHideout(bestMapName, eventCount) {
     // duration from chart
-    if (!todayChartInstance) {
+    if (!todayChartInstance || todayChartInstance.data.datasets[0].data.length < 2) {
         console.log("chart data", todayChartInstance);
         return;
     }
@@ -111,6 +113,10 @@ function SetTradesTodayStats(todayReverse) {
 }
 
 function SetAverageTimeForTradeTodayStats() {
+    if (tradeAcceptedToday < 1) {
+        return;
+    }
+
     const tab = decimalToTime(decimalLastDayTime / tradeAcceptedToday).split(':');
     const h = tab[0];
     const min = RemoveZero(tab[1]);
