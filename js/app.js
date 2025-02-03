@@ -2,7 +2,7 @@
  * https://www.chartjs.org/docs/latest/samples/scales/linear-min-max.html
  * 
  */
-
+let addedFile = false;
 let maxLinesToRead = 1000000;
 
 const fileLabelID = document.querySelector("label[for='ClientFileInput']");
@@ -15,8 +15,9 @@ document.getElementById("ClientFileInput").addEventListener("change", function (
         fileLabelID.classList.remove('element-look-at-me');
         processFileID.classList.add('element-look-at-me');
     } else {
-        fileLabelID.innerText = 'Select Client.txt\nC:\\Program Files(x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt'; 
+        fileLabelID.innerText = 'Select Client.txt\nC:\\Program Files (x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt'; 
     }
+    addedFile = true;
 });
 
 document.getElementById("ClientFileInputMaxLines").addEventListener("change", function () {
@@ -32,8 +33,17 @@ document.getElementById("ClientFileInputMaxLines").addEventListener("change", fu
 });
 
 document.getElementById("processFile").addEventListener("click", () => {
+    if (!addedFile) {
+        fileLabelID.innerText = 'Select Client.txt\nC:\\Program Files (x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt'; 
+        document.getElementById("ClientFileInput").value = "";
+        fileLabelID.classList.add('element-look-at-me');
+        processFileID.classList.remove('element-look-at-me');
+        progressText.classList.remove('element-look-at-me');
+        return;
+    }
     const input = document.getElementById("ClientFileInput");
     if (input.files.length > 0) {
+        addedFile = false;
         const fileName = input.files[0].name.split('.');
         if (fileName[fileName.length - 1] !== 'txt') {
             WrongFileAlert();
