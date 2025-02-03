@@ -1,13 +1,21 @@
-let maxLinesToRead = 1000000; 
-document.getElementById("ClientFileInput").addEventListener("change", function () {
-    let fileLabel = document.querySelector("label[for='ClientFileInput']");
-    if (this.files.length > 0 && this.files[0].name === 'Client.txt') {
-        fileLabel.innerHTML = "You can start calculation &#8594;";      
+/**
+ * https://www.chartjs.org/docs/latest/samples/scales/linear-min-max.html
+ * 
+ */
 
-        fileLabel.classList.remove('element-look-at-me');
-        document.getElementById("processFile").classList.add('element-look-at-me');
+let maxLinesToRead = 1000000;
+
+const fileLabelID = document.querySelector("label[for='ClientFileInput']");
+const processFileID = document.getElementById("processFile");
+const progressText = document.getElementById("ClientFileProgress");
+
+document.getElementById("ClientFileInput").addEventListener("change", function () {
+    if (this.files.length > 0 && this.files[0].name === 'Client.txt') {
+        fileLabelID.innerHTML = "You can start calculation &#8594;";      
+        fileLabelID.classList.remove('element-look-at-me');
+        processFileID.classList.add('element-look-at-me');
     } else {
-        fileLabel.innerText = 'Select Client.txt\nC:\\Program Files(x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt'; 
+        fileLabelID.innerText = 'Select Client.txt\nC:\\Program Files(x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt'; 
     }
 });
 
@@ -31,17 +39,19 @@ document.getElementById("processFile").addEventListener("click", () => {
             WrongFileAlert();
             return;
         }
-        document.getElementById("processFile").classList.remove('element-look-at-me');
-        document.querySelector("label[for='ClientFileInput']").classList.remove('element-look-at-me');
+        processFileID.classList.remove('element-look-at-me');
+        fileLabelID.classList.remove('element-look-at-me');
 
         document.getElementById("ClientFileProgress").innerText = `Thinking, give me at least ${Math.round(maxLinesToRead / 250000, 1) + 2}s`;
         document.getElementById("ClientFileProgress").classList.add('element-look-at-me');
 
+        fileLabelID.innerText = 'Select Client.txt\nC:\\Program Files(x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt';       
+
         const reader = new FileReader();
         reader.onload = function () {
             // clear variables
-            tradeAcceptedCounter = 0;
-            tradeCancelledCounter = 0;
+            tradeAcceptedCounter = [];
+            tradeCancelledCounter = [];
             generatingLevels = [];
             whisperFrom = [];
             whisperTo = [];
@@ -63,6 +73,17 @@ document.getElementById("processFile").addEventListener("click", () => {
             const lastLines = lines.slice(-maxLinesToRead);
             parseLogEvents(lastLines);
 
+            const readLineCounter = lastLines.length;
+            const contentLineCounter = lines.length;
+            const contentFileSize = input.files[0].size;
+            const contenFirstDate = parserDateTimeOnly(lastLines[0]);
+            const contentLastDate = parserDateTimeOnly(lastLines[readLineCounter - 2]);
+            progressText.innerText =
+                `Data from ${readLineCounter.toLocaleString()} lines. ` +
+            `Your file has ${contentLineCounter.toLocaleString()} lines (${(contentFileSize / (1024 * 1024)).toFixed(2).toLocaleString()} MB), ` +
+            `so this data comes from ${(readLineCounter / contentLineCounter * 100).toFixed(1)}% of your logs.\n` +
+                `${contenFirstDate.date} - ${contentLastDate.date}`;
+            progressText.classList.remove('element-look-at-me');
             
             //console.log("Generating Levels:", generatingLevels);
             //console.log("Whispers From:", whisperFrom);
@@ -70,96 +91,36 @@ document.getElementById("processFile").addEventListener("click", () => {
             //console.log("gamingSessions: ", gamingSessions);
             //console.log("whisperWithoutDirection", whisperWithoutDirection);
 
-            const todayReverse = GetReverseTodayDate();
-            const generatingLevelsToday = [];
-            for (let i = generatingLevels.length-1; i > 0; i--) {
-                if (new Date(generatingLevels[i].content.date.replace(/\//g, "-")) >= todayReverse) {
-                    generatingLevelsToday.push(generatingLevels[i]);
-                }
-                else {
-                    break;
-                }
-            }
-            generatingLevelsToday.reverse();
-
-            const whisperFromToday = [];
-            for (let i = whisperFrom.length - 1; i > 0; i--) {
-                if (new Date(whisperFrom[i].content.date.replace(/\//g, "-")) >= todayReverse) {
-                    whisperFromToday.push(whisperFrom[i]);
-                }
-                else {
-                    break;
-                }
-            }
-            whisperFromToday.reverse();
-
-            const whisperToToday = [];
-            for (let i = whisperTo.length - 1; i > 0; i--) {
-                if (new Date(whisperTo[i].content.date.replace(/\//g, "-")) >= todayReverse) {
-                    whisperToToday.push(whisperTo[i]);
-                }
-                else {
-                    break;
-                }
-            }
-            whisperToToday.reverse();
-
-            const gamingSessionsToday = [];
-            for (let i = gamingSessions.length - 1; i > 0; i--) {
-                if (new Date(gamingSessions[i].content.date.replace(/\//g, "-")) >= todayReverse) {
-                    gamingSessionsToday.push(gamingSessions[i]);
-                }
-                else {
-                    break;
-                }
-            }
-            gamingSessionsToday.reverse();
-
-            const playerHasBeenSlainToday = [];
-            for (let i = playerHasBeenSlain.length - 1; i > 0; i--) {
-                if (new Date(playerHasBeenSlain[i].content.date.replace(/\//g, "-")) >= todayReverse) {
-                    playerHasBeenSlainToday.push(playerHasBeenSlain[i]);
-                }
-                else {
-                    break;
-                }
-            }
-            playerHasBeenSlainToday.reverse();
-
-            const playerLevelToday = [];
-            for (let i = playerLevel.length - 1; i > 0; i--) {
-                if (new Date(playerLevel[i].content.date.replace(/\//g, "-")) >= todayReverse) {
-                    playerLevelToday.push(playerLevel[i]);
-                }
-                else {
-                    break;
-                }
-            }
-            playerLevelToday.reverse();
-
-            const whisperWithoutDirectionToday = [];
-            for (let i = whisperWithoutDirection.length - 1; i > 0; i--) {
-                if (new Date(whisperWithoutDirection[i].content.date.replace(/\//g, "-")) >= todayReverse) {
-                    whisperWithoutDirectionToday.push(whisperWithoutDirection[i]);
-                }
-                else {
-                    break;
-                }
-            }
-            whisperWithoutDirectionToday.reverse();
-            
             //
             // Before any of charts
             //
-            if (generatingLevels.length < 3 || gamingSessions.length < 2) {
+            if (generatingLevels.length < 2 || gamingSessions.length < 2) {
                 alert("Not enought data or wrong Client.txt file\nThis file is in your game instalation folder: logs\\Client.txt");
                 console.log("Not enought data or wrong Client.txt file");
                 return;
             }
 
+            let todayReverse = GetReverseTodayDate();
+            if (contentLastDate) {
+                if (new Date(contentLastDate.date).getTime() < todayReverse.getTime()) {
+                    todayReverse = new Date(contentLastDate.date);
+                    document.getElementById("todayChartTitle").innerText = `Last day of activity: ${contentLastDate.date}`;
+                } else {
+                    document.getElementById("todayChartTitle").innerText = `Today`;
+                }
+            } 
+
             //
             // TodayChartRender
             //
+            const generatingLevelsToday = CutTableByDate(generatingLevels, todayReverse);
+            const whisperFromToday = CutTableByDate(whisperFrom, todayReverse);
+            const whisperToToday = CutTableByDate(whisperTo, todayReverse);
+            const gamingSessionsToday = CutTableByDate(gamingSessions, todayReverse);
+            const playerHasBeenSlainToday = CutTableByDate(playerHasBeenSlain, todayReverse);
+            const playerLevelToday = CutTableByDate(playerLevel, todayReverse);
+            const whisperWithoutDirectionToday = CutTableByDate(whisperWithoutDirection, todayReverse);
+            
             const todayData = [
                 ...TodayChartGeneratingLevelsData(generatingLevelsToday, gamingSessionsToday),
                 ...TodayChartWhispersFromData(whisperFromToday),
@@ -170,18 +131,16 @@ document.getElementById("processFile").addEventListener("click", () => {
                 ...TodayChartWhisperWithoutDirectionTodayData(whisperWithoutDirectionToday),
             ];
             const todayData2 = todayData.sort((a, b) => {
-                // Pobierz godziny dla obu obiektów
-                const timeA = a.timeStart; // Zak³adam, ¿e format to "hh:mm:ss"
+                const timeA = a.timeStart; // hh:mm:ss
                 const timeB = b.timeStart;
 
-                // Zamiana czasu na liczby w sekundach dla ³atwego porównania
                 const secondsA = timeToSeconds(timeA);
                 const secondsB = timeToSeconds(timeB);
 
-                // Porównanie godzin
                 return secondsA - secondsB;
             });
             TodayChartRender(todayData2);
+
 
             //
             // ScheduleChart
@@ -208,50 +167,35 @@ document.getElementById("processFile").addEventListener("click", () => {
             ScheduleChartRender(filteredSessions);
            
             //
-            // dailyInGameTimeChart
+            // Other charts
             //
             DailyInGameTimeChartRender();
-
-            //
-            // SumDailyInGameTimeChartRender - evoke in DailyInGameTimeChartRender()
-            //
-            //SumDailyInGameTimeChartRender();
-
-            //
-            // GeneratedInstancesAllTimeChartRender
-            //
+            //SumDailyInGameTimeChartRender(); // evoke in DailyInGameTimeChartRender()
             GeneratedInstancesAllTimeChartRender();
-
-            //
-            // WhispersChartRender
-            //
             WhispersChartRender();
-
-            //
-            // CurrencyInWhispersFromChartRender
-            //
             CurrencyInWhispersFromChartRender();
             CurrencyInWhispersToChartRender();
-
             TradeStatusChartRender();
-
-            //
-            // PlayerEventChartRender
-            //
             PlayerEventChartRender();
 
 
+            // Today panel summary
+            SetSumTimeToday();
+            SetMostVisitedAreaToday(generatingLevelsToday);
+            SetDeathsLevelTodayStats(playerHasBeenSlainToday, playerLevelToday);
+            SetTradesTodayStats(todayReverse);
+            SetAverageTimeForTradeTodayStats();
+            SetWhispersTodayStats(whisperFromToday.length, whisperToToday.length);
+
+            // Today chart table
             const debugTab = [...generatingLevelsToday, ...whisperFromToday, ...whisperToToday, ...gamingSessionsToday, ...whisperWithoutDirectionToday];
             const debugTab2 = debugTab.sort((a, b) => {
-                // Pobierz godziny dla obu obiektów
-                const timeA = a.content.time; // Zak³adam, ¿e format to "hh:mm:ss"
+                const timeA = a.content.time; 
                 const timeB = b.content.time;
 
-                // Zamiana czasu na liczby w sekundach dla ³atwego porównania
                 const secondsA = timeToSeconds(timeA);
                 const secondsB = timeToSeconds(timeB);
 
-                // Porównanie godzin
                 return secondsA - secondsB;
             });
             debugTab2.reverse();
@@ -283,10 +227,6 @@ function WrongFileAlert() {
 
 
 function parseLogEvents(lines) {
-    const progressText = document.getElementById("ClientFileProgress");
-
-    const indexMax = lines.length;
-
     lines.forEach((line, index) => {
         if (/Generating level/.test(line)) {
             const content = parserGeneratingLevel(line.trim());
@@ -333,11 +273,21 @@ function parseLogEvents(lines) {
         }
 
         else if (/ : Trade accepted/.test(line)) {
-            tradeAcceptedCounter++;
+            const content = parserDateTimeOnly(line.trim());;
+            if (content)
+                tradeAcceptedCounter.push({
+                    lineNumber: index + 1,
+                    content: content,
+                });
         }
 
         else if (/ : Trade cancelled/.test(line)) {
-            tradeCancelledCounter++;
+            const content = parserDateTimeOnly(line.trim());;
+            if (content)
+                tradeCancelledCounter.push({
+                    lineNumber: index + 1,
+                    content: content,
+                });
         }
 
         else if (/ has been slain./.test(line)) {
@@ -369,14 +319,8 @@ function parseLogEvents(lines) {
         
     });
 
-    progressText.innerText = `Done. Data from ${indexMax.toLocaleString()} lines`;
-    progressText.classList.remove('element-look-at-me');
-    // add last activity for today's sessions
-    //let lastTime;
-    //let line = lines[indexMax - 2].trim();
-    //console.log(lines[indexMax - 2]);
     if (gamingSessions.length > 2) {
-        const line = parserDateTimeOnly(lines[indexMax - 2].trim(), false);
+        const line = parserDateTimeOnly(lines[lines.length - 2].trim(), false);
         gamingSessions[gamingSessions.length - 1].content.timeEnd = line.time;
     }
 }

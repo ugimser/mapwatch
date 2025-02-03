@@ -3,22 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Event Counter</title>
-	<script src="js/hammer.min.js"></script>
-	<script src="js/chart.js"></script>
+	<title>MapWatch PoE</title>
+	<script src="js/lib/hammer.min.js"></script>
+	<script src="js/lib/chart.js"></script>
 	<!--<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-histogram@3.0.0/dist/chartjs-chart-histogram.min.js"></script>-->
 	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 	<link rel="stylesheet" href="css/styles.css">
-	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-RVL1746S5M"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-	
-	  gtag('config', 'G-RVL1746S5M');
-	</script>
 </head>
 <body>
 	<div class="box-shadow"><h1 style="text-align: center; margin: 0px">What do I have in the PoE logs?</h1></div>
@@ -40,7 +31,7 @@
 	</div>
 	<div class="box-shadow">
 		<div style="display: flex; justify-content: space-between;">
-			<h2>Today</h2>
+			<h2 id="todayChartTitle">Today</h2>
 			<div style="display: flex;">
 				<p>Shift + Mouse Wheel for zoom</p>
 				<button onclick="todayChartInstance.resetZoom()">Reset Zoom</button>
@@ -50,6 +41,78 @@
 			<canvas id="todayChart" width="600" height="400"></canvas>
 		</div>
 		<div>
+			<div id="daily-summary">
+				<h3 class="summary-title">📅 Last day summary - 2025/02/01</h3>
+
+				<div class="summary-grid">
+					<div class="summary-item">
+						<span class="icon">🎮</span>
+						<div>
+							<p class="summary-label">Game time:</p>
+							<p class="summary-value" id="id-game-time-today">-</p>
+						</div>
+					</div>
+
+					<div class="summary-item">
+						<span class="icon">📍</span>
+						<div>
+							<p class="summary-label">Most visited area:</p>
+							<p class="summary-value" id="id-most-visited-today">-</p>
+						</div>
+					</div>
+
+					<div class="summary-item">
+						<span class="icon">⏳</span>
+						<div>
+							<p class="summary-label">Time in favorite maps:</p>
+							<p class="summary-value" id="id-average-time-today">-</p>
+							<p class="summary-label">Avarage in one:</p>
+							<p class="summary-value" id="id-average-in-one-today">-</p>
+						</div>
+					</div>
+
+					<div class="summary-item">
+						<span class="icon">💀</span>
+						<div>
+							<p class="summary-label">Deaths:</p>
+							<p class="summary-value" id="id-deaths-today">-</p>
+						</div>
+						<span class="icon">🚀</span>
+						<div>
+							<p class="summary-label">Levels up:</p>
+							<p class="summary-value" id="id-level-up-today">-</p>
+						</div>
+					</div>
+
+					<div class="summary-item">
+						<span class="icon">💰</span>
+						<div>
+							<p class="summary-label">Trades:</p>
+							<p class="summary-value" id="id-trades-today">-</p>
+							<p class="summary-label" style="font-size:x-small">*with Players and NPC</p>
+						</div>
+					</div>
+
+					<div class="summary-item">
+						<span class="icon">🔄</span>
+						<div>
+							<p class="summary-label">You are doing one trade per:</p>
+							<p class="summary-value" id="id-average-time-per-trade">-</p>
+						</div>
+					</div>
+
+					<div class="summary-item">
+						<span class="icon">💬</span>
+						<div>
+							<p class="summary-label">Whispers:</p>
+							<p class="summary-value" id="id-whispers-from-today">-</p>
+							<p class="summary-value" id="id-whispers-to-today">-</p>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
 			<button id="toggleRawData">Toggle raw data</button>
 			<div class="div-zero" id="outputForTodayData" style="display: none;"></div>
 		</div>
@@ -162,6 +225,7 @@
 	<script src="js/charts/tradeStatusChart.js"></script>
 	<script src="js/charts/playerEventChart.js"></script>
 	<script src="js/pure data/myWorldAreas.js"></script>
+	<script src="js/summaryPanel.js"></script>
 	<script src="js/app.js"></script>
 
 </body>

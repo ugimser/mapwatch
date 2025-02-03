@@ -1,5 +1,5 @@
-let tradeAcceptedCounter = 0;
-let tradeCancelledCounter = 0;
+let tradeAcceptedCounter = [];
+let tradeCancelledCounter = [];
 let tradeStatusChartInstance = null;
 
 function TradeStatusChartRender() {
@@ -14,7 +14,7 @@ function TradeStatusChartRender() {
         datasets: [
             {
                 label: 'Number of events',
-                data: [tradeAcceptedCounter, tradeCancelledCounter],
+                data: [tradeAcceptedCounter.length, tradeCancelledCounter.length],
             }
         ]
     };

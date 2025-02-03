@@ -49,7 +49,7 @@ let todayChartConfig = {
         scales: {
             x: {
                 grid: { display: false },
-                ticks: { display: false }, // Ukrycie osi X
+                ticks: { display: false }, 
                 border: { color: 'transparent' }
             },
             y: {
@@ -77,6 +77,8 @@ let todayChartConfig = {
         {
             id: "noDataText",
             beforeDraw: (chart) => {
+
+
                 if (chart.data.datasets.length === 0 || chart.data.datasets.every(ds => ds.data.length === 0)) {
                     const ctx = chart.ctx;
                     const { width, height } = chart;
@@ -103,7 +105,6 @@ let todayChartConfig = {
                 const dataset = chart.data.datasets[0];
                 const meta = chart.getDatasetMeta(0);
 
-                // Generowanie danych activities na podstawie dataset.data
                 const activities = dataset.data.map((dataPoint, index) => {
                     //const [start, end] = dataPoint.y; // Pobierz pocz¹tek i koniec zakresu czasowego
                     return {
@@ -117,10 +118,6 @@ let todayChartConfig = {
                     };
                 });
 
-                let offsetX = [0, 25, 50, 75];
-                let offset = 0;
-                let last = 0;
-
                 meta.data.forEach((bar, index) => {
                     const barX = bar.x;
                     const barY = bar.y;
@@ -131,21 +128,8 @@ let todayChartConfig = {
                     ctx.fillStyle = activity.color;
                     ctx.strokeStyle = activity.color;
 
-                    const plusX = offsetX[index % 4];
-
-                    //if (activity.seed == -1) {
-                    //    console.log(activity);
-                   // }
-
                     //console.log(activity.description);
                     if (bar.height == 0 && activity.seed != 1) { // whispers
-                        if (last - 5 <= barY) {
-                            offset = 0;
-                        }
-                        else {
-                            offset -= 0; //5
-                        }
-                        last = barY;
 
                         const result = [];
                         const maxLength = 70;
@@ -160,32 +144,32 @@ let todayChartConfig = {
                             text = text.slice(cutIndex + 1); // Usuñ podzielon¹ czêœæ + spacjê
                         }
 
-                        if (text.length) result.push(text); // Dodaj ostatni fragment
-                        //result.push(`${activity.timeStart}-${activity.timeEnd}`);
-                       
+                        if (text.length) {
+                            result.push(text);
+                        }
 
                         if (index % 2) {
                             ctx.textAlign = 'left';
                             ctx.beginPath();
                             ctx.moveTo(barX, barMiddle);
-                            ctx.lineTo(barX + 135, barMiddle + offset);
+                            ctx.lineTo(barX + 135, barMiddle);
                             ctx.lineWidth = 1;
                             ctx.stroke();
                             ctx.closePath();
                             result.forEach((item, index) => {
-                                ctx.fillText(`${item}`, barX + 140 + index * 11, barMiddle + 4 + offset + index * 11);
+                                ctx.fillText(`${item}`, barX + 140 + index * 11, barMiddle + 4 + index * 11);
                             });
                         }
                         else {
                             ctx.textAlign = 'right';
                             ctx.beginPath();
                             ctx.moveTo(barX, barMiddle);
-                            ctx.lineTo(barX - 135, barMiddle + offset);
+                            ctx.lineTo(barX - 135, barMiddle);
                             ctx.lineWidth = 1;
                             ctx.stroke();
                             ctx.closePath();
                             result.forEach((item, index) => {
-                                ctx.fillText(`${item}`, barX - 140 + index * 11, barMiddle + 4 + offset + index * 11);
+                                ctx.fillText(`${item}`, barX - 140 + index * 11, barMiddle + 4 + index * 11);
                             });
                         }
                         
@@ -253,8 +237,8 @@ function TodayChartRender(data) {
     };
 
     todayChartConfig.data = todayChartData;
-    todayChartConfig.options.scales.y.max = todayChartMaxY == 24 ? 24 : todayChartMaxY + 1;
-    todayChartConfig.options.scales.y.min = todayChartMaxY == 24 ? 0 : todayChartMaxY - 1;
+    todayChartConfig.options.scales.y.max = todayChartMaxY == 24 ? 24 : todayChartMaxY + 0.25;
+    todayChartConfig.options.scales.y.min = todayChartMaxY == 24 ? 0 : todayChartMaxY - 0.5;
 
     todayChartInstance = new Chart(ctx, todayChartConfig);
 }

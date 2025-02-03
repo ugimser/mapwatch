@@ -50,7 +50,7 @@ function DailyInGameTimeChartRender() {
     if (!groupedData[x]) {
         groupedData[x] = 0; // Inicjalizacja czasu dla danej daty
     }
-    groupedData[x] += end - start;
+    groupedData[x] += end - start + timeFromPreviousDay;
 
     const data = Object.entries(groupedData).map(([x, y]) => ({ x, y }));
 

@@ -81,7 +81,7 @@ function parserGamingSessions(line, opening) {
         time: match[2],               
         pattern: opening ? "Game started" : "Game closed",    
         dateEnd: "",
-        timeEnd: "",
+        timeEnd: match[2],
         seed: -1,
     };
 }

@@ -63,6 +63,15 @@ function timeToSeconds(time) {
     return hours * 3600 + minutes * 60 + seconds;
 }
 
+function RemoveZero(string) {
+    if (string.length > 1) {
+        if (string[0] === '0') {
+            return string.slice(1);
+        }
+        return string;
+    }
+}
+
 
 function calculateDuration(startTime, endTime) {
     // Parsowanie czasu w formacie hh:mm:ss
@@ -94,4 +103,17 @@ function calculateDuration(startTime, endTime) {
     else {
         return `${hours} h ${String(minutes).padStart(2, '0')} min ${String(seconds).padStart(2, '0')} sec`;
     }
+}
+
+function CutTableByDate(orginalTable, dateOfThim) {
+    const tab = [];
+    for (let i = orginalTable.length - 1; i > 0; i--) {
+        if (new Date(orginalTable[i].content.date.replace(/\//g, "-")) >= dateOfThim) {
+            tab.push(orginalTable[i]);
+        }
+        else {
+            break;
+        }
+    }
+    return tab.reverse();
 }

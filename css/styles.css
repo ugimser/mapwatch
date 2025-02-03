@@ -101,7 +101,7 @@ button {
     }
 
     50% {
-        border-color: blue;
+        border-color: white;
     }
 
     100% {
@@ -173,4 +173,59 @@ td {
 /* Ukryte sekcje */
 div[style="display: none"] {
     display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+#daily-summary {
+    max-width: 96%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.summary-title {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.35);
+}
+
+.icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.summary-label {
+    font-size: 14px;
+    color: #272727;
+}
+
+.summary-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #272727;
 }
