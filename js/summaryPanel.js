@@ -1,4 +1,4 @@
-let decimalLastDayTime = 1;
+ï»¿let decimalLastDayTime = 1;
 let tradeAcceptedToday = 0;
 
 
@@ -21,18 +21,18 @@ function SetMostVisitedAreaToday(generatingLevelsToday) {
         const seed = content.content.seed;
 
         if (dataMap[label]) {
-            // SprawdŸ, czy istnieje wpis dla danej daty
+            // SprawdÅº, czy istnieje wpis dla danej daty
             const dateEntry = dataMap[label].data.find((entry) => entry.x === date && entry.seed === seed);
 
             if (dateEntry) {
-                // Jeœli wpis dla tej daty istnieje, zaktualizuj wartoœæ `y`
+                // JeÅ›li wpis dla tej daty istnieje, zaktualizuj wartoÅ›Ä‡ `y`
                 dateEntry.y += 1;
             } else {
-                // Jeœli wpis dla tej daty nie istnieje, dodaj now¹ datê z wartoœci¹ `y: 1`
+                // JeÅ›li wpis dla tej daty nie istnieje, dodaj nowÄ… datÄ™ z wartoÅ›ciÄ… `y: 1`
                 dataMap[label].data.push({ x: date, y: 1, seed });
             }
 
-            // Aktualizuj seed (jeœli wymagane)
+            // Aktualizuj seed (jeÅ›li wymagane)
             dataMap[label].seed = seed;
         } else {
             dataMap[label] = {
@@ -124,6 +124,9 @@ function SetTradesTodayStats(todayReverse) {
     const accepted = CutTableByDate(tradeAcceptedCounter, todayReverse);
     tradeAcceptedToday = accepted.length;
     document.getElementById("id-trades-today").innerText = `${tradeAcceptedToday}`;
+
+    const completed = CutTableByDate(playerTradeCompleted, todayReverse);
+    document.getElementById("id-trades-today-completed").innerText = `${completed.length}`;
 }
 
 function SetAverageTimeForTradeTodayStats() {
@@ -146,4 +149,169 @@ function SetAverageTimeForTradeTodayStats() {
 function SetWhispersTodayStats(numberFrom, numberTo) {
     document.getElementById("id-whispers-from-today").innerText = `${numberFrom} received`;
     document.getElementById("id-whispers-to-today").innerText = `${numberTo} sent`;
+}
+
+function SetBigestTradeTodayStats(whisperFromToday) {
+    const tabMirr = [];
+    const tabDiv = [];
+    const tabEx= [];
+    const tabC = [];
+
+    whisperFromToday.forEach((record) => {
+        if (!record.content) {
+            return;
+        }
+        const message = record.content.message;
+        if (message.includes(' to buy ')) {
+            const matchMirr = message.match(/(\d+)\s+mirror/i);
+            if (matchMirr) {
+                tabMirr.push({ message: message, value: Number(matchMirr[1]) });
+            }
+
+            const matchD = message.match(/(\d+)\s+divine/i);
+            if (matchD) {
+                tabDiv.push({ message: message, value: Number(matchD[1]) });
+            }
+
+            const matchEx = message.match(/(\d+)\s+exalted/i);
+            if (matchEx) {
+                tabEx.push({ message: message, value: Number(matchEx[1]) });
+            }
+
+            const matchC = message.match(/(\d+)\s+chaos/i);
+            if (matchC) {
+                tabC.push({ message: message, value: Number(matchC[1]) });
+            }
+        }
+    });
+
+    //console.log(whisperFromToday);
+    //console.log(tabDiv);
+    let biggestMirrIndex = ReturnBiggestIndexValueMessage(tabMirr);
+    let biggestDivIndex = ReturnBiggestIndexValueMessage(tabDiv);
+    let biggestExIndex = ReturnBiggestIndexValueMessage(tabEx);
+    let biggestCIndex = ReturnBiggestIndexValueMessage(tabC);
+
+    if (biggestMirrIndex < 0 & biggestDivIndex < 0 & biggestExIndex < 0 & biggestCIndex < 0) {
+        document.getElementById("id-biggest-to-today").innerText = "-";
+        document.getElementById("id-biggest-to-today").parentElement.parentElement.querySelector(".icon").innerText = "ðŸ’Ž";
+        return;
+    }
+
+    const theBiggestTab = [
+        { name: 'mirror', value: biggestMirrIndex > -1 && tabMirr[biggestMirrIndex].value > -1 ? tabMirr[biggestMirrIndex].value * 120000 : 0, record: tabMirr[biggestMirrIndex] },
+        { name: 'divine', value: biggestDivIndex > -1 && tabDiv[biggestDivIndex].value > -1 ? tabDiv[biggestDivIndex].value * 150 : 0, record: tabDiv[biggestDivIndex] },
+        { name: 'exalted', value: biggestExIndex > -1 && tabEx[biggestExIndex].value > -1 ? tabEx[biggestExIndex].value * 15 : 0, record: tabEx[biggestExIndex] },
+        { name: 'chaos', value: biggestCIndex > -1 && tabC[biggestCIndex].value > -1 ? tabC[biggestCIndex].value : 0, record: tabC[biggestCIndex] },
+    ];
+
+    let oneBigest = ReturnBiggestIndexValueMessage(theBiggestTab);
+    document.getElementById("id-biggest-from-today").innerHTML = `${theBiggestTab[oneBigest].record.value} ${theBiggestTab[oneBigest].name}`;
+    document.getElementById("id-biggest-from-today").parentElement.parentElement.querySelector(".icon").innerHTML = currencies.get(theBiggestTab[oneBigest].name) || "ðŸ’Ž";
+}
+
+
+function SetBigestTradeToTodayStats(whisperToToday) {
+    const tabMirr = [];
+    const tabDiv = [];
+    const tabEx = [];
+    const tabC = [];
+
+    whisperToToday.forEach((record) => {
+        if (!record.content) {
+            return;
+        }
+        const message = record.content.message;
+        if (message.includes(' to buy ')) {
+            const matchMirr = message.match(/(\d+)\s+mirror/i);
+            if (matchMirr) {
+                tabMirr.push({ message: message, value: Number(matchMirr[1]) });
+            }
+
+            const matchD = message.match(/(\d+)\s+divine/i);
+            if (matchD) {
+                tabDiv.push({ message: message, value: Number(matchD[1]) });
+            }
+
+            const matchEx = message.match(/(\d+)\s+exalted/i);
+            if (matchEx) {
+                tabEx.push({ message: message, value: Number(matchEx[1]) });
+            }
+
+            const matchC = message.match(/(\d+)\s+chaos/i);
+            if (matchC) {
+                tabC.push({ message: message, value: Number(matchC[1]) });
+            }
+        }
+    });
+
+    //console.log(whisperFromToday);
+    let biggestMirrIndex = ReturnBiggestIndexValueMessage(tabMirr);
+    let biggestDivIndex = ReturnBiggestIndexValueMessage(tabDiv);
+    let biggestExIndex = ReturnBiggestIndexValueMessage(tabEx);
+    let biggestCIndex = ReturnBiggestIndexValueMessage(tabC);
+
+    if (biggestMirrIndex < 0 & biggestDivIndex < 0 & biggestExIndex < 0 & biggestCIndex < 0) {
+        document.getElementById("id-biggest-to-today").innerText = "-";
+        document.getElementById("id-biggest-to-today").parentElement.parentElement.querySelector(".icon").innerText = "ðŸ’Ž";
+        return;
+    }
+
+    const theBiggestTab = [
+        { name: 'mirror', value: biggestMirrIndex > -1 && tabMirr[biggestMirrIndex].value > -1 ? tabMirr[biggestMirrIndex].value * 120000 : 0, record: tabMirr[biggestMirrIndex] },
+        { name: 'divine', value: biggestDivIndex > -1 && tabDiv[biggestDivIndex].value > -1 ? tabDiv[biggestDivIndex].value * 150 : 0, record: tabDiv[biggestDivIndex] },
+        { name: 'exalted', value: biggestExIndex > -1 && tabEx[biggestExIndex].value > -1 ? tabEx[biggestExIndex].value * 15 : 0, record: tabEx[biggestExIndex] },
+        { name: 'chaos', value: biggestCIndex > -1 && tabC[biggestCIndex].value > -1 ? tabC[biggestCIndex].value : 0, record: tabC[biggestCIndex] },
+    ];
+    //console.log("theBiggestTab", theBiggestTab);
+    let oneBigest = ReturnBiggestIndexValueMessage(theBiggestTab);
+    document.getElementById("id-biggest-to-today").innerHTML = `${theBiggestTab[oneBigest].record.value} ${theBiggestTab[oneBigest].name}`;
+    document.getElementById("id-biggest-to-today").parentElement.parentElement.querySelector(".icon").innerHTML = currencies.get(theBiggestTab[oneBigest].name) || "ðŸ’Ž";
+}
+
+function ReturnBiggestIndexValueMessage(tab) {
+    let biggestNumber = 0;
+    let biggestNumberIndex = -1;
+    tab.forEach((record, index) => {
+        if (record.value > biggestNumber) {
+            biggestNumber = record.value;
+            biggestNumberIndex = index;
+        }
+    });
+    return biggestNumberIndex;
+}
+
+function SetStrikeTradeWhispersWithoutTradeAccepted(whisperToToday, tradeAcceptedToday) {
+    const tab = [...whisperToToday, ...tradeAcceptedToday];
+    tab.sort((a, b) => {
+        const timeA = a.content.time;
+        const timeB = b.content.time;
+
+        const secondsA = timeToSeconds(timeA);
+        const secondsB = timeToSeconds(timeB);
+
+        return secondsA - secondsB;
+    });
+
+    let i = 0;
+    let maxDist = 0;
+    tab.forEach(record => {
+        if (record.content.seed == -1) {
+            if (i > maxDist) {
+                maxDist = i;
+            }
+            i = 0;
+        } else {
+            i++;
+        }
+    });
+
+    document.getElementById("id-streak-trade-without-accepted").innerText = maxDist;
+}
+
+function SetPlayerJoinedTheAreaTodayStat(todayReverse) {
+    const tab = CutTableByDate(playerJoinedTheArea, todayReverse);
+    document.getElementById("id-player-joined-today").innerText = `${tab.length}`;
+    //console.log(playerJoinedTheArea);
+    //console.log(tab);
 }

@@ -7,6 +7,13 @@ const colors = [
     'rgba(255, 159, 64, 1)'   // Orange
 ];
 
+const currencies = new Map([
+    ["mirror", "<img title=\"Mirror of Kalandra\" src=\"https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lEdXBsaWNhdGUiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/7111e35254/CurrencyDuplicate.png\" style=\"width: 36px\">"],
+    ["divine", "<img title=\"Divine Orb\" src=\"https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lNb2RWYWx1ZXMiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/e1a54ff97d/CurrencyModValues.png\" style=\"width: 36px\">"],
+    ["exalted", "<img title=\"Exalted Orb\" src=\"https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lBZGRNb2RUb1JhcmUiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/b102771c23/CurrencyAddModToRare.png\" style=\"width: 36px\">"],
+    ["chaos", "<img title=\"Chaos Orb\" src=\"https://web.poecdn.com/image/Art/2DItems/Currency/CurrencyRerollRare.png\" style=\"width: 36px\">"]
+]);
+
 function generateNiceColor() {
     const hue = Math.floor(Math.random() * 360); // Hue: 0-360 (full color wheel)
     const saturation = Math.floor(Math.random() * 21) + 30; // Saturation: 60-100%

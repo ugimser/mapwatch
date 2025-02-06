@@ -5,6 +5,8 @@ let whisperWithoutDirection = [];
 let gamingSessions = [];
 let playerHasBeenSlain = [];
 let playerLevel = [];
+let playerTradeCompleted = [];
+let playerJoinedTheArea = [];
 
 function parserGeneratingLevel(line) {
     //console.log(line);

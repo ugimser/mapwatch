@@ -62,6 +62,7 @@ document.getElementById("processFile").addEventListener("click", () => {
             // clear variables
             tradeAcceptedCounter = [];
             tradeCancelledCounter = [];
+            playerTradeCompleted = [];
             generatingLevels = [];
             whisperFrom = [];
             whisperTo = [];
@@ -69,6 +70,7 @@ document.getElementById("processFile").addEventListener("click", () => {
             gamingSessions = [];
             playerHasBeenSlain = [];
             playerLevel = [];
+            playerJoinedTheArea = [];
 
             let newMaxLimitString = document.getElementById("ClientFileInputMaxLines").value;
             let newMaxLimitNumber = parseInt(newMaxLimitString, 10);
@@ -201,6 +203,10 @@ document.getElementById("processFile").addEventListener("click", () => {
             SetTradesTodayStats(todayReverse);
             SetAverageTimeForTradeTodayStats();
             SetWhispersTodayStats(whisperFromToday.length, whisperToToday.length);
+            SetBigestTradeTodayStats(whisperFromToday);
+            SetBigestTradeToTodayStats(whisperToToday);
+            SetStrikeTradeWhispersWithoutTradeAccepted(whisperToToday, CutTableByDate(tradeAcceptedCounter, todayReverse));
+            SetPlayerJoinedTheAreaTodayStat(todayReverse);
 
             // Today chart table
             const debugTab = [...generatingLevelsToday, ...whisperFromToday, ...whisperToToday, ...gamingSessionsToday, ...whisperWithoutDirectionToday];
@@ -300,6 +306,24 @@ function parseLogEvents(lines) {
             const content = parserDateTimeOnly(line.trim());;
             if (content)
                 tradeCancelledCounter.push({
+                    lineNumber: index + 1,
+                    content: content,
+                });
+        }
+
+        else if (/'PlayerToPlayerTradeCompleted'/.test(line)) {
+            const content = parserDateTimeOnly(line.trim());;
+            if (content)
+                playerTradeCompleted.push({
+                    lineNumber: index + 1,
+                    content: content,
+                });
+        }
+
+        else if (/has joined the area./.test(line)) {
+            const content = parserDateTimeOnly(line.trim());;
+            if (content)
+                playerJoinedTheArea.push({
                     lineNumber: index + 1,
                     content: content,
                 });
