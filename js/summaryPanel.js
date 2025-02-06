@@ -144,6 +144,6 @@ function SetAverageTimeForTradeTodayStats() {
 }
 
 function SetWhispersTodayStats(numberFrom, numberTo) {
-    document.getElementById("id-whispers-from-today").innerText = `${numberFrom} recived`;
-    document.getElementById("id-whispers-to-today").innerText = `${numberTo} send`;
+    document.getElementById("id-whispers-from-today").innerText = `${numberFrom} received`;
+    document.getElementById("id-whispers-to-today").innerText = `${numberTo} sent`;
 }
