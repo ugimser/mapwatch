@@ -13,6 +13,7 @@ function SetMostVisitedAreaToday(generatingLevelsToday) {
     if (generatingLevelsToday.length < 2) {
         return;
     }
+
     const dataMap = {};
     generatingLevelsToday.forEach((content) => {
         const date = content.content.date;
@@ -57,10 +58,12 @@ function SetMostVisitedAreaToday(generatingLevelsToday) {
         }
     }
 
+
     if (tab.length > 1) {
         document.getElementById("id-most-visited-today").innerText = `${tab[0].name} x${tab[0].i} (${(tab[0].i / instancesCounter * 100).toFixed(0)}%)`;
 
         SetAverageTimeNoHideout(tab[0].name, tab[0].i);
+        document.getElementById("id-all-visited-today").innerText = `${instancesCounter}`;
     }
 }
 
@@ -71,12 +74,23 @@ function SetAverageTimeNoHideout(bestMapName, eventCount) {
         return;
     }
     let sumTime = 0;
+    let sumTimeSeedOne = 0;
     todayChartInstance.data.datasets[0].data.forEach(record => {
         if (record.description === bestMapName) {
             sumTime += record.y[1] - record.y[0];
-        }        
+        } else if (record.seed === 1) {
+            sumTimeSeedOne += record.y[1] - record.y[0];
+        }
     });
+
+    const tabSeedOne = decimalToTime(sumTimeSeedOne).split(':');
+    if (tabSeedOne[0] === '0') {
+        document.getElementById("id-time-in-hideout").innerText = `${RemoveZero(tabSeedOne[1])} min ${RemoveZero(tabSeedOne[2])} sec`;
+    } else {
+        document.getElementById("id-time-in-hideout").innerText = `${tabSeedOne[0]} h ${RemoveZero(tabSeedOne[1])} min ${RemoveZero(tabSeedOne[2])} sec`;
+    }
     
+
     const tab = decimalToTime(sumTime).split(':');
     if (tab[0] === '0') {        
       //  if (tab[1][0] === '0') {

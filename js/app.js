@@ -91,7 +91,7 @@ document.getElementById("processFile").addEventListener("click", () => {
             progressText.innerText =
                 `Data from ${readLineCounter.toLocaleString()} lines. ` +
             `Your file has ${contentLineCounter.toLocaleString()} lines (${(contentFileSize / (1024 * 1024)).toFixed(2).toLocaleString()} MB), ` +
-            `so this data comes from ${(readLineCounter / contentLineCounter * 100).toFixed(1)}% of your logs.\n` +
+            `so this data comes from ${(readLineCounter / contentLineCounter * 100).toFixed(0)}% of your logs.\n` +
                 `${contenFirstDate.date} - ${contentLastDate.date}`;
             progressText.classList.remove('element-look-at-me');
             
