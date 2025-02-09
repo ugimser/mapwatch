@@ -205,8 +205,9 @@ document.getElementById("processFile").addEventListener("click", () => {
             SetWhispersTodayStats(whisperFromToday.length, whisperToToday.length);
             SetBigestTradeTodayStats(whisperFromToday);
             SetBigestTradeToTodayStats(whisperToToday);
-            SetStrikeTradeWhispersWithoutTradeAccepted(whisperToToday, CutTableByDate(tradeAcceptedCounter, todayReverse));
-            SetPlayerJoinedTheAreaTodayStat(todayReverse);
+            const tradeCompletedToday = CutTableByDate(tradeAcceptedCounter, todayReverse);
+            SetStrikeTradeWhispersWithoutTradeAccepted(whisperToToday, tradeCompletedToday);
+            SetPlayerJoinedTheAreaTodayStat(todayReverse, tradeCompletedToday, generatingLevelsToday);
 
             // Today chart table
             const debugTab = [...generatingLevelsToday, ...whisperFromToday, ...whisperToToday, ...gamingSessionsToday, ...whisperWithoutDirectionToday];
@@ -283,8 +284,7 @@ function parseLogEvents(lines) {
                     let contentPrevious = parserGamingSessions(lines[index - 1].trim(), false);
                     let i = -2;
                     while (i > -10 && !contentPrevious) {
-                        contentPrevious = parserGamingSessions(lines[index - i].trim(), false);
-                        i--;
+                        contentPrevious = parserGamingSessions(lines[index - i--].trim(), false);
                     }
                     if (contentPrevious) {
                         gamingSessions.push({
@@ -330,6 +330,15 @@ function parseLogEvents(lines) {
         }
 
         else if (/has joined the area./.test(line)) {
+            const content = parserDateTimeOnly(line.trim());;
+            if (content)
+                playerJoinedTheArea.push({
+                    lineNumber: index + 1,
+                    content: content,
+                });
+        }
+
+        else if (/has left the area./.test(line)) {
             const content = parserDateTimeOnly(line.trim());;
             if (content)
                 playerJoinedTheArea.push({

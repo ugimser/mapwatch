@@ -309,9 +309,49 @@ function SetStrikeTradeWhispersWithoutTradeAccepted(whisperToToday, tradeAccepte
     document.getElementById("id-streak-trade-without-accepted").innerText = maxDist;
 }
 
-function SetPlayerJoinedTheAreaTodayStat(todayReverse) {
-    const tab = CutTableByDate(playerJoinedTheArea, todayReverse);
-    document.getElementById("id-player-joined-today").innerText = `${tab.length}`;
-    //console.log(playerJoinedTheArea);
+function SetPlayerJoinedTheAreaTodayStat(todayReverse, tradeAcceptedToday, generatingLevelsToday) {
+    const tab = [...CutTableByDate(playerJoinedTheArea, todayReverse), ...tradeAcceptedToday, ...generatingLevelsToday];
+    tab.sort((a, b) => {
+        const timeA = a.content.time;
+        const timeB = b.content.time;
+
+        const secondsA = timeToSeconds(timeA);
+        const secondsB = timeToSeconds(timeB);
+
+        return secondsA - secondsB;
+    });
+
+    const uniqueNames = new Map();
+    const regexJoin = /\s:(.*?)\shas joined/;
+    const regexLeft = /\s:(.*?)\shas left/;
+    tab.forEach((record, index) => {
+        if (!record.content.message) {
+            return;
+        }
+        const matchJoin = record.content.message.match(regexJoin);
+        const matchLeft = record.content.message.match(regexLeft);
+        if (matchJoin) {
+            const extractedName = matchJoin[1].trim();
+            if (!uniqueNames.has(extractedName)) {
+                uniqueNames.set(extractedName, true);
+            }
+        }
+        else if (matchLeft) {
+            const extractedName = matchLeft[1].trim();
+            if (!uniqueNames.has(extractedName)) {
+                uniqueNames.set(extractedName, true);
+            }
+        }
+        else {
+            if (record.content.seed === -1) {
+                const oneDown = tab[index - 1];
+                if (oneDown && oneDown.content.seed !== -1) {
+                    uniqueNames.set(`trade in other instance ${index - 1}`, true);
+                }
+            }
+        }
+    });
     //console.log(tab);
+    //console.log(uniqueNames);
+    document.getElementById("id-player-joined-today").innerText = `${uniqueNames.size}`;
 }
