@@ -279,11 +279,20 @@ function parseLogEvents(lines) {
         else if (/\*\*\*\*\* LOG FILE OPENING \*\*\*\*\*/.test(line)) {
             if (index > 1) { // last record before close?
                 const content = parserGamingSessions(line.trim());
-                if (content)
-                    gamingSessions.push({
-                        lineNumber: index,
-                        content: parserGamingSessions(lines[index - 1].trim(), false), 
-                    });
+                if (content) {
+                    let contentPrevious = parserGamingSessions(lines[index - 1].trim(), false);
+                    let i = -2;
+                    while (i > -10 && !contentPrevious) {
+                        contentPrevious = parserGamingSessions(lines[index - i].trim(), false);
+                        i--;
+                    }
+                    if (contentPrevious) {
+                        gamingSessions.push({
+                            lineNumber: index,
+                            content: contentPrevious,
+                        });
+                    }
+                }
             } 
             const content = parserGamingSessions(line.trim(), true);
             if (content)
