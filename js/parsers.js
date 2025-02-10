@@ -7,6 +7,8 @@ let playerHasBeenSlain = [];
 let playerLevel = [];
 let playerTradeCompleted = [];
 let playerJoinedTheArea = [];
+let messagesFromMastersAndBosses = [];
+//let messagesFromMastersAndBossesTemp = [];
 
 function parserGeneratingLevel(line) {
     //console.log(line);
@@ -22,7 +24,7 @@ function parserGeneratingLevel(line) {
         dateEnd: "",
         time: match[2],    
         timeEnd: "",
-        clientId: match[3],     
+        //clientId: match[3],     
         pattern: match[4],      
         level: parseInt(match[5]),
         //areaName: match[6],
@@ -156,6 +158,47 @@ function parserMessagesWithoutDirection(line) {
     };
 }
 
+function parserMessagesFromMastersAndBosses(line) {
+    // 2024/08/11 01:48:47 123 123 [INFO Client 123] Zana, Master Cartographer: They lie to you, Father. I'm your true memory!
+    const regex = /^(\d{4}\/\d{2}\/\d{2}) (\d{2}:\d{2}:\d{2}) \d+ \w+ \[INFO Client (\d+)\] ([A-Z][^:\[]*): (.+)$/;
+    //const regex = /^(\d{4}\/\d{2}\/\d{2}) (\d{2}:\d{2}:\d{2}) \d+ \w+ \[INFO Client (\d+)\] ([A-Z][^:\[]*,[^:\[]*): (.+)$/;
+
+    const match = line.match(regex);
+
+    if (!match) {
+        return null;
+    }
+
+    const probName = match[4].trim();
+    if (allowedNPCs.has(probName)) {
+        return {
+            date: match[1],
+            time: match[2],
+            name: match[4],
+            message: match[5],
+            //pattern: 'no direction',
+            seed: -1,
+        };
+    }
+    return null;
+    // temp
+    /*
+    else {
+        const content = {
+            date: match[1],
+            time: match[2],
+            name: match[4],
+            message: match[5],
+            //pattern: 'no direction',
+            seed: -1,
+        };
+        messagesFromMastersAndBossesTemp.push({
+            lineNumber: 0,
+            content: content,
+        });
+    }
+    */
+}
 
 
 

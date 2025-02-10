@@ -172,8 +172,9 @@
 					<div class="summary-item">
 						<span class="icon">🤝</span>
 						<div>
-							<p class="summary-label">Players who joined you</p>
+							<p class="summary-label">You have met</p>
 							<p class="summary-value" id="id-player-joined-today">-</p>
+							<p class="summary-label">players</p>
 						</div>
 					</div>
 
@@ -260,10 +261,12 @@
 			<canvas id="playerEventChart" width="800" height="400"></canvas>
 		</div>
 	</div>
-	<div style="display: none">
-		<h2>NPC voice lines:</h2>
+	<div class="box-shadow">
+		<h2>NPCs and Bosses voice lines:</h2>
 		<div>
-			<canvas id="" width="800" height="400"></canvas>
+			<ul class="div-zero" id="npcAndBossesVoice-chart-legend"></ul>
+			<canvas id="npcAndBossesVoice" width="800" height="400"></canvas>
+			<div class="div-zero tooltip" id="npcAndBossesVoiceTooltip"></div>
 		</div>
 	</div>
 
@@ -292,6 +295,8 @@
 	<script src="js/charts/tradeStatusChart.js"></script>
 	<script src="js/charts/playerEventChart.js"></script>
 	<script src="js/pure data/myWorldAreas.js"></script>
+	<script src="js/pure data/NPCWithVoice.js"></script>
+	<script src="js/charts/NPCsAndBossesChart.js"></script>
 	<script src="js/summaryPanel.js"></script>
 	<script src="js/app.js"></script>
 

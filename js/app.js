@@ -52,7 +52,7 @@ document.getElementById("processFile").addEventListener("click", () => {
         processFileID.classList.remove('element-look-at-me');
         fileLabelID.classList.remove('element-look-at-me');
 
-        document.getElementById("ClientFileProgress").innerText = `Thinking, give me at least ${Math.round(maxLinesToRead / 250000, 1) + 2}s`;
+        document.getElementById("ClientFileProgress").innerText = `Thinking, give me at least ${Math.round(maxLinesToRead / 200000, 1) + 2}s`;
         document.getElementById("ClientFileProgress").classList.add('element-look-at-me');
 
         fileLabelID.innerText = 'Select Client.txt\nC:\\Program Files(x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt';       
@@ -71,6 +71,7 @@ document.getElementById("processFile").addEventListener("click", () => {
             playerHasBeenSlain = [];
             playerLevel = [];
             playerJoinedTheArea = [];
+            messagesFromMastersAndBosses = [];
 
             let newMaxLimitString = document.getElementById("ClientFileInputMaxLines").value;
             let newMaxLimitNumber = parseInt(newMaxLimitString, 10);
@@ -102,6 +103,9 @@ document.getElementById("processFile").addEventListener("click", () => {
             //console.log("Whispers To:", whisperTo);
             //console.log("gamingSessions: ", gamingSessions);
             //console.log("whisperWithoutDirection", whisperWithoutDirection);
+            //console.log("messagesFromMastersAndBosses", messagesFromMastersAndBosses);
+            //console.log("messagesFromMastersAndBossesT", messagesFromMastersAndBossesTemp);
+
 
             //
             // Before any of charts
@@ -194,6 +198,7 @@ document.getElementById("processFile").addEventListener("click", () => {
             CurrencyInWhispersToChartRender();
             TradeStatusChartRender();
             PlayerEventChartRender();
+            NPCsAndBossesChartRender();
 
 
             // Today panel summary
@@ -202,15 +207,15 @@ document.getElementById("processFile").addEventListener("click", () => {
             SetDeathsLevelTodayStats(playerHasBeenSlainToday, playerLevelToday);
             SetTradesTodayStats(todayReverse);
             SetAverageTimeForTradeTodayStats();
-            SetWhispersTodayStats(whisperFromToday.length, whisperToToday.length);
+            SetWhispersTodayStats(whisperFromToday, whisperToToday);
             SetBigestTradeTodayStats(whisperFromToday);
             SetBigestTradeToTodayStats(whisperToToday);
-            const tradeCompletedToday = CutTableByDate(tradeAcceptedCounter, todayReverse);
+            const tradeCompletedToday = CutTableByDate(playerTradeCompleted, todayReverse);
             SetStrikeTradeWhispersWithoutTradeAccepted(whisperToToday, tradeCompletedToday);
             SetPlayerJoinedTheAreaTodayStat(todayReverse, tradeCompletedToday, generatingLevelsToday);
 
             // Today chart table
-            const debugTab = [...generatingLevelsToday, ...whisperFromToday, ...whisperToToday, ...gamingSessionsToday, ...whisperWithoutDirectionToday];
+            const debugTab = [...generatingLevelsToday, ...whisperFromToday, ...whisperToToday, ...tradeCompletedToday, ...gamingSessionsToday, ...whisperWithoutDirectionToday];
             const debugTab2 = debugTab.sort((a, b) => {
                 const timeA = a.content.time; 
                 const timeB = b.content.time;
@@ -323,6 +328,7 @@ function parseLogEvents(lines) {
         else if (/'PlayerToPlayerTradeCompleted'/.test(line)) {
             const content = parserDateTimeOnly(line.trim());;
             if (content)
+                content.message = "PlayerToPlayerTradeCompleted";
                 playerTradeCompleted.push({
                     lineNumber: index + 1,
                     content: content,
@@ -367,11 +373,20 @@ function parseLogEvents(lines) {
         
         else if (/\[INFO Client/.test(line)) {
             const content = parserMessagesWithoutDirection(line.trim());
-            if (content)
+            if (content) {
                 whisperWithoutDirection.push({
                     lineNumber: index + 1,
                     content: content,
                 });
+            } else {
+                const content = parserMessagesFromMastersAndBosses(line.trim());
+                if (content) {
+                    messagesFromMastersAndBosses.push({
+                        lineNumber: index + 1,
+                        content: content,
+                    });
+                }
+            }
         }
         
     });
@@ -438,8 +453,10 @@ function renderTable(tab) {
 
         const cell = document.createElement("td");
         cell.textContent = description;
-        if (description.includes('@')) {
+        if (description.includes('@F')) {
             cell.style = 'background-color: #ced4ff80;';
+        } else if (description.includes('@T')) {
+            cell.style = 'background-color: #ced40950;';
         }
         row.appendChild(cell);
 

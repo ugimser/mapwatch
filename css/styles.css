@@ -229,3 +229,19 @@ div[style="display: none"] {
     font-weight: bold;
     color: #272727;
 }
+
+.tooltip {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding: 8px 12px;
+    font-weight: 500;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    display: none;
+    pointer-events: auto;
+}
+    .tooltip.show {
+        display: block;
+    }
+
+

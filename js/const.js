@@ -114,6 +114,9 @@ function calculateDuration(startTime, endTime) {
 
 function CutTableByDate(orginalTable, dateOfThim) {
     const tab = [];
+    if (orginalTable.length < 1) {
+        return tab;
+    }
     for (let i = orginalTable.length - 1; i > 0; i--) {
         if (new Date(orginalTable[i].content.date.replace(/\//g, "-")) >= dateOfThim) {
             tab.push(orginalTable[i]);

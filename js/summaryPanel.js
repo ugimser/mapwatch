@@ -58,12 +58,24 @@ function SetMostVisitedAreaToday(generatingLevelsToday) {
         }
     }
 
-
     if (tab.length > 1) {
         document.getElementById("id-most-visited-today").innerText = `${tab[0].name} x${tab[0].i} (${(tab[0].i / instancesCounter * 100).toFixed(0)}%)`;
 
         SetAverageTimeNoHideout(tab[0].name, tab[0].i);
         document.getElementById("id-all-visited-today").innerText = `${instancesCounter}`;
+
+        document.getElementById("id-most-visited-today").parentElement.parentElement.addEventListener("mouseenter", (event) => {
+            let html = "";
+            for (let i = 0; tab.length > i && i < 10; i++) {
+                html += `${i + 1}. ${tab[i].name} x${tab[i].i} (${(tab[i].i / instancesCounter * 100).toFixed(0)}%)<br />`;
+            }
+            tooltipContainer.innerHTML = html;
+            tooltipContainer.classList.add("show");
+
+            const rect = event.target.getBoundingClientRect();
+            tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
+            tooltipContainer.style.left = `${rect.left + 150 + window.scrollX}px`;
+        });
     }
 }
 
@@ -92,12 +104,8 @@ function SetAverageTimeNoHideout(bestMapName, eventCount) {
     
 
     const tab = decimalToTime(sumTime).split(':');
-    if (tab[0] === '0') {        
-      //  if (tab[1][0] === '0') {
-       //     document.getElementById("id-average-time-today").innerText = `${tab[1][1]} min ${RemoveZero(tab[2])} sec`;
-      //  } else {
-            document.getElementById("id-average-time-today").innerText = `${RemoveZero(tab[1])} min ${RemoveZero(tab[2])} sec`;
-      //  }
+    if (tab[0] === '0') {
+        document.getElementById("id-average-time-today").innerText = `${RemoveZero(tab[1])} min ${RemoveZero(tab[2])} sec`;
     } else {
         document.getElementById("id-average-time-today").innerText = `${tab[0]} h ${RemoveZero(tab[1])} min ${RemoveZero(tab[2])} sec`;
     }
@@ -146,9 +154,27 @@ function SetAverageTimeForTradeTodayStats() {
     }
 }
 
-function SetWhispersTodayStats(numberFrom, numberTo) {
-    document.getElementById("id-whispers-from-today").innerText = `${numberFrom} received`;
-    document.getElementById("id-whispers-to-today").innerText = `${numberTo} sent`;
+function SetWhispersTodayStats(whisperFrom, whisperTo) {
+    document.getElementById("id-whispers-from-today").innerText = `${whisperFrom.length} received`;
+    document.getElementById("id-whispers-to-today").innerText = `${whisperTo.length} sent`;
+
+    document.getElementById("id-whispers-from-today").parentElement.parentElement.addEventListener("mouseenter", (event) => {
+        let html = `<h4>Received:</h4>`;
+        for (let i = 0; whisperFrom.length > i && i < 5; i++) {
+            html += `${i + 1}. <b>${whisperFrom[i].content.playerName}:</b> ${whisperFrom[i].content.message}<br />`;
+        }
+
+        html += `<br /><h4>Sent:</h4>`;
+        for (let i = 0; whisperTo.length > i && i < 5; i++) {
+            html += `${i + 1}. <b>${whisperTo[i].content.playerName}:</b> ${whisperTo[i].content.message}<br />`;
+        }
+        tooltipContainer.innerHTML = html;
+        tooltipContainer.classList.add("show");
+
+        const rect = event.target.getBoundingClientRect();
+        tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
+        tooltipContainer.style.left = `${rect.left + 150 + window.scrollX}px`;
+    });
 }
 
 function SetBigestTradeTodayStats(whisperFromToday) {
@@ -165,22 +191,22 @@ function SetBigestTradeTodayStats(whisperFromToday) {
         if (message.includes(' to buy ')) {
             const matchMirr = message.match(/(\d+)\s+mirror/i);
             if (matchMirr) {
-                tabMirr.push({ message: message, value: Number(matchMirr[1]) });
+                tabMirr.push({ playerName: record.content.playerName, message: message, value: Number(matchMirr[1]) });
             }
 
             const matchD = message.match(/(\d+)\s+divine/i);
             if (matchD) {
-                tabDiv.push({ message: message, value: Number(matchD[1]) });
+                tabDiv.push({ playerName: record.content.playerName, message: message, value: Number(matchD[1]) });
             }
 
             const matchEx = message.match(/(\d+)\s+exalted/i);
             if (matchEx) {
-                tabEx.push({ message: message, value: Number(matchEx[1]) });
+                tabEx.push({ playerName: record.content.playerName, message: message, value: Number(matchEx[1]) });
             }
 
             const matchC = message.match(/(\d+)\s+chaos/i);
             if (matchC) {
-                tabC.push({ message: message, value: Number(matchC[1]) });
+                tabC.push({ playerName: record.content.playerName, message: message, value: Number(matchC[1]) });
             }
         }
     });
@@ -197,17 +223,27 @@ function SetBigestTradeTodayStats(whisperFromToday) {
         document.getElementById("id-biggest-to-today").parentElement.parentElement.querySelector(".icon").innerText = "💎";
         return;
     }
-
+    
     const theBiggestTab = [
-        { name: 'mirror', value: biggestMirrIndex > -1 && tabMirr[biggestMirrIndex].value > -1 ? tabMirr[biggestMirrIndex].value * 120000 : 0, record: tabMirr[biggestMirrIndex] },
-        { name: 'divine', value: biggestDivIndex > -1 && tabDiv[biggestDivIndex].value > -1 ? tabDiv[biggestDivIndex].value * 150 : 0, record: tabDiv[biggestDivIndex] },
-        { name: 'exalted', value: biggestExIndex > -1 && tabEx[biggestExIndex].value > -1 ? tabEx[biggestExIndex].value * 15 : 0, record: tabEx[biggestExIndex] },
-        { name: 'chaos', value: biggestCIndex > -1 && tabC[biggestCIndex].value > -1 ? tabC[biggestCIndex].value : 0, record: tabC[biggestCIndex] },
+        { name: 'mirror', value: biggestMirrIndex > -1 && tabMirr[biggestMirrIndex].value > -1 ? tabMirr[biggestMirrIndex].value * 120000 : 0, record: tabMirr[biggestMirrIndex], playerName: biggestMirrIndex > -1 ? tabMirr[biggestMirrIndex].playerName : ""},
+        { name: 'divine', value: biggestDivIndex > -1 && tabDiv[biggestDivIndex].value > -1 ? tabDiv[biggestDivIndex].value * 150 : 0, record: tabDiv[biggestDivIndex], playerName: biggestDivIndex > -1 ? tabDiv[biggestDivIndex].playerName : ""},
+        { name: 'exalted', value: biggestExIndex > -1 && tabEx[biggestExIndex].value > -1 ? tabEx[biggestExIndex].value * 15 : 0, record: tabEx[biggestExIndex], playerName: biggestExIndex > -1 ? tabEx[biggestExIndex].playerName : ""},
+        { name: 'chaos', value: biggestCIndex > -1 && tabC[biggestCIndex].value > -1 ? tabC[biggestCIndex].value : 0, record: tabC[biggestCIndex], playerName: biggestCIndex > -1 ? tabC[biggestCIndex].playerName : ""},
     ];
 
     let oneBigest = ReturnBiggestIndexValueMessage(theBiggestTab);
     document.getElementById("id-biggest-from-today").innerHTML = `${theBiggestTab[oneBigest].record.value} ${theBiggestTab[oneBigest].name}`;
     document.getElementById("id-biggest-from-today").parentElement.parentElement.querySelector(".icon").innerHTML = currencies.get(theBiggestTab[oneBigest].name) || "💎";
+    
+    document.getElementById("id-biggest-from-today").parentElement.parentElement.addEventListener("mouseenter", (event) => {
+        let html = `<b>${theBiggestTab[oneBigest].record.playerName}:</b> ${theBiggestTab[oneBigest].record.message}`;
+        tooltipContainer.innerHTML = html;
+        tooltipContainer.classList.add("show");
+
+        const rect = event.target.getBoundingClientRect();
+        tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
+        tooltipContainer.style.left = `${rect.left + 150 + window.scrollX}px`;
+    });
 }
 
 
@@ -225,22 +261,22 @@ function SetBigestTradeToTodayStats(whisperToToday) {
         if (message.includes(' to buy ')) {
             const matchMirr = message.match(/(\d+)\s+mirror/i);
             if (matchMirr) {
-                tabMirr.push({ message: message, value: Number(matchMirr[1]) });
+                tabMirr.push({ playerName: record.content.playerName, message: message, value: Number(matchMirr[1]) });
             }
 
             const matchD = message.match(/(\d+)\s+divine/i);
             if (matchD) {
-                tabDiv.push({ message: message, value: Number(matchD[1]) });
+                tabDiv.push({ playerName: record.content.playerName, message: message, value: Number(matchD[1]) });
             }
 
             const matchEx = message.match(/(\d+)\s+exalted/i);
             if (matchEx) {
-                tabEx.push({ message: message, value: Number(matchEx[1]) });
+                tabEx.push({ playerName: record.content.playerName, message: message, value: Number(matchEx[1]) });
             }
 
             const matchC = message.match(/(\d+)\s+chaos/i);
             if (matchC) {
-                tabC.push({ message: message, value: Number(matchC[1]) });
+                tabC.push({ playerName: record.content.playerName, message: message, value: Number(matchC[1]) });
             }
         }
     });
@@ -258,15 +294,25 @@ function SetBigestTradeToTodayStats(whisperToToday) {
     }
 
     const theBiggestTab = [
-        { name: 'mirror', value: biggestMirrIndex > -1 && tabMirr[biggestMirrIndex].value > -1 ? tabMirr[biggestMirrIndex].value * 120000 : 0, record: tabMirr[biggestMirrIndex] },
-        { name: 'divine', value: biggestDivIndex > -1 && tabDiv[biggestDivIndex].value > -1 ? tabDiv[biggestDivIndex].value * 150 : 0, record: tabDiv[biggestDivIndex] },
-        { name: 'exalted', value: biggestExIndex > -1 && tabEx[biggestExIndex].value > -1 ? tabEx[biggestExIndex].value * 15 : 0, record: tabEx[biggestExIndex] },
-        { name: 'chaos', value: biggestCIndex > -1 && tabC[biggestCIndex].value > -1 ? tabC[biggestCIndex].value : 0, record: tabC[biggestCIndex] },
+        { name: 'mirror', value: biggestMirrIndex > -1 && tabMirr[biggestMirrIndex].value > -1 ? tabMirr[biggestMirrIndex].value * 120000 : 0, record: tabMirr[biggestMirrIndex], playerName: biggestMirrIndex > -1 ? tabMirr[biggestMirrIndex].playerName : "" },
+        { name: 'divine', value: biggestDivIndex > -1 && tabDiv[biggestDivIndex].value > -1 ? tabDiv[biggestDivIndex].value * 150 : 0, record: tabDiv[biggestDivIndex], playerName: biggestDivIndex > -1 ? tabDiv[biggestDivIndex].playerName : "" },
+        { name: 'exalted', value: biggestExIndex > -1 && tabEx[biggestExIndex].value > -1 ? tabEx[biggestExIndex].value * 15 : 0, record: tabEx[biggestExIndex], playerName: biggestExIndex > -1 ? tabEx[biggestExIndex].playerName : "" },
+        { name: 'chaos', value: biggestCIndex > -1 && tabC[biggestCIndex].value > -1 ? tabC[biggestCIndex].value : 0, record: tabC[biggestCIndex], playerName: biggestCIndex > -1 ? tabC[biggestCIndex].playerName : "" },
     ];
-    //console.log("theBiggestTab", theBiggestTab);
+    
     let oneBigest = ReturnBiggestIndexValueMessage(theBiggestTab);
     document.getElementById("id-biggest-to-today").innerHTML = `${theBiggestTab[oneBigest].record.value} ${theBiggestTab[oneBigest].name}`;
     document.getElementById("id-biggest-to-today").parentElement.parentElement.querySelector(".icon").innerHTML = currencies.get(theBiggestTab[oneBigest].name) || "💎";
+
+    document.getElementById("id-biggest-to-today").parentElement.parentElement.addEventListener("mouseenter", (event) => {
+        let html = `<b>${theBiggestTab[oneBigest].record.playerName}:</b> ${theBiggestTab[oneBigest].record.message}`;
+        tooltipContainer.innerHTML = html;
+        tooltipContainer.classList.add("show");
+
+        const rect = event.target.getBoundingClientRect();
+        tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
+        tooltipContainer.style.left = `${rect.left + 150 + window.scrollX}px`;
+    });
 }
 
 function ReturnBiggestIndexValueMessage(tab) {
@@ -282,7 +328,14 @@ function ReturnBiggestIndexValueMessage(tab) {
 }
 
 function SetStrikeTradeWhispersWithoutTradeAccepted(whisperToToday, tradeAcceptedToday) {
-    const tab = [...whisperToToday, ...tradeAcceptedToday];
+    const onlyToBuyMessages = [];
+    whisperToToday.forEach(record => {
+        if (record.content.message.includes(' to buy ')) {
+            onlyToBuyMessages.push(record);
+        }
+    });
+
+    const tab = [...onlyToBuyMessages, ...tradeAcceptedToday];
     tab.sort((a, b) => {
         const timeA = a.content.time;
         const timeB = b.content.time;
@@ -309,8 +362,8 @@ function SetStrikeTradeWhispersWithoutTradeAccepted(whisperToToday, tradeAccepte
     document.getElementById("id-streak-trade-without-accepted").innerText = maxDist;
 }
 
-function SetPlayerJoinedTheAreaTodayStat(todayReverse, tradeAcceptedToday, generatingLevelsToday) {
-    const tab = [...CutTableByDate(playerJoinedTheArea, todayReverse), ...tradeAcceptedToday, ...generatingLevelsToday];
+function SetPlayerJoinedTheAreaTodayStat(todayReverse, playerTradeCompleted, generatingLevelsToday) {
+    const tab = [...CutTableByDate(playerJoinedTheArea, todayReverse), ...playerTradeCompleted, ...generatingLevelsToday];
     tab.sort((a, b) => {
         const timeA = a.content.time;
         const timeB = b.content.time;
@@ -346,7 +399,7 @@ function SetPlayerJoinedTheAreaTodayStat(todayReverse, tradeAcceptedToday, gener
             if (record.content.seed === -1) {
                 const oneDown = tab[index - 1];
                 if (oneDown && oneDown.content.seed !== -1) {
-                    uniqueNames.set(`trade in other instance ${index - 1}`, true);
+                    uniqueNames.set(`trade in other instance ${index - 1}`, false);
                 }
             }
         }
@@ -354,4 +407,25 @@ function SetPlayerJoinedTheAreaTodayStat(todayReverse, tradeAcceptedToday, gener
     //console.log(tab);
     //console.log(uniqueNames);
     document.getElementById("id-player-joined-today").innerText = `${uniqueNames.size}`;
+
+    if (uniqueNames.size == 0) {
+        return;
+    }
+
+    document.getElementById("id-player-joined-today").parentElement.parentElement.addEventListener("mouseenter", (event) => {
+        let html = `<h4>Players:</h4>`;
+        uniqueNames.forEach((value, key) => {
+            if (value == true) {
+                html += `<b>${key}</b><br />`;
+            } else {
+                html += `<b>[no name, just trade event]</b><br />`;
+            }
+        });
+        tooltipContainer.innerHTML = html;
+        tooltipContainer.classList.add("show");
+
+        const rect = event.target.getBoundingClientRect();
+        tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
+        tooltipContainer.style.left = `${rect.left + 150 + window.scrollX}px`;
+    });
 }
