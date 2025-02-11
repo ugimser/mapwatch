@@ -91,15 +91,15 @@ document.getElementById("processFile").addEventListener("click", () => {
             const contentFileSize = input.files[0].size;
             //const contenFirstDate = parserDateTimeOnly(lastLines[0]);
             //const contentLastDate = parserDateTimeOnly(lastLines[readLineCounter - 2]);
-            let contenFirstDate = parserDateTimeOnly(lastLines[0]);
-            for (let i = 1; i < 10 && lastLines.length > i; i++) {
+            let contenFirstDate;// = parserDateTimeOnly(lastLines[0]);
+            for (let i = 0; i < 10 && lastLines.length > i; i++) {
                 contenFirstDate = parserDateTimeOnly(lastLines[i]);
                 if (contenFirstDate) {
                     break;
                 }
             }
-            let contentLastDate = parserDateTimeOnly(lastLines[readLineCounter - 2]);
-            for (let i = 1; i < 10 && lastLines.length > 3 + i; i++) {
+            let contentLastDate;// = parserDateTimeOnly(lastLines[readLineCounter - 2]);
+            for (let i = 0; i < 10 && lastLines.length > 3 + i; i++) {
                 contentLastDate = parserDateTimeOnly(lastLines[readLineCounter - 2 - i]);
                 if (contentLastDate) {
                     break;
