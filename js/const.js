@@ -1,10 +1,11 @@
 const colors = [
-    'rgba(75, 192, 192, 1)',  // Teal
-    'rgba(255, 99, 132, 1)',  // Red
-    'rgba(54, 162, 235, 1)',  // Blue
+    'rgba(0, 86, 179, 1)',    // blue
     'rgba(255, 206, 86, 1)',  // Yellow
     'rgba(153, 102, 255, 1)', // Purple
-    'rgba(255, 159, 64, 1)'   // Orange
+    'rgba(255, 99, 132, 1)',  // Red
+    'rgba(54, 162, 235, 1)',  // Blue
+    'rgba(255, 159, 64, 1)',   // Orange
+    'rgba(75, 192, 192, 1)',  // Teal
 ];
 
 const currencies = new Map([
@@ -16,8 +17,8 @@ const currencies = new Map([
 
 function generateNiceColor() {
     const hue = Math.floor(Math.random() * 360); // Hue: 0-360 (full color wheel)
-    const saturation = Math.floor(Math.random() * 21) + 30; // Saturation: 60-100%
-    const lightness = Math.floor(Math.random() * 21) + 30; // Lightness: 40-60%
+    const saturation = Math.floor(Math.random() * 30) + 60; // Saturation: 60-100%
+    const lightness = Math.floor(Math.random() * 40) + 30; // Lightness: 40-60%
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
 

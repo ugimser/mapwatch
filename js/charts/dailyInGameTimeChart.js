@@ -77,7 +77,7 @@ const dailyInGameTimeChartData = {
             { x: '2025/01/25', y: 1 },
             { x: '2025/01/26', y: 3 }
         ],
-        backgroundColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: colors[0],
         barPercentage: 1.24,
     }]
 };

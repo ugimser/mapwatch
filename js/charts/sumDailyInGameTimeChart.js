@@ -19,10 +19,12 @@ function SumDailyInGameTimeChartRender(dataFromDailyTimeChart) {
     const privateData = structuredClone(sumDailyInGameTimeChartData);
 
     privateData.datasets[0].data = data;
-    privateData.datasets[0].backgroundColor = 'rgba(75, 192, 192, 0.3)';
-    privateData.datasets[0].borderColor = 'rgba(75, 192, 192, 1)'; 
+    privateData.datasets[0].backgroundColor = colors[0].replace('1)', '0.1)');
+    privateData.datasets[0].borderColor = colors[0]; 
+    privateData.datasets[0].borderWidth = 3; 
     privateData.datasets[0].fill = true;
     privateData.datasets[0].pointStyle = "triangle";
+    privateData.datasets[0].pointBorderWidth = 1;
     privateData.datasets[0].pointRadius = 20;
     privateData.datasets[0].pointHoverRadius = 30;
     //console.log(sumDailyInGameTimeChartData.datasets[0].data);

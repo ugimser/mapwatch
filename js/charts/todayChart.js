@@ -2,14 +2,12 @@ let todayChartInstance = null;
 let todayChartMaxY = 24;
 
 let todayChartData = {
-    //labels: ['Activities'],
     datasets: [
         {
-           // label: 'Activity Range',
             data: [
                 { description: 'map 1', seed: 1, x: 0, y: [2, 2.5] },
                 { description: 'map 2', seed: 1, x: 0, y: [2.2, 3] },
-                { description: 'zdarzenie punktowe', seed: 1, x: 0, y: [3.2, 3.2] }],
+                { description: 'event', seed: 1, x: 0, y: [3.2, 3.2] }],
             backgroundColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(0, 0, 0, 1)'],
             barThickness: 1,
             grouped: false
@@ -22,24 +20,24 @@ let todayChartConfig = {
     data: todayChartData,
     options: {
         responsive: true,
-        indexAxis: 'x', // Oœ X to aktywnoœci
+        indexAxis: 'x', 
         plugins: {
             legend: { display: false },
             tooltip: { enabled: false },
             zoom: {
                 pan: {
-                    enabled: true, // W³¹czenie przewijania
-                    mode: 'y', // Przewijanie w poziomie
+                    enabled: true, 
+                    mode: 'y',
                 },
                 zoom: {
                     wheel: {
                         modifierKey: 'shift',
-                        enabled: true // Zoom za pomoc¹ kó³ka myszy
+                        enabled: true 
                     },
                     pinch: {
-                        enabled: true // Zoom dotykowy
+                        enabled: true 
                     },
-                    mode: 'y', // Przybli¿anie w poziomie
+                    mode: 'y',
                 },
                 limits: {
                     y: { min: 0, max: 24 }
@@ -57,14 +55,14 @@ let todayChartConfig = {
                 ticks: {
                     z: 1,
                     stepSize: 1,
-                    color: 'black',
+                    color: 'white',
                     padding: -3,
                     callback: (value) => `${decimalToTime(value)}`
                 },
-                grid: { display: true, z: 1 },
+                grid: { display: true, color: '#111111', z: 0 },
                 position: 'center',
                 offset: true,
-                border: { display: true, color: 'black', z: 1 },
+                border: { display: true, color: 'white', z: 1 },
                 min: 0,
                 max: 24
             }

@@ -50,7 +50,9 @@ function CurrencyInWhispersFromChartRender() {
             {
                 label: 'Currency amount',
                 data: [mirr, d, ex, c],
-                offset: 10,
+                offset: 0,
+                borderWidth: 4,
+                borderColor: '#1e1e1e',
                 backgroundColor: [
                     'rgba(75, 192, 192, 1)',  // Teal
                     'rgba(255, 99, 132, 1)',  // Red
@@ -65,7 +67,8 @@ function CurrencyInWhispersFromChartRender() {
         label: 'Whisper amount',
         data: [mirrCount, dCount, exCount, cCount],
         backgroundColor: newData.datasets[0].backgroundColor,
-        offset: 10,
+        borderWidth: 0,
+        offset: 0,
     });
     currencyInWhispersFromChartConfig.data = newData;
 
@@ -121,7 +124,9 @@ function CurrencyInWhispersToChartRender() {
         label: 'Whisper amount',
         data: [mirrCount, dCount, exCount, cCount],
         backgroundColor: privateData.datasets[0].backgroundColor,
-        offset: 10,
+        borderWidth: 0,
+        borderColor: '#1e1e1e',
+        offset: 0,
     };
     const privateConfig = structuredClone(currencyInWhispersFromChartConfig);
     privateConfig.data = privateData;
@@ -135,7 +140,9 @@ const currencyInWhispersFromChartData = {
         {
             label: 'Currency amount',
             data: [1, 2, 3, 4],
-            offset: 10,
+            borderWidth: 4,
+            borderColor: '#1e1e1e',
+            offset: 0,
             backgroundColor: [
                 'rgba(75, 192, 192, 1)',  // Teal
                 'rgba(255, 99, 132, 1)',  // Red
@@ -154,6 +161,8 @@ const currencyInWhispersFromChartConfig = {
         plugins: {
             legend: {
                 position: 'top',
+                usePointStyle: true,
+                boxWidth: 0,
             },
             title: {
                 display: false,

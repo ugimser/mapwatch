@@ -69,8 +69,7 @@ function GeneratedInstancesAllTimeChartRender() {
         if (index < colors.length) {
             item.backgroundColor = colors[index];
         } else {
-            // Generowanie nowego koloru, gdy skoñcz¹ siê kolory w `colors[]`
-            const hue = (index * 137) % 360; // 137 stopni - rozproszone kolory
+            const hue = (index * 137) % 360; 
             item.backgroundColor = `hsl(${hue}, 70%, 50%)`;
         }
     });
@@ -139,9 +138,9 @@ function GeneratedInstancesAllTimeSumChartRender(generatedInstancesAllTimeChartD
             label: 'Created instances',
             data: data,
             backgroundColor: previousColors,
-            //borderColor: previousColors,
-            //borderWidth: 1,
-            offset: 1,
+            borderColor: '#272727',
+            borderWidth: 1,
+           // offset: 1,
         }]
     };
     
@@ -173,8 +172,6 @@ const generatedInstancesAllTimeChartData = {
             data: [
                 { x: '2025/01/19', y: 1 },
                 { x: '2025/01/20', y: 2 },
-                { x: '2025/01/21', y: 3 },
-                { x: '2025/01/22', y: 5 },
                 { x: '2025/01/23', y: 8 },
             ],
             backgroundColor: 'rgba(0, 0, 0, 1)',
@@ -199,7 +196,6 @@ const generatedInstancesAllTimeChartConfig = {
         plugins: {
             title: {
                 display: false,
-                text: 'Chart.js Bar Chart - Stacked'
             },
             legend: {
                 display: true,

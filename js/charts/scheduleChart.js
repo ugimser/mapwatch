@@ -11,7 +11,7 @@ function ScheduleChartRender(filteredResults) {
         datasets: [{
             label: 'Gaming Time',
             data: [],
-            backgroundColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(0, 86, 179, 1)',
             barPercentage: 1.24, 
         }]
     };
@@ -100,7 +100,7 @@ const scheduleChartData = {
             { x: 'Saturday', y: [5, 10] },
             { x: 'Sunday', y: [1, 3] }
         ],
-        backgroundColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(0, 86, 179, 1)',
         barPercentage: 1.24, 
     }]
 };
@@ -168,7 +168,7 @@ let scheduleChartConfig = {
                 const meta = chart.getDatasetMeta(0);
 
                 ctx.font = '12px Arial';
-                ctx.fillStyle = 'black';
+                ctx.fillStyle = 'white';
                 ctx.textAlign = 'center';
 
                 meta.data.forEach((bar, index) => {

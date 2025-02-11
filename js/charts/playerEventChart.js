@@ -60,6 +60,7 @@ function PlayerEventChartRender() {
     const playerEventChartData = {
         datasets: [],
     };
+    let colorIndex = 0;
     deathsData.forEach((day, index) => {
         // Iteruj przez graczy w danym dniu
         Object.entries(day.players).forEach(([playerName, count]) => {
@@ -67,14 +68,17 @@ function PlayerEventChartRender() {
             let playerDataset = playerEventChartData.datasets.find((dataset) => dataset.label === `${playerName} deaths`);
 
             if (!playerDataset) {
-                const c = colors[index % (colors.length / 2)];
+                if (colorIndex > colors.length) {
+                    colorIndex = 0;
+                }
+                const c = colors[colorIndex++];
                 playerDataset = {
                     label: `${playerName} deaths`,
                     data: [], 
                    // showLine: false,
                     pointStyle: "triangle",
                     pointRadius: 10,
-                    pointHoverRadius: 15,
+                    pointHoverRadius: 20,
                     borderColor: c,
                     backgroundColor: c,
                 };

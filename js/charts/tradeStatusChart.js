@@ -15,8 +15,12 @@ function TradeStatusChartRender() {
             {
                 label: 'Number of events',
                 data: [tradeAcceptedCounter.length, tradeCancelledCounter.length],
+                backgroundColor: [colors[0], colors[1]],
+                borderColor: '#1e1e1e',
+                borderWidth: 4,
+                offset: 0,
             }
-        ]
+        ],
     };
 
     const config = {

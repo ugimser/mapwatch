@@ -8,18 +8,11 @@
 /* Ogólny styl strony */
 body {
     font-family: Arial, sans-serif;
-    background-color: #121212;
-    color: #f1f1f1;
+    background-color: #f8f9fa;
+    color: #333;
     line-height: 1.6;
     padding: 20px;
 }
-
-a {
-    color: #9070ed;
-}
-    a:hover {
-        color: #7596e5;
-    }
 
 /* Nag³ówki */
 h1, h2, h3 {
@@ -29,21 +22,23 @@ h1, h2, h3 {
 
 h1 {
     font-size: 26px;
-    color: #ffffff;
+    color: #222;
 }
 
 h2 {
     font-size: 22px;
-    color: #fdfdfd;
+    color: #444;
 }
 
 h3 {
     font-size: 18px;
-    color: #fdfdfd;
+    color: #555;
 }
 
+/* Kontenery sekcji */
 div {
-   /* background: #1e1e1e;*/
+    background: white;
+    /*box-shadow: 0px 2px 10px rgba(255, 0, 0, 0.95); */
 }
 
 .div-zero {
@@ -54,9 +49,9 @@ div {
 .box-shadow {
     margin-bottom: 30px;
     padding: 20px;
-    background: #1e1e1e;
+    background: white;
     border-radius: 8px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Uk³ad siatkowy dla wiêkszych ekranów */
@@ -123,7 +118,7 @@ button {
 .custom-file-label {
     display: grid;
     align-items: center;
-    background: #2196f3;
+    background: #007bff;
     color: white;
     padding: 10px 15px;
     margin: 5px;
@@ -135,7 +130,7 @@ button {
 
     /* Efekt hover */
     .custom-file-label:hover {
-        background: #1976d2;
+        background: #0056b3;
     }
 
 /* Style dla paragrafów */
@@ -154,7 +149,7 @@ canvas {
     height: auto;
     max-height: 600px;
     margin-bottom: 20px;
-    background: #1e1e1e;
+    background: #fff;
     border-radius: 5px;
 }
 
@@ -162,9 +157,10 @@ td {
     padding-right: 10px;
 }
 
+/* Uk³ad wiadomoœci */
 #whispersLastFromList, #whispersLastToList {
     padding: 8px;
-    background: #272727;
+    background: #e9ecef;
     border-radius: 5px;
     font-size: 14px;
 }
@@ -193,9 +189,9 @@ div[style="display: none"] {
     max-width: 96%;
     margin: 20px auto;
     padding: 20px;
-    background: #1e1e1e;
+    background: #f7f7f7;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.35);
 }
 
 .summary-title {
@@ -214,7 +210,6 @@ div[style="display: none"] {
     display: flex;
     align-items: center;
     padding: 12px;
-    background: #272727;
     border-radius: 8px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.35);
 }
@@ -226,21 +221,22 @@ div[style="display: none"] {
 
 .summary-label {
     font-size: 14px;
+    color: #272727;
 }
 
 .summary-value {
     font-size: 18px;
     font-weight: bold;
+    color: #272727;
 }
 
 .tooltip {
     position: absolute;
-    background-color: rgba(50, 50, 50, 0.95);
+    background-color: rgba(255, 255, 255, 0.85); 
     padding: 8px 12px;
     font-weight: 500;
-    color: #e0e0e0;
     border-radius: 12px;
-    box-shadow: 0px 0px 6px rgba(255, 255, 255, 0.75);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
     display: none;
     pointer-events: auto;
 }
