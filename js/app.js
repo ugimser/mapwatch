@@ -391,9 +391,19 @@ function parseLogEvents(lines) {
         
     });
 
+    //if (gamingSessions.length > 2) {
+    //    const line = parserDateTimeOnly(lines[lines.length - 2].trim(), false);
+    //    gamingSessions[gamingSessions.length - 1].content.timeEnd = line.time;
+    //}
     if (gamingSessions.length > 2) {
         const line = parserDateTimeOnly(lines[lines.length - 2].trim(), false);
-        gamingSessions[gamingSessions.length - 1].content.timeEnd = line.time;
+        let i = -2;
+        while (i > -10 && !line) {
+            line = parserDateTimeOnly(lines[lines.length - i--].trim(), false);
+        }
+        if (line) {
+            gamingSessions[gamingSessions.length - 1].content.timeEnd = line.time;
+        }
     }
 }
 
