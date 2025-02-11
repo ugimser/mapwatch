@@ -395,11 +395,17 @@ function parseLogEvents(lines) {
     //    const line = parserDateTimeOnly(lines[lines.length - 2].trim(), false);
     //    gamingSessions[gamingSessions.length - 1].content.timeEnd = line.time;
     //}
-    if (gamingSessions.length > 2) {
-        const line = parserDateTimeOnly(lines[lines.length - 2].trim(), false);
+    if (gamingSessions.length > 2 && lines.length >= 2) {
+        const line = parserDateTimeOnly(lines[lines.length - 2]?.trim(), false);
         let i = -2;
-        while (i > -10 && !line) {
-            line = parserDateTimeOnly(lines[lines.length - i--].trim(), false);
+        while (i > -10 && (!line || line === undefined)) {
+            let index = lines.length - i;
+    
+            if (index >= 0 && index < lines.length) {
+                line = parserDateTimeOnly(lines[index]?.trim(), false);
+            }
+    
+            i--;
         }
         if (line) {
             gamingSessions[gamingSessions.length - 1].content.timeEnd = line.time;
