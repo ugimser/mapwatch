@@ -89,8 +89,22 @@ document.getElementById("processFile").addEventListener("click", () => {
             const readLineCounter = lastLines.length;
             const contentLineCounter = lines.length;
             const contentFileSize = input.files[0].size;
-            const contenFirstDate = parserDateTimeOnly(lastLines[0]);
-            const contentLastDate = parserDateTimeOnly(lastLines[readLineCounter - 2]);
+            //const contenFirstDate = parserDateTimeOnly(lastLines[0]);
+            //const contentLastDate = parserDateTimeOnly(lastLines[readLineCounter - 2]);
+            let contenFirstDate = parserDateTimeOnly(lastLines[0]);
+            for (let i = 1; i < 10 && lastLines.length > i; i++) {
+                contenFirstDate = parserDateTimeOnly(lastLines[i]);
+                if (contenFirstDate) {
+                    break;
+                }
+            }
+            let contentLastDate = parserDateTimeOnly(lastLines[readLineCounter - 2]);
+            for (let i = 1; i < 10 && lastLines.length > 3 + i; i++) {
+                contentLastDate = parserDateTimeOnly(lastLines[readLineCounter - 2 - i]);
+                if (contentLastDate) {
+                    break;
+                }
+            }
             progressText.innerText =
                 `Data from ${readLineCounter.toLocaleString()} lines. ` +
             `Your file has ${contentLineCounter.toLocaleString()} lines (${(contentFileSize / (1024 * 1024)).toFixed(2).toLocaleString()} MB), ` +
