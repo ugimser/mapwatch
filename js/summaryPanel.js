@@ -1,8 +1,6 @@
 ﻿let decimalLastDayTime = 1;
 let tradeAcceptedToday = 0;
 
-
-
 function SetSumTimeToday() {
     decimalLastDayTime = dailyInGameTimeChartConfig.data.datasets[0].data[dailyInGameTimeChartConfig.data.datasets[0].data.length - 1].y;
     const tab = decimalToTime(decimalLastDayTime).split(':');
@@ -414,11 +412,12 @@ function SetPlayerJoinedTheAreaTodayStat(todayReverse, playerTradeCompleted, gen
 
     document.getElementById("id-player-joined-today").parentElement.parentElement.addEventListener("mouseenter", (event) => {
         let html = `<h4>Players:</h4>`;
+        let counter = 1;
         uniqueNames.forEach((value, key) => {
             if (value == true) {
-                html += `<b>${key}</b><br />`;
+                html += `<b>${counter++}. ${key}, </b>`;
             } else {
-                html += `<b>[no name, just trade event]</b><br />`;
+                html += `${counter++}. No name (PlayerToPlayerEvent), `;
             }
         });
         tooltipContainer.innerHTML = html;

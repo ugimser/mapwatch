@@ -47,6 +47,7 @@ function DailyInGameTimeChartRender() {
     const x = gamingSessions[index].content.date;
     const start = timeToDecimal(gamingSessions[index].content.time);
     const end = timeToDecimal(gamingSessions[index].content.timeEnd);
+
     if (!groupedData[x]) {
         groupedData[x] = 0; // Inicjalizacja czasu dla danej daty
     }

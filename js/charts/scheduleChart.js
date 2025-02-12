@@ -23,19 +23,7 @@ function ScheduleChartRender(filteredResults) {
         const current = filteredResults[i];
         const next = filteredResults[i + 1];
 
-        if (current.content.pattern === "Game started") { //} && next && next.content.pattern === "Game closed") {
-         /*   if (typeof next === "undefined") { // last record, game opened but not closed
-                console.log("last record, game opened but not closed", next);
-                const startDate = current.content.date;
-                const startDecimal = timeToDecimal(current.content.time);
-                const endDecimal = timeToDecimal(current.content.timeEnd);
-                newsScheduleChartData.datasets[0].data.push({
-                    x: startDate,
-                    y: [startDecimal, endDecimal]
-                });
-                break;
-            } 
-            */
+        if (current.content.pattern === "Game started") { 
             const startDate = current.content.date;//getDayOfWeek(current.content.date);
             const startDecimal = timeToDecimal(current.content.time);
             const endDecimal = timeToDecimal(next.content.time);
@@ -60,7 +48,8 @@ function ScheduleChartRender(filteredResults) {
             //console.log({ x: startDate, y: [startDecimal, endDecimal] });
         }
     }
-    // last day if, gameclose exist
+    // last day
+
     const maxIndex = filteredResults.length - 1;
     const lastRecord = filteredResults[maxIndex];
     //console.log(lastRecord);
@@ -180,7 +169,8 @@ let scheduleChartConfig = {
                     const barMiddle = bar.y + (bar.height / 2);
 
                     // Wyœwietlanie etykiety nad s³upkiem
-                    ctx.fillText(`${duration} h`, barX, barMiddle + 5); // Tekst nad s³upkiem
+                    if (end - start !== 0)
+                        ctx.fillText(`${duration}`, barX, barMiddle + 5); // Tekst nad s³upkiem
                 });
             }
         }

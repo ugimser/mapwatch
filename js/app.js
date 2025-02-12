@@ -4,13 +4,14 @@
  */
 let addedFile = false;
 let maxLinesToRead = 1000000;
+let contentLastDate = new Date();
 
 const fileLabelID = document.querySelector("label[for='ClientFileInput']");
 const processFileID = document.getElementById("processFile");
 const progressText = document.getElementById("ClientFileProgress");
 
 document.getElementById("ClientFileInput").addEventListener("change", function () {
-    if (this.files.length > 0 && this.files[0].name === 'Client.txt') {
+    if (this.files.length > 0 && this.files[0].name.includes('.txt')) {
         fileLabelID.innerHTML = "You can start calculation &#8594;";      
         fileLabelID.classList.remove('element-look-at-me');
         processFileID.classList.add('element-look-at-me');
@@ -89,8 +90,6 @@ document.getElementById("processFile").addEventListener("click", () => {
             const readLineCounter = lastLines.length;
             const contentLineCounter = lines.length;
             const contentFileSize = input.files[0].size;
-            //const contenFirstDate = parserDateTimeOnly(lastLines[0]);
-            //const contentLastDate = parserDateTimeOnly(lastLines[readLineCounter - 2]);
             let contenFirstDate;// = parserDateTimeOnly(lastLines[0]);
             for (let i = 0; i < 10 && lastLines.length > i; i++) {
                 contenFirstDate = parserDateTimeOnly(lastLines[i]);
@@ -98,7 +97,7 @@ document.getElementById("processFile").addEventListener("click", () => {
                     break;
                 }
             }
-            let contentLastDate;// = parserDateTimeOnly(lastLines[readLineCounter - 2]);
+            contentLastDate;// = parserDateTimeOnly(lastLines[readLineCounter - 2]);
             for (let i = 0; i < 10 && lastLines.length > 3 + i; i++) {
                 contentLastDate = parserDateTimeOnly(lastLines[readLineCounter - 2 - i]);
                 if (contentLastDate) {
@@ -301,9 +300,9 @@ function parseLogEvents(lines) {
                 const content = parserGamingSessions(line.trim());
                 if (content) {
                     let contentPrevious = parserGamingSessions(lines[index - 1].trim(), false);
-                    let i = -2;
-                    while (i > -10 && !contentPrevious) {
-                        contentPrevious = parserGamingSessions(lines[index - i--].trim(), false);
+                    let i = 2;
+                    while (i < 10 && !contentPrevious) {
+                        contentPrevious = parserGamingSessions(lines[index - i++].trim(), false);
                     }
                     if (contentPrevious) {
                         gamingSessions.push({
@@ -405,24 +404,43 @@ function parseLogEvents(lines) {
         
     });
 
-    //if (gamingSessions.length > 2) {
-    //    const line = parserDateTimeOnly(lines[lines.length - 2].trim(), false);
-    //    gamingSessions[gamingSessions.length - 1].content.timeEnd = line.time;
-    //}
     if (gamingSessions.length > 2 && lines.length >= 2) {
         const line = parserDateTimeOnly(lines[lines.length - 2]?.trim(), false);
-        let i = -2;
-        while (i > -10 && (!line || line === undefined)) {
+        let i = 2;
+        while (i < 10 && (!line || line === undefined)) {
             let index = lines.length - i;
-    
+
             if (index >= 0 && index < lines.length) {
                 line = parserDateTimeOnly(lines[index]?.trim(), false);
             }
-    
-            i--;
+
+            i++;
         }
         if (line) {
-            gamingSessions[gamingSessions.length - 1].content.timeEnd = line.time;
+            const lastSessionStart = gamingSessions[gamingSessions.length - 1];
+            const start = timeToDecimal(lastSessionStart.content.time);
+            const end = timeToDecimal(line.time);
+            
+            if (start > end) { // after midnight
+                lastSessionStart.content.timeEnd = '24:00:00';
+
+                const nextDayContent = {
+                    date: line.date,
+                    time: '00:00:00',
+                    pattern: "Game started",
+                    dateEnd: "",
+                    timeEnd: line.time,
+                    seed: -1,
+                };
+
+                gamingSessions.push({
+                    lineNumber: lines.length - i,
+                    content: nextDayContent,
+                });
+            }
+            else {
+                gamingSessions[gamingSessions.length - 1].content.timeEnd = line.time;
+            }
         }
     }
 }
@@ -484,9 +502,11 @@ function renderTable(tab) {
         const cell = document.createElement("td");
         cell.textContent = description;
         if (description.includes('@F')) {
-            cell.style = 'background-color: #ced4ff80;';
+            cell.style.border = "1px solid rgba(255, 255, 255, 0.3)";
+            cell.style.paddingLeft = "50px";
         } else if (description.includes('@T')) {
-            cell.style = 'background-color: #ced40950;';
+            cell.style.border = "1px solid rgba(128, 128, 255, 0.3)";
+            cell.style.textAlign = "right";
         }
         row.appendChild(cell);
 
