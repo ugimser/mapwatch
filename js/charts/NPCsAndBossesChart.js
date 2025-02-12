@@ -228,6 +228,14 @@ const NPCsAndBossesChartConfig = {
             },
             title: {
                 display: false,
+            },
+            tooltip: {
+                enabled: true,
+                callbacks: {
+                    label: function (context) {
+                        return `${context.dataset.label} has spoken ${context.raw.y} times.`;
+                    }
+                }
             }
         },
         responsive: true,

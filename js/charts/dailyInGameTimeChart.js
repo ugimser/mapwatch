@@ -97,7 +97,7 @@ const dailyInGameTimeChartConfig = {
                 display: false,
             },
             tooltip: {
-                enabled: true, // W³¹czenie tooltipa
+                enabled: true,
                 callbacks: {
                     label: function (context) {
                         return `Time in game: ${decimalToTime(context.raw.y)}`;

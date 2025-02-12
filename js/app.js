@@ -10,9 +10,10 @@ const fileLabelID = document.querySelector("label[for='ClientFileInput']");
 const processFileID = document.getElementById("processFile");
 const progressText = document.getElementById("ClientFileProgress");
 
+
 document.getElementById("ClientFileInput").addEventListener("change", function () {
     if (this.files.length > 0 && this.files[0].name.includes('.txt')) {
-        //fileLabelID.innerHTML = "You can start calculation &#8594;";
+        //fileLabelID.innerHTML = `<span class="loader"></span>You can start calculation &#8594;`;
         fileLabelID.classList.remove('element-look-at-me');
         progressText.classList.remove('element-look-at-me');
         processFileID.classList.add('element-look-at-me');
@@ -40,13 +41,13 @@ document.getElementById("processFile").addEventListener("click", () => {
         setTimeout(() => {
             if (workingGood === 0) {
                 console.log("Browser requests user activity");
-                alert("Please select file again :/ or check console F12");
-                input.value = "";
+                alert("Please select file again :/ or check console for errors F12");
+                //input.value = "";
                 fileLabelID.classList.add('element-look-at-me');
                 progressText.classList.remove('element-look-at-me');
                 processFileID.classList.remove('element-look-at-me');
             }
-        }, 200);
+        }, 2000);
         //console.log("File name: ", input.files[0].name);
 
         const fileName = input.files[0].name.split('.');
@@ -57,7 +58,7 @@ document.getElementById("processFile").addEventListener("click", () => {
         processFileID.classList.remove('element-look-at-me');
         fileLabelID.classList.remove('element-look-at-me');
 
-        progressText.innerText = `Thinking, give me at least ${Math.round(maxLinesToRead / 200000, 1) + 2}s`;
+        progressText.innerHTML = `Thinking, give me at least ${Math.round(maxLinesToRead / 200000, 1) + 2}s<br /><span class="loader"></span>`;
         progressText.classList.add('element-look-at-me');
 
         fileLabelID.innerText = 'Select Client.txt\nC:\\Program Files(x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt';       
