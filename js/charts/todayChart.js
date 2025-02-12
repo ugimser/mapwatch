@@ -261,10 +261,22 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
             //console.log(end);
         }
 
-        sessionsDecimal.push({
-            start: start,
-            end: end
-        });
+        if (start > end) {
+            sessionsDecimal.push({
+                start: 0,
+                end: end
+            });
+            sessionsDecimal.push({
+                start: end,
+                end: end
+            });
+        }
+        else {
+            sessionsDecimal.push({
+                start: start,
+                end: end
+            });
+        }
     }
     //console.log("sessionsDecimal", sessionsDecimal);
     for (let i = 0; i < filteredResults.length; i++) {
@@ -281,9 +293,10 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
         let timeEnd = next ? next.content.time : current.content.time;
 
         const adjusted = adjustStartEnd(sessionsDecimal, start, end);
+        //console.log(adjusted, current);
         if (adjusted.end != end) {
             end = adjusted.end;
-            timeEnd = decimalToTime(end + 0.0005);
+            timeEnd = decimalToTime(end);
         }
         if (filteredResults.length - 1 == i) {
             timeEnd = sessions[sessions.length - 1].content.timeEnd;
@@ -333,7 +346,7 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
     //console.log(data[data.length-1]);
     //console.log("TodayChartGeneratingLevelsData", data);
     if (data.length > 2) {
-        todayChartMaxY = timeToDecimal(data[data.length - 1].timeStart);
+        todayChartMaxY = timeToDecimal(data[data.length - 1].timeEnd);
     }
     return data;
 }
@@ -394,7 +407,6 @@ function TodayChartGamingSessionsData(filteredResults) {
 
         data.push(event);
     }
-
     return data;
 }
 

@@ -2,9 +2,9 @@
  * https://www.chartjs.org/docs/latest/samples/scales/linear-min-max.html
  * 
  */
-let addedFile = false;
 let maxLinesToRead = 1000000;
 let contentLastDate = new Date();
+let workingGood = 0;
 
 const fileLabelID = document.querySelector("label[for='ClientFileInput']");
 const processFileID = document.getElementById("processFile");
@@ -12,13 +12,13 @@ const progressText = document.getElementById("ClientFileProgress");
 
 document.getElementById("ClientFileInput").addEventListener("change", function () {
     if (this.files.length > 0 && this.files[0].name.includes('.txt')) {
-        fileLabelID.innerHTML = "You can start calculation &#8594;";      
+        //fileLabelID.innerHTML = "You can start calculation &#8594;";
         fileLabelID.classList.remove('element-look-at-me');
+        progressText.classList.remove('element-look-at-me');
         processFileID.classList.add('element-look-at-me');
     } else {
         fileLabelID.innerText = 'Select Client.txt\nC:\\Program Files (x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt'; 
     }
-    addedFile = true;
 });
 
 document.getElementById("ClientFileInputMaxLines").addEventListener("change", function () {
@@ -34,17 +34,21 @@ document.getElementById("ClientFileInputMaxLines").addEventListener("change", fu
 });
 
 document.getElementById("processFile").addEventListener("click", () => {
-    if (!addedFile) {
-        fileLabelID.innerText = 'Select Client.txt\nC:\\Program Files (x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt'; 
-        document.getElementById("ClientFileInput").value = "";
-        fileLabelID.classList.add('element-look-at-me');
-        processFileID.classList.remove('element-look-at-me');
-        progressText.classList.remove('element-look-at-me');
-        return;
-    }
     const input = document.getElementById("ClientFileInput");
     if (input.files.length > 0) {
-        addedFile = false;
+        workingGood = 0;
+        setTimeout(() => {
+            if (workingGood === 0) {
+                console.log("Browser requests user activity");
+                alert("Please select file again :/ or check console F12");
+                input.value = "";
+                fileLabelID.classList.add('element-look-at-me');
+                progressText.classList.remove('element-look-at-me');
+                processFileID.classList.remove('element-look-at-me');
+            }
+        }, 200);
+        //console.log("File name: ", input.files[0].name);
+
         const fileName = input.files[0].name.split('.');
         if (fileName[fileName.length - 1] !== 'txt') {
             WrongFileAlert();
@@ -53,13 +57,15 @@ document.getElementById("processFile").addEventListener("click", () => {
         processFileID.classList.remove('element-look-at-me');
         fileLabelID.classList.remove('element-look-at-me');
 
-        document.getElementById("ClientFileProgress").innerText = `Thinking, give me at least ${Math.round(maxLinesToRead / 200000, 1) + 2}s`;
-        document.getElementById("ClientFileProgress").classList.add('element-look-at-me');
+        progressText.innerText = `Thinking, give me at least ${Math.round(maxLinesToRead / 200000, 1) + 2}s`;
+        progressText.classList.add('element-look-at-me');
 
         fileLabelID.innerText = 'Select Client.txt\nC:\\Program Files(x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt';       
 
         const reader = new FileReader();
         reader.onload = function () {
+            workingGood = 1;
+            //console.log("reader.onload: ", input.files[0].name);
             // clear variables
             tradeAcceptedCounter = [];
             tradeCancelledCounter = [];
@@ -405,12 +411,12 @@ function parseLogEvents(lines) {
     });
 
     if (gamingSessions.length > 2 && lines.length >= 2) {
-        const line = parserDateTimeOnly(lines[lines.length - 2]?.trim(), false);
+        let line = parserDateTimeOnly(lines[lines.length - 2]?.trim(), false);
         let i = 2;
         while (i < 10 && (!line || line === undefined)) {
             let index = lines.length - i;
 
-            if (index >= 0 && index < lines.length) {
+            if (index > 0 && index < lines.length) {
                 line = parserDateTimeOnly(lines[index]?.trim(), false);
             }
 
@@ -427,7 +433,7 @@ function parseLogEvents(lines) {
                 const nextDayContent = {
                     date: line.date,
                     time: '00:00:00',
-                    pattern: "Game started",
+                    pattern: "Game closed",
                     dateEnd: "",
                     timeEnd: line.time,
                     seed: -1,

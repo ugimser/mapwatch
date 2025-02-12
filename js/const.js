@@ -18,7 +18,7 @@ const currencies = new Map([
 function generateNiceColor() {
     const hue = Math.floor(Math.random() * 360); // Hue: 0-360 (full color wheel)
     const saturation = Math.floor(Math.random() * 30) + 60; // Saturation: 60-100%
-    const lightness = Math.floor(Math.random() * 40) + 30; // Lightness: 40-60%
+    const lightness = Math.floor(Math.random() * 40) + 35; // Lightness: 40-60%
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
 
