@@ -159,13 +159,13 @@ function SetWhispersTodayStats(whisperFrom, whisperTo) {
     document.getElementById("id-whispers-from-today").parentElement.parentElement.addEventListener("mouseenter", (event) => {
         let html = `<h4>Received:</h4>`;
         let tabLength = whisperFrom.length;
-        for (let i = tabLength - 1; i > 0 && i > tabLength - 6; i--) {
+        for (let i = tabLength - 1; i >= 0 && i > tabLength - 6; i--) {
             html += `${tabLength - i}. <b>${whisperFrom[i].content.playerName}:</b> ${whisperFrom[i].content.message}<br />`;
         }
 
         html += `<br /><h4>Sent:</h4>`;
         tabLength = whisperTo.length;
-        for (let i = tabLength - 1; i > 0 && i > tabLength - 6; i--) {
+        for (let i = tabLength - 1; i >= 0 && i > tabLength - 6; i--) {
             html += `${tabLength - i}. <b>${whisperTo[i].content.playerName}:</b> ${whisperTo[i].content.message}<br />`;
         }
         tooltipContainer.innerHTML = html;
