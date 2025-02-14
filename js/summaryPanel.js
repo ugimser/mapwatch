@@ -419,7 +419,7 @@ function SetPlayerJoinedTheAreaTodayStat(todayReverse, playerTradeCompleted, gen
             if (value == true) {
                 html += `<b>${counter++}. ${key}, </b>`;
             } else {
-                html += `${counter++}. No name (PlayerToPlayerEvent), `;
+                html += `${counter++}. No name (PlayerToPlayerTrade), `;
             }
         });
         tooltipContainer.innerHTML = html;

@@ -21,7 +21,9 @@
 	</script>
 </head>
 <body>
-	<div class="box-shadow"><h1 style="text-align: center; margin: 0px">What do I have in the PoE logs?</h1></div>
+	<div class="box-shadow">
+		<h1 style="text-align: center; margin: 0px">What do I have in the PoE logs?</h1>
+	</div>
 
 	<div class="topButtons box-shadow">
 		<input type="file" id="ClientFileInput" accept=".txt">
@@ -29,7 +31,7 @@
 			Select Client.txt<br />
 			C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt
 		</label>
-		<button class="topButtonsChild" id="processFile">Process File</button>
+		<button class="topButtonsChild" id="processFile">Start thinking</button>
 		<div class="topButtonsChild">
 			<div class="topButtons">
 				<input style="width: 50%; text-align: center" type="text" id="ClientFileInputMaxLines" placeholder="500,000" value="1,000,000">
@@ -39,7 +41,25 @@
 		</div>
 	</div>
 
-	<div class="box-shadow">
+	<div class="box-shadow" id="box-welcome">
+		<h1 style="text-align:center">Welcome to MapWatch PoE!</h1>
+		<p>
+			This page is designed to present the logs from your <strong>Path of Exile 1</strong> and <strong>Path of Exile 2</strong> gameplay in an accessible and graphical way.
+			Once you load the <b>Client.txt</b> log file, you will receive detailed summaries and visualizations that help you analyze the progress of your most recent session
+			or simply satisfy your curiosity about the statistics and events from days, weeks, or months of gameplay.
+		</p>
+		<br />
+		<h2>To get started:</h2>
+		<p>Click the <b>Select Client.txt</b> button.</p>
+		<p>Select <b>logs\Client.txt</b> from your game folder, probably:<br /></p>
+		<code> - C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt</code><br />
+		<code> - C:\Steam\steamapps\common\Path of Exile\logs\Client.txt</code>
+
+		<p>Press the <b>Start thinking</b> button.</p>
+		<p>The waiting time depends on the file size, but should not be longer than a few dozen seconds. Once done, enjoy your game analysis!</p>
+	</div>
+
+	<div class="box-shadow show-after-draws">
 		<div style="display: flex; justify-content: space-between;">
 			<h2 id="todayChartTitle">Today</h2>
 			<div style="display: flex;">
@@ -186,7 +206,7 @@
 			<div class="div-zero" id="outputForTodayData" style="display: none;"></div>
 		</div>
 	</div>
-	<div class="box-shadow">
+	<div class="box-shadow show-after-draws">
 		<h2>In game time:</h2>
 		<div>
 			<h3>Your gaming schedule (max -31 days from today):</h3>
@@ -209,7 +229,7 @@
 			<canvas id="" width="800" height="400"></canvas>
 		</div>
 	</div>
-	<div class="box-shadow">
+	<div class="box-shadow show-after-draws">
 		<h2>Generated Instances:</h2>
 		<div style="display: none">
 			<h3>Last 14 days:</h3>
@@ -224,7 +244,7 @@
 			<canvas id="generatedInstancesAllTimeSumChart" width="800" height="400"></canvas>
 		</div>
 	</div>
-	<div class="box-shadow">
+	<div class="box-shadow show-after-draws">
 		<div>
 			<h2>Messages:</h2>
 			<canvas id="whispersChart" width="800" height="400"></canvas>
@@ -241,7 +261,7 @@
 			<!--<h3>Last whispers:</h3>-->
 		</div>
 	</div>
-	<div class="box-shadow">
+	<div class="box-shadow show-after-draws">
 		<h2>Currency in trade whispers:</h2>
 		<div>
 			<h3>Amount in whispers '@From':</h3>
@@ -256,13 +276,13 @@
 			<canvas id="tradeStatusChart" width="800" height="400" style="max-height: 400px"></canvas>
 		</div>
 	</div>
-	<div class="box-shadow">
+	<div class="box-shadow show-after-draws">
 		<h2>Players events:</h2>
 		<div>
 			<canvas id="playerEventChart" width="800" height="400"></canvas>
 		</div>
 	</div>
-	<div class="box-shadow">
+	<div class="box-shadow show-after-draws">
 		<h2>NPCs and Bosses voice lines:</h2>
 		<div>
 			<ul class="div-zero" id="npcAndBossesVoice-chart-legend"></ul>

@@ -223,7 +223,7 @@ const playerEventChartConfig = {
                 type: 'time',
                 time: {
                     parser: 'yyyy/MM/dd', // Format daty
-                    tooltipFormat: 'PP', // Format daty w tooltipie
+                    tooltipFormat: 'PPPP', // Format daty w tooltipie
                     unit: 'day' // Jednostka na osi (np. dzieñ, miesi¹c)
                 },
                 title: {

@@ -121,7 +121,12 @@ const dailyInGameTimeChartConfig = {
                 }
             },
             x: {
-                type: 'category', 
+                type: 'time',
+                time: {
+                    parser: 'yyyy/MM/dd', 
+                    tooltipFormat: 'PPPP',
+                    unit: 'day'
+                },
                 title: {
                     display: false,
                     text: 'Days of the Week'

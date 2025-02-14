@@ -58,6 +58,10 @@ div {
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
 }
 
+.show-after-draws {
+    display: none;
+}
+
 /* Uk³ad siatkowy dla wiêkszych ekranów */
 @media (min-width: 1024px) {
     div {
@@ -77,6 +81,10 @@ div {
     text-align: center;
 }
 
+#box-welcome {
+    padding: 60px;
+    line-height: 2;
+}
 /* Style dla przycisków */
 button {
     background: #007bff;

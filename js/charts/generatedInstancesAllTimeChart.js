@@ -204,7 +204,12 @@ const generatedInstancesAllTimeChartConfig = {
         responsive: true,
         scales: {
             x: {
-                type: 'category',
+                type: 'time',
+                time: {
+                    parser: 'yyyy/MM/dd',
+                    tooltipFormat: 'PPPP',
+                    unit: 'day'
+                },
                 display: true,
                 stacked: true,
                 title: {

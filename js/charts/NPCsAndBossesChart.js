@@ -92,6 +92,7 @@ const getOrCreateLegendList = (chart, id) => {
         listContainer = document.createElement('ul');
         listContainer.style.display = 'flex';
         listContainer.style.flexWrap = 'wrap';
+        listContainer.style.justifyContent = 'center';
         listContainer.style.margin = 0;
         listContainer.style.padding = 0;
 
@@ -139,7 +140,7 @@ const htmlLegendPlugin = {
 
                 const rect = event.target.getBoundingClientRect();
                 tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
-                tooltipContainer.style.left = `${rect.left + 75 + window.scrollX}px`;
+                tooltipContainer.style.left = `${rect.left + 110 + window.scrollX}px`;
             });
 
             // Color box
@@ -149,9 +150,9 @@ const htmlLegendPlugin = {
             boxSpan.style.borderWidth = item.lineWidth + 'px';
             boxSpan.style.display = 'inline-block';
             boxSpan.style.flexShrink = 0;
-            boxSpan.style.height = '20px';
-            boxSpan.style.marginRight = '10px';
-            boxSpan.style.width = '20px';
+            boxSpan.style.height = '14px';
+            boxSpan.style.marginRight = '4px';
+            boxSpan.style.width = '40px';
 
             // Text
             const textContainer = document.createElement('p');
@@ -241,7 +242,12 @@ const NPCsAndBossesChartConfig = {
         responsive: true,
         scales: {
             x: {
-                type: 'category',
+                type: 'time',
+                time: {
+                    parser: 'yyyy/MM/dd',
+                    tooltipFormat: 'PPPP',
+                    unit: 'day'
+                },
                 display: true,
                 stacked: true,
                 title: {

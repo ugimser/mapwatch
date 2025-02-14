@@ -202,7 +202,12 @@ const whispersChartConfig = {
         responsive: true,
         scales: {
             x: {
-                type: 'category',
+                type: 'time',
+                time: {
+                    parser: 'yyyy/MM/dd',
+                    tooltipFormat: 'PPPP',
+                    unit: 'day'
+                },
                 stacked: true,
                 title: {
                     display: false,

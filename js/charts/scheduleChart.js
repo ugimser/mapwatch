@@ -140,7 +140,12 @@ let scheduleChartConfig = {
                 }
             },
             x: {
-                type: 'category', // Kategorie odpowiadaj¹ dniom
+                type: 'time',
+                time: {
+                    parser: 'yyyy/MM/dd', // Format daty
+                    tooltipFormat: 'PPPP', // Format daty w tooltipie
+                    unit: 'day' // Jednostka na osi (np. dzieñ, miesi¹c)
+                },
                 title: {
                     display: false,
                     text: 'Days of the Week'
@@ -174,7 +179,8 @@ let scheduleChartConfig = {
                 });
             }
         }
-    ]
+    ],
+
 };
 
 

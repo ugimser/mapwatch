@@ -81,6 +81,12 @@ document.getElementById("processFile").addEventListener("click", () => {
             playerJoinedTheArea = [];
             messagesFromMastersAndBosses = [];
 
+            document.getElementById("box-welcome").style.display = 'none';
+            const elementsToShow = Array.from(document.getElementsByClassName("show-after-draws"));
+            elementsToShow.forEach((item) => {
+                item.classList.remove('show-after-draws');
+            });
+
             let newMaxLimitString = document.getElementById("ClientFileInputMaxLines").value;
             let newMaxLimitNumber = parseInt(newMaxLimitString, 10);
             if (isNaN(newMaxLimitNumber)) {
