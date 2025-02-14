@@ -47,7 +47,7 @@ document.getElementById("processFile").addEventListener("click", () => {
                 progressText.classList.remove('element-look-at-me');
                 processFileID.classList.remove('element-look-at-me');
             }
-        }, 2000);
+        }, 3000);
         //console.log("File name: ", input.files[0].name);
 
         const fileName = input.files[0].name.split('.');
