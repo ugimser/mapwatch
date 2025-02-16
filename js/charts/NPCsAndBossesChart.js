@@ -172,7 +172,14 @@ const htmlLegendPlugin = {
 };
 
 function SetNPCsAdditionalData(name) {
-    let html = `<h4>${name} - <a href="https://www.poewiki.net/wiki/${name.replaceAll(' ', '_')}" target="_blank" rel="noopener noreferrer">wiki</a></h4><br />`;
+    let wikiVersion = "";
+    if (poeVersion === 1) {
+        wikiVersion = "poewiki"
+    }
+    else {
+        wikiVersion = "poe2wiki"
+    }
+    let html = `<h4>${name} - <a href="https://www.${wikiVersion}.net/wiki/${name.replaceAll(' ', '_')}" target="_blank" rel="noopener noreferrer">${wikiVersion}</a></h4><br />`;
 
     let uniqMessages = new Map();
     messagesFromMastersAndBosses.forEach(record => {

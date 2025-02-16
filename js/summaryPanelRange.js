@@ -417,8 +417,8 @@ function CreateRangeSummaryPanelStart(startDate, endDate) {
         }
     });
 
-    document.getElementById("id-whispers-from-range").innerText = whisperFromInRange.length;
-    document.getElementById("id-whispers-to-range").innerText = whisperToInRange.length;
+    document.getElementById("id-whispers-from-range").innerText = `${whisperFromInRange.length} received`;
+    document.getElementById("id-whispers-to-range").innerText = `${whisperToInRange.length} sent`;
 
     //
     // you have met players
