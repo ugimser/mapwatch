@@ -152,10 +152,12 @@ function SetMediumInstanceLevelTodayStats(generatingLevelsToday) {
         let html = "";
         tab.forEach(record => {
             if (poeVersion === 1) {
-                html += `${record.counter}x ${record.areaName} T${GetPoE1MapTier(record.level)}<br />`;
+                const tier = GetPoE1MapTier(record.level) !== -1 ? ` T${GetPoE1MapTier(record.level)}` : '';
+                html += `${record.counter}x ${record.areaName}${tier}<br />`;
             }
             else {
-                html += `${record.counter}x ${record.areaName} T${GetPoE2WaystoneTier(record.level)}<br />`;
+                const tier = GetPoE2WaystoneTier(record.level) !== -1 ? ` T${GetPoE2WaystoneTier(record.level)}` : '';
+                html += `${record.counter}x ${record.areaName}${tier}<br />`;
             }
         });
         tooltipContainer.innerHTML = html;
