@@ -196,7 +196,7 @@ div[style="display: none"] {
 
 
 
-#daily-summary {
+#daily-summary, #range-summary {
     max-width: 96%;
     margin: 20px auto;
     padding: 20px;
@@ -247,7 +247,7 @@ div[style="display: none"] {
     font-weight: 500;
     color: #e0e0e0;
     border-radius: 12px;
-    box-shadow: 0px 0px 6px rgba(255, 255, 255, 0.75);
+    box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.85);
     display: none;
     pointer-events: auto;
 }

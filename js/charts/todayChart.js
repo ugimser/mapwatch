@@ -234,6 +234,10 @@ function TodayChartRender(data) {
         ]
     };
 
+    if (data.length > 2) {
+        todayChartMaxY = timeToDecimal(data[data.length - 1].timeEnd);
+    }
+
     todayChartConfig.data = todayChartData;
     todayChartConfig.options.scales.y.max = todayChartMaxY == 24 ? 24 : todayChartMaxY + 0.25;
     todayChartConfig.options.scales.y.min = todayChartMaxY == 24 ? 0 : todayChartMaxY - 0.5;
@@ -248,26 +252,33 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
         return data;
     }
     sessionsDecimal = [];
-    for (let i = 0; i < sessions.length; i += 2) {
+    for (let i = 0; i < sessions.length; i+=2) {
         let start = 0, end = 0;
-        if (sessions[i].content.pattern.includes("closed")) {
+        if (sessions[i].content.pattern.includes("closed") && i > 0) {
             end = timeToDecimal(sessions[i].content.time);
-            start = sessions[i + 1] ? timeToDecimal(sessions[i + 1].content.time) : 0;
+            start = sessions[i - 1] ? timeToDecimal(sessions[i - 1].content.time) : 0;
+        }
+        else if (sessions[i].content.pattern.includes("closed") && i === 0) {
+            end = timeToDecimal(sessions[i].content.time);
+            start = 0;
+            i--;
+        }
+        else if (sessions.length - 1 === i){ // last open, but not close
+            start = timeToDecimal(sessions[i].content.time);
+            end = 24;
         }
         else { // opened
             start = timeToDecimal(sessions[i].content.time);
             end = sessions[i + 1] ? timeToDecimal(sessions[i + 1].content.time) : timeToDecimal(sessions[i].content.timeEnd);
-            //console.log(sessions[i].content);
-            //console.log(end);
         }
 
         if (start > end) {
             sessionsDecimal.push({
-                start: 0,
-                end: end
+                start: start,
+                end: 24
             });
             sessionsDecimal.push({
-                start: end,
+                start: 0,
                 end: end
             });
         }
@@ -279,6 +290,7 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
         }
     }
     //console.log("sessionsDecimal", sessionsDecimal);
+    //console.log("sessions", sessions);
     for (let i = 0; i < filteredResults.length; i++) {
         if (!filteredResults[i] || !filteredResults[i - 1] || !filteredResults[i].content) {
             continue;
@@ -345,9 +357,7 @@ function TodayChartGeneratingLevelsData(filteredResults, sessions) {
     //console.log(data);
     //console.log(data[data.length-1]);
     //console.log("TodayChartGeneratingLevelsData", data);
-    if (data.length > 2) {
-        todayChartMaxY = timeToDecimal(data[data.length - 1].timeEnd);
-    }
+    
     return data;
 }
 

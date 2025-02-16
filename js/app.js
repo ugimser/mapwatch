@@ -1,10 +1,11 @@
-/**
+﻿/**
  * https://www.chartjs.org/docs/latest/samples/scales/linear-min-max.html
  * 
  */
 let maxLinesToRead = 1000000;
 let contentLastDate = new Date();
 let workingGood = 0;
+let poeVersion = 0;
 
 const fileLabelID = document.querySelector("label[for='ClientFileInput']");
 const processFileID = document.getElementById("processFile");
@@ -47,7 +48,7 @@ document.getElementById("processFile").addEventListener("click", () => {
                 progressText.classList.remove('element-look-at-me');
                 processFileID.classList.remove('element-look-at-me');
             }
-        }, 3000);
+        }, 2000);
         //console.log("File name: ", input.files[0].name);
 
         const fileName = input.files[0].name.split('.');
@@ -58,7 +59,7 @@ document.getElementById("processFile").addEventListener("click", () => {
         processFileID.classList.remove('element-look-at-me');
         fileLabelID.classList.remove('element-look-at-me');
 
-        progressText.innerHTML = `Thinking, give me at least ${Math.round(maxLinesToRead / 200000, 1) + 2}s<br /><span class="loader"></span>`;
+        progressText.innerHTML = `Thinking, give me at least ${Math.round(maxLinesToRead / 180000, 1) + 2}s<br /><span class="loader"></span>`;
         progressText.classList.add('element-look-at-me');
 
         fileLabelID.innerText = 'Select Client.txt\nC:\\Program Files(x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt';       
@@ -99,6 +100,9 @@ document.getElementById("processFile").addEventListener("click", () => {
             const lines = content.split('\n');
             const lastLines = lines.slice(-maxLinesToRead);
             parseLogEvents(lastLines);
+
+            poeVersion = lastLines[gamingSessions[gamingSessions.length - 1].lineNumber + 1].includes('release/tags') ? 1 : 2;
+            console.log("poeVersion", poeVersion);
 
             const readLineCounter = lastLines.length;
             const contentLineCounter = lines.length;
@@ -150,10 +154,10 @@ document.getElementById("processFile").addEventListener("click", () => {
                 if (new Date(contentLastDate.date).getTime() < (todayReverse.getTime() - 86400000)) {
                     todayReverse = new Date(contentLastDate.date);
                     document.getElementById("todayChartTitle").innerText = `Last day of activity: ${contentLastDate.date}`;
-                    document.getElementById("id-last-day-summary-today").innerText = `Summary of ${contentLastDate.date}`;
+                    document.getElementById("id-last-day-summary-today").innerText = `📅 Summary of ${contentLastDate.date}`;
                 } else {
                     document.getElementById("todayChartTitle").innerText = `Today`;
-                    document.getElementById("id-last-day-summary-today").innerText = `Summary of Today - ${contentLastDate.date}`;
+                    document.getElementById("id-last-day-summary-today").innerText = `📅 Summary of Today - ${contentLastDate.date}`;
                 }
             } 
 
@@ -226,6 +230,9 @@ document.getElementById("processFile").addEventListener("click", () => {
             PlayerEventChartRender();
             NPCsAndBossesChartRender();
 
+            // Range summary panel
+            dateInputRangeSummary.setDate([contenFirstDate.date, contentLastDate.date]);
+            CreateRangeSummaryPanelStart(new Date (contenFirstDate.date), new Date (contentLastDate.date));
 
             // Today panel summary
             SetSumTimeToday();
@@ -239,6 +246,9 @@ document.getElementById("processFile").addEventListener("click", () => {
             const tradeCompletedToday = CutTableByDate(playerTradeCompleted, todayReverse);
             SetStrikeTradeWhispersWithoutTradeAccepted(whisperToToday, tradeCompletedToday);
             SetPlayerJoinedTheAreaTodayStat(todayReverse, tradeCompletedToday, generatingLevelsToday);
+            SetMediumInstanceLevelTodayStats(generatingLevelsToday);
+            SetUsedPortalsTodayStats();
+            SetYourBestFriendsTodayStats(todayReverse);
 
             // Today chart table
             const debugTab = [...generatingLevelsToday, ...whisperFromToday, ...whisperToToday, ...tradeCompletedToday, ...gamingSessionsToday, ...whisperWithoutDirectionToday];
@@ -253,7 +263,6 @@ document.getElementById("processFile").addEventListener("click", () => {
             });
             debugTab2.reverse();
             renderTable(debugTab2);
-
         };
         reader.readAsText(input.files[0]);
     } else {

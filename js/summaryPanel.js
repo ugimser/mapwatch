@@ -72,7 +72,7 @@ function SetMostVisitedAreaToday(generatingLevelsToday) {
 
             const rect = event.target.getBoundingClientRect();
             tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
-            tooltipContainer.style.left = `${rect.left + 150 + window.scrollX}px`;
+            tooltipContainer.style.left = `${rect.left + 175 + window.scrollX}px`;
         });
     }
 }
@@ -118,7 +118,143 @@ function SetAverageTimeNoHideout(bestMapName, eventCount) {
     } else {
         document.getElementById("id-average-in-one-today").innerText = `${tab2[0]} h ${tab2[1]} min ${tab2[2]} sec`;
     }
-    
+}
+
+function SetMediumInstanceLevelTodayStats(generatingLevelsToday) {
+    if (generatingLevelsToday.length < 1) {
+        return;
+    }
+   
+    const tab = [];
+    let sumLevels = 0;
+    let instanceCounter = 0;
+    generatingLevelsToday.forEach(record => {
+        if (record.content.seed > 1 && record.content.level > 1) {
+            sumLevels += record.content.level;
+            instanceCounter++;
+            const existing = tab.find(item => item.areaName === record.content.areaName && item.level === record.content.level);
+
+            if (existing) {
+                existing.counter += 1;
+            } else {
+                tab.push({
+                    areaName: record.content.areaName,
+                    level: record.content.level,
+                    counter: 1,
+                });
+            }
+        }
+    });
+    tab.sort((a, b) => b.counter - a.counter);
+    //console.log(tab);
+    document.getElementById("id-medium-instance-level-today").innerText = `${(sumLevels / instanceCounter).toFixed(2).replace(/\.?0+$/, '')} lvl`;
+    document.getElementById("id-medium-instance-level-today").parentElement.parentElement.addEventListener("mouseenter", (event) => {
+        let html = "";
+        tab.forEach(record => {
+            if (poeVersion === 1) {
+                html += `${record.counter}x ${record.areaName} T${GetPoE1MapTier(record.level)}<br />`;
+            }
+            else {
+                html += `${record.counter}x ${record.areaName} T${GetPoE2WaystoneTier(record.level)}<br />`;
+            }
+        });
+        tooltipContainer.innerHTML = html;
+        tooltipContainer.classList.add("show");
+
+        const rect = event.target.getBoundingClientRect();
+        tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
+        tooltipContainer.style.left = `${rect.left + 175 + window.scrollX}px`;
+    });
+}
+
+function SetUsedPortalsTodayStats() {
+    if (todayChartInstance.data.datasets[0].data.length < 1) {
+        return;
+    }
+    let sumPortals = 0;
+    let sumInstances = 0;
+    todayChartInstance.data.datasets[0].data.forEach(record => {
+        if (record.portals && record.seed > 1) {
+            sumPortals += record.portals;
+            sumInstances++;
+        }
+    });
+    const portalsPerMap = (sumPortals / sumInstances).toPrecision(3);
+    document.getElementById("id-used-portals-today").innerText = `${sumPortals}`;
+    document.getElementById("id-used-portals-on-average-today").innerText = `${portalsPerMap} / map`;
+}
+
+function SetYourBestFriendsTodayStats(todayReverse) {
+    if (NPCsAndBossesChartInstance.data.datasets < 1) {
+        return;
+    }
+
+    const todayNormal = new Intl.DateTimeFormat("en-GB", { dateStyle: "short" }).format(todayReverse).split('/');
+    const todaySick = `${todayNormal[2]}/${todayNormal[1]}/${todayNormal[0]}`;
+    const lastDay = new Map();
+    NPCsAndBossesChartInstance.data.datasets.forEach(record => {
+        record.data.forEach(item => {
+            if (item.x === todaySick) {
+                lastDay.set(record.label, item.y);
+            }
+        });
+    });
+
+    const sortedArray = Array.from(lastDay).sort((a, b) => b[1] - a[1]);
+
+    const messagesFromNPCLastDay = [];
+    messagesFromMastersAndBosses.forEach(record => {
+        if (record.content.date === todaySick) {
+            messagesFromNPCLastDay.push(record);
+        }
+    });
+    const generatingLevelLastDay = [];
+    generatingLevels.forEach(record => {
+        if (record.content.date === todaySick) {
+            generatingLevelLastDay.push(record);
+        }
+    });
+
+    const bothTabs = [...generatingLevelLastDay, ...messagesFromNPCLastDay].sort((a, b) => new Date(`${a.content.date} ${a.content.time}`) - new Date(`${b.content.date} ${b.content.time}`));
+
+    const instanceWithNPCsLastDay = new Map();
+    const npcSeenInInstance = new Set();
+    let lastInstanceSeed = -2;
+
+    bothTabs.forEach((record) => {
+        const currentSeed = record.content.seed;
+        if (currentSeed === 1) {
+            return;
+        }
+        const npcName = record.content.name;
+
+        if (currentSeed !== -1 && currentSeed !== lastInstanceSeed) {
+            lastInstanceSeed = currentSeed;
+            npcSeenInInstance.clear();
+        }
+
+        if (npcName && !npcSeenInInstance.has(npcName)) {
+            npcSeenInInstance.add(npcName);
+            instanceWithNPCsLastDay.set(npcName, (instanceWithNPCsLastDay.get(npcName) || 0) + 1);
+        }
+    });
+
+    document.getElementById("id-your-best-friends-today").innerText = `${sortedArray[0][0]}`;
+    document.getElementById("id-your-best-friends-number-today").innerText = `${instanceWithNPCsLastDay.get(sortedArray[0][0])} maps together`;
+
+    document.getElementById("id-your-best-friends-today").parentElement.parentElement.addEventListener("mouseenter", (event) => {
+        let html = `<h4>Messages from NPCs:</h4>---<br />`;
+        for (let i = 0; i < 10 && i < sortedArray.length; i++) {
+            html += `<b>${sortedArray[i][0]}</b>: ${instanceWithNPCsLastDay.get(sortedArray[i][0])} maps, ${sortedArray[i][1]} voice lines<br />`;
+        }
+
+        tooltipContainer.innerHTML = html;
+        tooltipContainer.classList.add("show");
+
+        const rect = event.target.getBoundingClientRect();
+        tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
+        tooltipContainer.style.left = `${rect.left + 175 + window.scrollX}px`;
+    });
 }
 
 function SetDeathsLevelTodayStats(playerHasBeenSlainToday, playerLevelToday) {
@@ -173,7 +309,7 @@ function SetWhispersTodayStats(whisperFrom, whisperTo) {
 
         const rect = event.target.getBoundingClientRect();
         tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
-        tooltipContainer.style.left = `${rect.left + 150 + window.scrollX}px`;
+        tooltipContainer.style.left = `${rect.left + 175 + window.scrollX}px`;
     });
 }
 
@@ -219,8 +355,8 @@ function SetBigestTradeTodayStats(whisperFromToday) {
     let biggestCIndex = ReturnBiggestIndexValueMessage(tabC);
 
     if (biggestMirrIndex < 0 & biggestDivIndex < 0 & biggestExIndex < 0 & biggestCIndex < 0) {
-        document.getElementById("id-biggest-to-today").innerText = "-";
-        document.getElementById("id-biggest-to-today").parentElement.parentElement.querySelector(".icon").innerText = "💎";
+        document.getElementById("id-biggest-from-today").innerText = "-";
+        document.getElementById("id-biggest-from-today").parentElement.parentElement.querySelector(".icon").innerText = "💎";
         return;
     }
     
@@ -242,7 +378,7 @@ function SetBigestTradeTodayStats(whisperFromToday) {
 
         const rect = event.target.getBoundingClientRect();
         tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
-        tooltipContainer.style.left = `${rect.left + 150 + window.scrollX}px`;
+        tooltipContainer.style.left = `${rect.left + 175 + window.scrollX}px`;
     });
 }
 
@@ -311,7 +447,7 @@ function SetBigestTradeToTodayStats(whisperToToday) {
 
         const rect = event.target.getBoundingClientRect();
         tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
-        tooltipContainer.style.left = `${rect.left + 150 + window.scrollX}px`;
+        tooltipContainer.style.left = `${rect.left + 175 + window.scrollX}px`;
     });
 }
 
@@ -427,6 +563,6 @@ function SetPlayerJoinedTheAreaTodayStat(todayReverse, playerTradeCompleted, gen
 
         const rect = event.target.getBoundingClientRect();
         tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
-        tooltipContainer.style.left = `${rect.left + 150 + window.scrollX}px`;
+        tooltipContainer.style.left = `${rect.left + 175 + window.scrollX}px`;
     });
 }

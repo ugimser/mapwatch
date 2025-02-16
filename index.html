@@ -9,6 +9,8 @@
 	<!--<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-histogram@3.0.0/dist/chartjs-chart-histogram.min.js"></script>-->
 	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<link rel="stylesheet" href="css/styles.css">
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-RVL1746S5M"></script>
@@ -71,141 +73,334 @@
 			<canvas id="todayChart" width="600" height="400"></canvas>
 		</div>
 		<div>
-			<div id="daily-summary">
-				<h3 class="summary-title" id="id-last-day-summary-today">📅 Today summary</h3>
-
-				<div class="summary-grid">
-					<div class="summary-item">
-						<span class="icon">🎮</span>
-						<div>
-							<p class="summary-label">Game time:</p>
-							<p class="summary-value" id="id-game-time-today">-</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">🛑</span>
-						<div>
-							<p class="summary-label">Time in hideouts or towns:</p>
-							<p class="summary-value" id="id-time-in-hideout">-</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">📍</span>
-						<div>
-							<p class="summary-label">Most visited area:</p>
-							<p class="summary-value" id="id-most-visited-today">-</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">⏳</span>
-						<div>
-							<p class="summary-label">Time in favorite maps:</p>
-							<p class="summary-value" id="id-average-time-today">-</p>
-							<p class="summary-label">Average in one:</p>
-							<p class="summary-value" id="id-average-in-one-today">-</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">🗺️</span>
-						<div>
-							<p class="summary-label">All created areas:</p>
-							<p class="summary-value" id="id-all-visited-today">-</p>
-							<p class="summary-label" style="font-size:x-small">*without hideouts, towns</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">💀</span>
-						<div>
-							<p class="summary-label">Deaths:</p>
-							<p class="summary-value" id="id-deaths-today">-</p>
-						</div>
-						<span class="icon">🚀</span>
-						<div>
-							<p class="summary-label">Level-ups:</p>
-							<p class="summary-value" id="id-level-up-today">-</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">💰</span>
-						<div>
-							<p class="summary-label">Trades:</p>
-							<p class="summary-value" id="id-trades-today">-</p>
-							<p class="summary-label" style="font-size:x-small">*with Players and NPCs</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">💰</span>
-						<div>
-							<p class="summary-label">Trades with players:</p>
-							<p class="summary-value" id="id-trades-today-completed">-</p>
-							<p class="summary-label" style="font-size:x-small">*with Players only</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">💎</span>
-						<div>
-							<p class="summary-label">The biggest offer for you:</p>
-							<p class="summary-value" id="id-biggest-from-today">-</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">💎</span>
-						<div>
-							<p class="summary-label">The biggest offer from you:</p>
-							<p class="summary-value" id="id-biggest-to-today">-</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">🔄</span>
-						<div>
-							<p class="summary-label">You are doing one trade per:</p>
-							<p class="summary-value" id="id-average-time-per-trade">-</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">❌</span>
-						<div>
-							<p class="summary-label">Streak of trade whispers without accepted:</p>
-							<p class="summary-value" id="id-streak-trade-without-accepted">-</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">💬</span>
-						<div>
-							<p class="summary-label">Whispers:</p>
-							<p class="summary-value" id="id-whispers-from-today">-</p>
-							<p class="summary-value" id="id-whispers-to-today">-</p>
-						</div>
-					</div>
-
-					<div class="summary-item">
-						<span class="icon">🤝</span>
-						<div>
-							<p class="summary-label">You have met</p>
-							<p class="summary-value" id="id-player-joined-today">-</p>
-							<p class="summary-label">players</p>
-						</div>
-					</div>
-
-				</div>
-			</div>
-
 			<button id="toggleRawData">Toggle raw data</button>
 			<div class="div-zero" id="outputForTodayData" style="display: none;"></div>
 		</div>
 	</div>
+
+	<div class="box-shadow show-after-draws">
+		<div id="daily-summary">
+			<h3 class="summary-title" id="id-last-day-summary-today">📅 Today summary</h3>
+
+			<div class="summary-grid">
+				<div class="summary-item">
+					<span class="icon">🎮</span>
+					<div>
+						<p class="summary-label">Game time:</p>
+						<p class="summary-value" id="id-game-time-today">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🛑</span>
+					<div>
+						<p class="summary-label">Time in hideouts or towns:</p>
+						<p class="summary-value" id="id-time-in-hideout">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">📍</span>
+					<div>
+						<p class="summary-label">Most visited area:</p>
+						<p class="summary-value" id="id-most-visited-today">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">⏳</span>
+					<div>
+						<p class="summary-label">Time in favorite maps:</p>
+						<p class="summary-value" id="id-average-time-today">-</p>
+						<p class="summary-label">Average in one:</p>
+						<p class="summary-value" id="id-average-in-one-today">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🗺️</span>
+					<div>
+						<p class="summary-label">All created areas:</p>
+						<p class="summary-value" id="id-all-visited-today">-</p>
+						<p class="summary-label" style="font-size:x-small">*without hideouts, towns</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🔸</span>
+					<div>
+						<p class="summary-label">Medium area level:</p>
+						<p class="summary-value" id="id-medium-instance-level-today">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🌀</span>
+					<div>
+						<p class="summary-label">Used portals:</p>
+						<p class="summary-value" id="id-used-portals-today">-</p>
+						<p class="summary-label">On average:</p>
+						<p class="summary-value" id="id-used-portals-on-average-today">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💕</span>
+					<div>
+						<p class="summary-label">Your best friend:</p>
+						<p class="summary-value" id="id-your-best-friends-today">-</p>
+						<p class="summary-label" id="id-your-best-friends-number-today">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💀</span>
+					<div>
+						<p class="summary-label">Deaths:</p>
+						<p class="summary-value" id="id-deaths-today">-</p>
+					</div>
+					<span class="icon">🚀</span>
+					<div>
+						<p class="summary-label">Level-ups:</p>
+						<p class="summary-value" id="id-level-up-today">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💰</span>
+					<div>
+						<p class="summary-label">Trades:</p>
+						<p class="summary-value" id="id-trades-today">-</p>
+						<p class="summary-label" style="font-size:x-small">*with Players and NPCs</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💰</span>
+					<div>
+						<p class="summary-label">Trades with players:</p>
+						<p class="summary-value" id="id-trades-today-completed">-</p>
+						<p class="summary-label" style="font-size:x-small">*with Players only</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💎</span>
+					<div>
+						<p class="summary-label">The biggest offer for you:</p>
+						<p class="summary-value" id="id-biggest-from-today">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💎</span>
+					<div>
+						<p class="summary-label">The biggest offer from you:</p>
+						<p class="summary-value" id="id-biggest-to-today">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🔄</span>
+					<div>
+						<p class="summary-label">You are doing one trade per:</p>
+						<p class="summary-value" id="id-average-time-per-trade">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">❌</span>
+					<div>
+						<p class="summary-label">Streak of trade whispers without accepted:</p>
+						<p class="summary-value" id="id-streak-trade-without-accepted">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💬</span>
+					<div>
+						<p class="summary-label">Whispers:</p>
+						<p class="summary-value" id="id-whispers-from-today">-</p>
+						<p class="summary-value" id="id-whispers-to-today">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🤝</span>
+					<div>
+						<p class="summary-label">You have met</p>
+						<p class="summary-value" id="id-player-joined-today">-</p>
+						<p class="summary-label">players</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="box-shadow show-after-draws">
+		<div id="range-summary">
+			<div class="div-zero" style="display: flex; justify-content: space-evenly; margin-bottom: 10px ">
+				<h3 class="summary-title" id="id-range-summary-today" style="margin: 8px 10px 10px 0px">📅 Summary in range</h3>
+				<input type="text" id="summary-range-date-range" class="custom-file-label" style="border: 0px; padding: 0px 30px 0px 30px; font-size: large" placeholder="Change date range here">
+				<button onclick="RefleshSummaryPanelInRange()">Refresh</button>
+			</div>
+			<div class="summary-grid">
+				<div class="summary-item">
+					<span class="icon">🎮</span>
+					<div>
+						<p class="summary-label">Game time:</p>
+						<p class="summary-value" id="id-game-time-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🛑</span>
+					<div>
+						<p class="summary-label">Time in hideouts or towns:</p>
+						<p class="summary-value" id="id-time-in-hideout-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">📍</span>
+					<div>
+						<p class="summary-label">Most visited area:</p>
+						<p class="summary-value" id="id-most-visited-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">⏳</span>
+					<div>
+						<p class="summary-label">Time in favorite maps:</p>
+						<p class="summary-value" id="id-average-time-range">-</p>
+						<p class="summary-label">Average in one:</p>
+						<p class="summary-value" id="id-average-in-one-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🗺️</span>
+					<div>
+						<p class="summary-label">All created areas:</p>
+						<p class="summary-value" id="id-all-visited-range">-</p>
+						<p class="summary-label" style="font-size:x-small">*without hideouts, towns</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🔸</span>
+					<div>
+						<p class="summary-label">Medium area level:</p>
+						<p class="summary-value" id="id-medium-instance-level-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🌀</span>
+					<div>
+						<p class="summary-label">Used portals:</p>
+						<p class="summary-value" id="id-used-portals-range">-</p>
+						<p class="summary-label">On average:</p>
+						<p class="summary-value" id="id-used-portals-on-average-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💕</span>
+					<div>
+						<p class="summary-label">Your best friend:</p>
+						<p class="summary-value" id="id-your-best-friends-range">-</p>
+						<p class="summary-label" id="id-your-best-friends-number-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💀</span>
+					<div>
+						<p class="summary-label">Deaths:</p>
+						<p class="summary-value" id="id-deaths-range">-</p>
+					</div>
+					<span class="icon">🚀</span>
+					<div>
+						<p class="summary-label">Level-ups:</p>
+						<p class="summary-value" id="id-level-up-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💰</span>
+					<div>
+						<p class="summary-label">Trades:</p>
+						<p class="summary-value" id="id-trades-range">-</p>
+						<p class="summary-label" style="font-size:x-small">*with Players and NPCs</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💰</span>
+					<div>
+						<p class="summary-label">Trades with players:</p>
+						<p class="summary-value" id="id-trades-range-completed">-</p>
+						<p class="summary-label" style="font-size:x-small">*with Players only</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💎</span>
+					<div>
+						<p class="summary-label">The biggest offer for you:</p>
+						<p class="summary-value" id="id-biggest-from-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💎</span>
+					<div>
+						<p class="summary-label">The biggest offer from you:</p>
+						<p class="summary-value" id="id-biggest-to-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🔄</span>
+					<div>
+						<p class="summary-label">You are doing one trade per:</p>
+						<p class="summary-value" id="id-average-time-per-trade-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">❌</span>
+					<div>
+						<p class="summary-label">Streak of trade whispers without accepted:</p>
+						<p class="summary-value" id="id-streak-trade-without-accepted-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">💬</span>
+					<div>
+						<p class="summary-label">Whispers:</p>
+						<p class="summary-value" id="id-whispers-from-range">-</p>
+						<p class="summary-value" id="id-whispers-to-range">-</p>
+					</div>
+				</div>
+
+				<div class="summary-item">
+					<span class="icon">🤝</span>
+					<div>
+						<p class="summary-label">You have met</p>
+						<p class="summary-value" id="id-player-joined-range">-</p>
+						<p class="summary-label">players</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 	<div class="box-shadow show-after-draws">
 		<h2>In game time:</h2>
 		<div>
@@ -319,6 +514,7 @@
 	<script src="js/pure data/NPCWithVoice.js"></script>
 	<script src="js/charts/NPCsAndBossesChart.js"></script>
 	<script src="js/summaryPanel.js"></script>
+	<script src="js/summaryPanelRange.js"></script>
 	<script src="js/app.js"></script>
 
 </body>

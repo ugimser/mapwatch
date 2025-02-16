@@ -15,6 +15,63 @@ const currencies = new Map([
     ["chaos", "<img title=\"Chaos Orb\" src=\"https://web.poecdn.com/image/Art/2DItems/Currency/CurrencyRerollRare.png\" style=\"width: 36px\">"]
 ]);
 
+const poe1MapTiers = new Map([
+    [68, 1],
+    [69, 2],
+    [70, 3],
+    [71, 4],
+    [72, 5],
+    [73, 6],
+    [74, 7],
+    [75, 8],
+    [76, 9],
+    [77, 10],
+    [78, 11],
+    [79, 12],
+    [80, 13],
+    [81, 14],
+    [82, 15],
+    [83, 16],
+    [84, 17],
+    [85, 18],
+    [86, 19],
+    [87, 20],
+    [89, 21],
+]);
+
+function GetPoE1MapTier(areaLevel) {
+    return poe1MapTiers.has(areaLevel) ? poe1MapTiers.get(areaLevel) : -1;
+}
+
+const poe2WayStoneTiers = new Map([
+    [65, 1],
+    [66, 2],
+    [67, 3],
+    [68, 4],
+    [69, 5],
+    [70, 6],
+    [71, 7],
+    [72, 8],
+    [73, 9],
+    [74, 10],
+    [75, 11],
+    [76, 12],
+    [77, 13],
+    [78, 14],
+    [79, 15],
+    [80, 16],
+    [81, 17],
+    [82, 18],
+    [83, 19],
+    [84, 20],
+    [85, 21],
+]);
+
+function GetPoE2WaystoneTier(areaLevel) {
+    return poe2WayStoneTiers.has(areaLevel) ? poe2WayStoneTiers.get(areaLevel) : -1;
+}
+
+
 function generateNiceColor() {
     const hue = Math.floor(Math.random() * 360); // Hue: 0-360 (full color wheel)
     const saturation = Math.floor(Math.random() * 30) + 60; // Saturation: 60-100%
@@ -95,6 +152,7 @@ function calculateDuration(startTime, endTime) {
 
     if (durationInSeconds < 0) {
         return "[durationInSeconds < 0]";
+        //return calculateDuration(endTime, startTime);
     }
 
     // Konwersja na hh:mm:ss

@@ -124,9 +124,9 @@ let scheduleChartConfig = {
         },
         scales: {
             y: {
-                type: 'linear', // Okreœla oœ liniow¹
-                min: 0.00,         // Minimalna wartoœæ osi
-                max: 24.00,        // Maksymalna wartoœæ osi
+                type: 'linear', 
+                min: 0.00,   
+                max: 24.00,    
                 title: {
                     display: false,
                     text: 'Hours'
@@ -134,7 +134,6 @@ let scheduleChartConfig = {
                 ticks: {
                     stepSize: 2, // Oznaczenia co 2 godziny
                     callback: function (value) {
-                        // Formatowanie wartoœci na osi Y z dwoma zerami po przecinku
                         return value.toFixed(2);
                     }
                 }
@@ -142,9 +141,9 @@ let scheduleChartConfig = {
             x: {
                 type: 'time',
                 time: {
-                    parser: 'yyyy/MM/dd', // Format daty
-                    tooltipFormat: 'PPPP', // Format daty w tooltipie
-                    unit: 'day' // Jednostka na osi (np. dzieñ, miesi¹c)
+                    parser: 'yyyy/MM/dd', 
+                    tooltipFormat: 'PPPP', 
+                    unit: 'day' 
                 },
                 title: {
                     display: false,
