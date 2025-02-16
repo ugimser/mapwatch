@@ -135,7 +135,7 @@ function parserPlayerLevel(line) {
         date: match[1],
         time: match[2],
         playerName: match[4],
-        level: match[6],
+        level: match[5],
     };
 }
 
@@ -181,23 +181,6 @@ function parserMessagesFromMastersAndBosses(line) {
         };
     }
     return null;
-    // temp
-    /*
-    else {
-        const content = {
-            date: match[1],
-            time: match[2],
-            name: match[4],
-            message: match[5],
-            //pattern: 'no direction',
-            seed: -1,
-        };
-        messagesFromMastersAndBossesTemp.push({
-            lineNumber: 0,
-            content: content,
-        });
-    }
-    */
 }
 
 

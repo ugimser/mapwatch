@@ -128,7 +128,7 @@ let todayChartConfig = {
 
                     //console.log(activity.description);
                     if (bar.height == 0 && activity.seed != 1) { // whispers
-
+                        
                         const result = [];
                         const maxLength = 70;
                         let text = activity.description;
@@ -448,7 +448,7 @@ function TodayChartPlayerLevelTodayData(filteredResults) {
         const timeDecimal = timeToDecimal(current.content.time);
 
         const event = {
-            description: `${current.content.playerName} ${current.content.level}`,
+            description: `${current.content.playerName} is now level: ${current.content.level}`,
             timeStart: current.content.time,
             timeEnd: current.content.time,
             seed: -1,

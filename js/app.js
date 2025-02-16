@@ -135,6 +135,7 @@ document.getElementById("processFile").addEventListener("click", () => {
             //console.log("whisperWithoutDirection", whisperWithoutDirection);
             //console.log("messagesFromMastersAndBosses", messagesFromMastersAndBosses);
             //console.log("messagesFromMastersAndBossesT", messagesFromMastersAndBossesTemp);
+            //console.log("playerLevel", playerLevel);
 
 
             //
