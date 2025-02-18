@@ -233,6 +233,9 @@ document.getElementById("processFile").addEventListener("click", () => {
 
             // Range summary panel
             dateInputRangeSummary.setDate([contenFirstDate.date, contentLastDate.date]);
+            dateInputRangeSummary.set("minDate", contenFirstDate.date);
+            dateInputRangeSummary.set("maxDate", contentLastDate.date);
+
             CreateRangeSummaryPanelStart(new Date (contenFirstDate.date), new Date (contentLastDate.date));
 
             // Today panel summary

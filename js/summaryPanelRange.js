@@ -1,6 +1,7 @@
 ﻿const dateInputRangeSummary = flatpickr("#summary-range-date-range", {
     mode: "range",
-    dateFormat: "Y-m-d"
+    dateFormat: "Y-m-d",
+    onClose: RefleshSummaryPanelInRange,
 });
 
 function RefleshSummaryPanelInRange() {
@@ -13,11 +14,14 @@ function RefleshSummaryPanelInRange() {
     dateRange[1].setMinutes(dateRange[1].getMinutes() - timezoneOffset);
 
     const startDate = new Date(dateRange[0].toISOString().split('T')[0].replaceAll('-', '/'));
-    const endDate = new Date (dateRange[1].toISOString().split('T')[0].replaceAll('-', '/'));
+    const endDate = new Date(dateRange[1].toISOString().split('T')[0].replaceAll('-', '/'));
+
     //console.log(startDate, endDate);
 
     CreateRangeSummaryPanelStart(startDate, endDate);
 }
+
+
 
 function CreateRangeSummaryPanelStart(startDate, endDate) {
     //
@@ -83,9 +87,13 @@ function CreateRangeSummaryPanelStart(startDate, endDate) {
         } 
     });
     const mostVisitedArray = Array.from(mostVisited, ([description, count]) => ({ description, count })).sort((a, b) => b.count - a.count);
-    
-    document.getElementById("id-most-visited-range").innerText = `${mostVisitedArray[0].description} x${mostVisitedArray[0].count} (${(mostVisitedArray[0].count / sumVisidedMaps * 100).toFixed(0)}%)`;
 
+    if (mostVisitedArray.length > 0) {
+        document.getElementById("id-most-visited-range").innerText = `${mostVisitedArray[0].description} x${mostVisitedArray[0].count} (${(mostVisitedArray[0].count / sumVisidedMaps * 100).toFixed(0)}%)`;
+    }
+    else {
+        document.getElementById("id-most-visited-range").innerText = '-';
+    }
     document.getElementById("id-most-visited-range").parentElement.parentElement.addEventListener("mouseenter", (event) => {
         let html = "";
         for (let i = 0; mostVisitedArray.length > i && i < 10; i++) {
@@ -114,9 +122,10 @@ function CreateRangeSummaryPanelStart(startDate, endDate) {
             //console.log(instance);
         }
     });
+    
     const tabTimeInFavoriteMaps = decimalToTime(sumTimeInFavoriteMaps).split(':');
     document.getElementById("id-average-time-range").innerText = `${tabTimeInFavoriteMaps[0]} h ${tabTimeInFavoriteMaps[1]} min ${tabTimeInFavoriteMaps[2]} sec`;
-    const tabTimeInFavoriteMapsAv = decimalToTime(sumTimeInFavoriteMaps / mostVisitedArray[0].count).split(':');
+    const tabTimeInFavoriteMapsAv = decimalToTime(sumTimeInFavoriteMaps / (mostVisitedArray[0]?.count || 1)).split(':');
     if (tabTimeInFavoriteMapsAv[0] === '0') {
         document.getElementById("id-average-in-one-range").innerText = `${tabTimeInFavoriteMapsAv[1]} min ${tabTimeInFavoriteMapsAv[2]} sec`;
     }
@@ -168,34 +177,43 @@ function CreateRangeSummaryPanelStart(startDate, endDate) {
         }
     });
 
-    const sortedTabMaps = [...tabMapsWithLevelUniq.values()].sort((a, b) => b.counter - a.counter);
+    if (instanceCounter > 0) {
+        const sortedTierMaps = [...tabMapsWithLevelUniq.values()].sort((a, b) => b.counter - a.counter);
 
-    document.getElementById("id-medium-instance-level-range").innerText = `${parseFloat((sumLevels / instanceCounter).toPrecision(3))} lvl`;
-    document.getElementById("id-medium-instance-level-range").parentElement.parentElement.addEventListener("mouseenter", (event) => {
-        let html = "";
-        sortedTabMaps.forEach(record => {
-            if (poeVersion === 1) {
-                const tier = GetPoE1MapTier(record.level) !== -1 ? ` T${GetPoE1MapTier(record.level)}` : '';
-                html += `${record.counter}x ${record.areaName}${tier}<br />`;
-            }
-            else {
-                const tier = GetPoE2WaystoneTier(record.level) !== -1 ? ` T${GetPoE2WaystoneTier(record.level)}` : '';
-                html += `${record.counter}x ${record.areaName}${tier}<br />`;
-            }
+        document.getElementById("id-medium-instance-level-range").innerText = `${parseFloat((sumLevels / instanceCounter).toPrecision(3))} lvl`;
+        document.getElementById("id-medium-instance-level-range").parentElement.parentElement.addEventListener("mouseenter", (event) => {
+            let html = "";
+            sortedTierMaps.forEach(record => {
+                if (poeVersion === 1) {
+                    const tier = GetPoE1MapTier(record.level) !== -1 ? ` T${GetPoE1MapTier(record.level)}` : '';
+                    html += `${record.counter}x ${record.areaName}${tier}<br />`;
+                }
+                else {
+                    const tier = GetPoE2WaystoneTier(record.level) !== -1 ? ` T${GetPoE2WaystoneTier(record.level)}` : '';
+                    html += `${record.counter}x ${record.areaName}${tier}<br />`;
+                }
+            });
+            tooltipContainer.innerHTML = html;
+            tooltipContainer.classList.add("show");
+
+            const rect = event.target.getBoundingClientRect();
+            tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
+            tooltipContainer.style.left = `${rect.left + 175 + window.scrollX}px`;
         });
-        tooltipContainer.innerHTML = html;
-        tooltipContainer.classList.add("show");
-
-        const rect = event.target.getBoundingClientRect();
-        tooltipContainer.style.top = `${rect.top + window.scrollY - 5}px`;
-        tooltipContainer.style.left = `${rect.left + 175 + window.scrollX}px`;
-    });
-
+    }
+    else {
+        document.getElementById("id-medium-instance-level-range").innerText = '-';
+    }
     //
     // Used portals
     //
     document.getElementById("id-used-portals-range").innerText = `${instanceCounter}`;
-    document.getElementById("id-used-portals-on-average-range").innerText = `${parseFloat((instanceCounter / tabMapsWithLevel.size).toPrecision(3))} / map`;
+    if (tabMapsWithLevel.size > 0) {
+        document.getElementById("id-used-portals-on-average-range").innerText = `${parseFloat((instanceCounter / tabMapsWithLevel.size).toPrecision(3))} / map`;
+    }
+    else {
+        document.getElementById("id-used-portals-on-average-range").innerText = '';
+    }
 
     //
     // Your best friend
@@ -242,8 +260,14 @@ function CreateRangeSummaryPanelStart(startDate, endDate) {
         }
     });
 
-    document.getElementById("id-your-best-friends-range").innerText = `${NPCInRangeSorted[0][0]}`;
-    document.getElementById("id-your-best-friends-number-range").innerText = `${instanceWithNPCsInRange.get(NPCInRangeSorted[0][0])} maps together`;
+    if (NPCInRangeSorted.length > 0) {
+        document.getElementById("id-your-best-friends-range").innerText = `${NPCInRangeSorted[0][0]}`;
+        document.getElementById("id-your-best-friends-number-range").innerText = `${instanceWithNPCsInRange.get(NPCInRangeSorted[0][0])} maps together`;
+    }
+    else {
+        document.getElementById("id-your-best-friends-range").innerText = `-`;
+        document.getElementById("id-your-best-friends-number-range").innerText = `-`;
+    }
 
     document.getElementById("id-your-best-friends-range").parentElement.parentElement.addEventListener("mouseenter", (event) => {
         let html = `<h4>Messages from NPCs:</h4>---<br />`;
@@ -460,7 +484,7 @@ function CreateRangeSummaryPanelStart(startDate, endDate) {
             }
         }
         else {
-            if (record.content.seed === -1) {
+            if (record.content.seed === -1 && index > 1) {
                 const oneDown = tabJoinedPlayers[index - 1];
                 if (oneDown && oneDown.content.seed !== -1) {
                     uniqueNames.set(`trade in other instance ${index - 1}`, false);

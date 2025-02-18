@@ -9,6 +9,7 @@ function SetSumTimeToday() {
 
 function SetMostVisitedAreaToday(generatingLevelsToday) {
     if (generatingLevelsToday.length < 2) {
+        document.getElementById("id-all-visited-today").innerText = '-';
         return;
     }
 
@@ -81,6 +82,7 @@ function SetAverageTimeNoHideout(bestMapName, eventCount) {
     // duration from chart
     if (!todayChartInstance || todayChartInstance.data.datasets[0].data.length < 2) {
         console.log("chart data", todayChartInstance);
+        document.getElementById("id-average-in-one-today").innerText = '-';
         return;
     }
     let sumTime = 0;
@@ -122,6 +124,7 @@ function SetAverageTimeNoHideout(bestMapName, eventCount) {
 
 function SetMediumInstanceLevelTodayStats(generatingLevelsToday) {
     if (generatingLevelsToday.length < 1) {
+        document.getElementById("id-medium-instance-level-today").innerText = '-';
         return;
     }
    
@@ -171,6 +174,8 @@ function SetMediumInstanceLevelTodayStats(generatingLevelsToday) {
 
 function SetUsedPortalsTodayStats() {
     if (todayChartInstance.data.datasets[0].data.length < 1) {
+        document.getElementById("id-used-portals-today").innerText = `-`;
+        document.getElementById("id-used-portals-on-average-today").innerText = `-`;
         return;
     }
     let sumPortals = 0;
@@ -181,13 +186,15 @@ function SetUsedPortalsTodayStats() {
             sumInstances++;
         }
     });
-    const portalsPerMap = (sumPortals / sumInstances).toPrecision(3);
+    const portalsPerMap = parseFloat((sumPortals / sumInstances).toPrecision(3));
     document.getElementById("id-used-portals-today").innerText = `${sumPortals}`;
     document.getElementById("id-used-portals-on-average-today").innerText = `${portalsPerMap} / map`;
 }
 
 function SetYourBestFriendsTodayStats(todayReverse) {
     if (NPCsAndBossesChartInstance.data.datasets < 1) {
+        document.getElementById("id-your-best-friends-today").innerText = `-`;
+        document.getElementById("id-your-best-friends-number-today").innerText = `-`;
         return;
     }
 
@@ -275,6 +282,7 @@ function SetTradesTodayStats(todayReverse) {
 
 function SetAverageTimeForTradeTodayStats() {
     if (tradeAcceptedToday < 1) {
+        document.getElementById("id-average-time-per-trade").innerText = '-';
         return;
     }
 
