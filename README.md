@@ -18,5 +18,12 @@ Press the Start thinking button.
 
 The waiting time depends on the file size, but should not be longer than a few dozen seconds. Once done, enjoy your game analysis!
 
+---
+Thanks to erosson – the creator of the original Mapwatch
 
+I’d like to thank erosson for creating mapwatch.erosson.org - for a long time, it was the only place where you could track Path of Exile map stats online. I used the site for years and truly missed it after it went offline.
 
+Although I never had any contact with the author, his work inspired me to create my own version - a continuation based on a similar idea, but built entirely from scratch. I didn’t copy any code or solutions, but without erosson, I probably would’ve never started this project.
+
+Thanks for the amazing work — it truly made a difference. I hope this version will be at least partially as useful as the original.
+---
